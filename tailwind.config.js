@@ -4,10 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        saffron: "#FF9933",
+        saffron: "#FE9D66",
         cgreen: "#128807",
         cblue: "#000088",
-        cgrey: "#E5E5E5",
+        cgrey: "#F9F9F9",
       },
     },
   },

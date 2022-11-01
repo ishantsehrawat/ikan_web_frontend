@@ -1,2 +1,2 @@
 export { default as logo } from "./logo.png";
-export { default as globe } from "./globe.png";
+export { default as globe } from "./bro.png";
