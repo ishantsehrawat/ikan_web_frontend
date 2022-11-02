@@ -1,11 +1,29 @@
 import React, { useState } from "react";
+import dayjs from "dayjs";
 
-import { Navbar } from "../components";
+import { Navbar, Location, Date } from "../components";
 import { globe } from "../images";
 import { arrow, search } from "../images/icons";
 
+// let newDate = new Date();
+let date = dayjs().date();
+let month = dayjs().month() + 1;
+let year = dayjs().year();
+const separator = " - ";
+
+const today = `${date}${separator}${
+  month < 10 ? `0${month}` : `${month}`
+}${separator}${year}`;
+
 function Home() {
-  const [Location, setLocation] = useState(false);
+  const [uLocation, setuLocation] = useState(false);
+  const [locationName, setLocationName] = useState("New Delhi, Delhi, India");
+  const [uDate, setuDate] = useState(false);
+  const [eventdate, setDate] = useState(today);
+  console.log(eventdate);
+  // console.log(uDate);
+  // console.log(locationName);
+
   return (
     <div>
       <Navbar />
@@ -44,14 +62,17 @@ function Home() {
       <div className="px-10 w-auto h-28 bg-white rounded-lg flex justify-between items-center font-bold">
         <button
           className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
-          onClick={() => setLocation(true)}
+          onClick={() => setuLocation(true)}
         >
           <p>Location</p>
-          <p className="font-normal tracking-widest">Delhi, India</p>
+          <p className="font-normal tracking-widest">{locationName}</p>
         </button>
-        <button className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center">
+        <button
+          className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
+          onClick={() => setuDate(true)}
+        >
           <p>Date</p>
-          <p className="font-normal tracking-widest">07 - 11 - 2022</p>
+          <p className="font-normal tracking-widest">{eventdate}</p>
         </button>
         <button className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center">
           <p>Type of Event</p>
@@ -62,22 +83,34 @@ function Home() {
         </button>
       </div>
 
+      {/* Location Overlay */}
       <div>
         <button
           className={
-            Location
+            uLocation
               ? "w-screen h-screen bg-black opacity-20 absolute z-10 top-0 left-0"
               : "hidden"
           }
-          onClick={() => setLocation(false)}
+          onClick={() => setuLocation(false)}
         ></button>
-        <div
+        <Location
+          uLocation={uLocation}
+          setLocationName={setLocationName}
+          setuLocation={setuLocation}
+        />
+      </div>
+
+      {/* Date Overlay */}
+      <div>
+        <button
           className={
-            Location
-              ? "absolute z-20 w-[704px] h-[319px] bg-white rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            uDate
+              ? "w-screen h-screen bg-black opacity-20 absolute z-10 top-0 left-0"
               : "hidden"
           }
-        ></div>
+          onClick={() => setuDate(false)}
+        ></button>
+        <Date uDate={uDate} setDate={setDate} setuDate={setuDate} />
       </div>
     </div>
   );
