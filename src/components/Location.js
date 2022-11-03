@@ -22,7 +22,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
       className={
         uLocation
           ? "absolute z-20 w-[704px] h-[319px] bg-white rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          : "hidden bg-red-500"
+          : "hidden"
       }
     >
       {/* <Container className="content"> */}
