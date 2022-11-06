@@ -38,7 +38,7 @@ function Home() {
           </div>
         </div>
         <img
-          className="h-[550px] w-[550px] -mt-16 z-0"
+          className="h-[500px] w-[550px] -mt-4 z-0"
           src={globe}
           alt="helping hands"
         />
