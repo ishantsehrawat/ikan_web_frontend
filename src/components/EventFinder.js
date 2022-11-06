@@ -61,7 +61,7 @@ function EventFinder({ Page }) {
   // console.log(uDate);
   // console.log(locationName);
   return (
-    <div className={Page === "home" ? "-mt-7 z-10" : "-mt-6 z-10 mx-10"}>
+    <div className={Page === "home" ? "-mt-7 z-10" : "-mt-6 z-10 mx-10 h-full"}>
       <div className="px-10 w-auto h-28 bg-white rounded-lg flex justify-between items-center font-bold">
         <button
           className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
@@ -93,15 +93,8 @@ function EventFinder({ Page }) {
       </div>
 
       {/* Location Overlay */}
-      <div>
-        <button
-          className={
-            uLocation
-              ? "absolute z-10 top-0 left-0 w-screen h-screen bg-black opacity-20 "
-              : "hidden"
-          }
-          onClick={() => setuLocation(false)}
-        ></button>
+      <div className="h-full">
+        <OverlayBackground Overlay={uLocation} setBackButton={setuLocation} />
         <Location
           uLocation={uLocation}
           setLocationName={setLocationName}
@@ -117,14 +110,7 @@ function EventFinder({ Page }) {
 
       {/* Event Overlay */}
       <div>
-        <button
-          className={
-            uEvent
-              ? "w-screen h-screen bg-black opacity-20 absolute z-10 top-0 left-0"
-              : "hidden"
-          }
-          onClick={() => setuEvent(false)}
-        ></button>
+        <OverlayBackground Overlay={uEvent} setBackButton={setuEvent} />
         <EventOverlay
           uEvent={uEvent}
           eventType={eventType}
