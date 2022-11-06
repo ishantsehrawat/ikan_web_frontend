@@ -5,7 +5,7 @@ function OverlayBackground({ Overlay, setBackButton }) {
     <button
       className={
         Overlay
-          ? "w-screen h-screen bg-black opacity-20 absolute z-10 top-0 left-0"
+          ? "w-full h-full bg-black opacity-20 absolute z-10 top-0 left-0 overscroll-none"
           : "hidden"
       }
       onClick={() => setBackButton(false)}
