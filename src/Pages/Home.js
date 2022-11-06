@@ -4,8 +4,6 @@ import { Navbar, EventFinder } from "../components";
 import { globe } from "../images";
 import { arrow } from "../images/icons";
 
-// let newDate = new Date();
-
 function Home() {
   return (
     <div className="p-10">
