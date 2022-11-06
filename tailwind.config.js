@@ -8,6 +8,7 @@ module.exports = {
         cgreen: "#128807",
         cblue: "#000088",
         cgrey: "#F9F9F9",
+        lightsaffron: "#FED7B5",
       },
     },
   },

@@ -2,20 +2,54 @@ import React from "react";
 
 import { logo } from "../images";
 
-function Navbar() {
+function Navbar({ Page }) {
   return (
-    <div className="h-16 w-auto rounded-lg flex justify-between items-center p-2 bg-white">
-      <img className="h-12 w-auto pl-5 " src={logo} alt="ikan" />
+    <div className="h-16 w-auto z-20 rounded-lg flex justify-between items-center p-2 bg-white">
+      <a href="/">
+        <img className="h-12 w-auto pl-5 " src={logo} alt="ikan" />
+      </a>
       <div className="h-full w-96 text-lg  flex justify-between">
-        <button className="px-4 font-bold border-b-4 border-saffron">
+        <a
+          href="/"
+          className={
+            Page === "home"
+              ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
+              : "flex justify-center items-center px-4"
+          }
+        >
           Home
-        </button>
-        <button className="px-4">About Us</button>
-        <button className="px-4">Profile</button>
+        </a>
+        <a
+          href="/about"
+          className={
+            Page === "about"
+              ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
+              : "flex justify-center items-center px-4"
+          }
+        >
+          About Us
+        </a>
+        <a
+          href="profile"
+          className={
+            Page === "profile"
+              ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
+              : "flex justify-center items-center px-4"
+          }
+        >
+          Profile
+        </a>
       </div>
-      <button className="h-full w-36 bg-black text-white rounded-md">
+      <a
+        href="/events"
+        className={
+          Page === "events"
+            ? "h-full w-36 bg-white text-black rounded-md flex justify-center items-center border-2 border-black"
+            : "h-full w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+        }
+      >
         Events
-      </button>
+      </a>
     </div>
   );
 }
