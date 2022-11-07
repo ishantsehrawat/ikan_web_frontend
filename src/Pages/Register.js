@@ -3,7 +3,7 @@ import { logo } from "../images";
 import { google } from "../images/icons";
 //import GoogleIcon from '@mui/icons-material/Google';
 
-function Login() {
+function Register() {
   return (
 
     <div className="h-full w-full ">
@@ -14,29 +14,15 @@ function Login() {
 
       <div className="flex h-auto text-center">
 
-        <div className="h-full w-1/2 p-16 flex flex-col justify-center items-center">
-          <div className="place-self-center">
-            <h1 className="text-5xl font-bold m-8">Welcome Back</h1>
-            <p className="mb-32">
-              Login to continue your Journey with the<br></br> 
-              largest community of volunteers.
-            </p>
-          </div>
-          <div>
-            <p className="mb-4">Don't have an account?</p>
-            <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">Register</button>
-          </div>
-        </div>
-
-        <div className=" flex-1/4">
+      <div className="flex-1">
           <div className="bg-white w-full rounded-xl m-16 flex flex-col items-center ">
 
             <div className="p-5">
-              <h1 className="text-5xl font-bold ">Login</h1>
+              <h1 className="text-5xl font-bold ">Register</h1>
             </div>
 
             <div className="flex flex-row">
-              <span class="mx-7 text-sm font-medium text-gray-900 dark:text-gray-500 whitespace-normal">  Volunteer</span>
+              <span class="mx-7 text-sm font-medium text-gray-900 dark:text-gray-500 whitespace-normal">Volunteer</span>
             
               <label for="orange-toggle" class="inline-flex relative items-center mr-5 cursor-pointer">
                 <input type="checkbox" value="" id="orange-toggle" class="sr-only peer" />
@@ -54,20 +40,20 @@ function Login() {
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-500">Email address</label>
                 <input type="email" id="email" class="mt-1 block w-full p-2.5 bg-white border border-saffron rounded-md text-sm shadow-sm placeholder-gray-400
                   focus:outline-none focus:border-saffron focus:ring-1 focus:ring-saffron
-                  disabled:bg-white disabled:text-gray-500 disabled:border-saffron disabled:shadow-none
+                  disabled:bg-white disabled:text-gray-300 disabled:border-saffron disabled:shadow-none
                   invalid:border-saffron invalid:text-gray-500
                   focus:invalid:border-red focus:invalid:ring-red
-                  dark:text-gray-700 dark:focus:ring-saffron dark:focus:border-saffron"
-                  placeholder="johndoe@gmail.com" required/>              
-            </div>
-              <div class="mb-4 w-full">
+                  dark:text-black dark:focus:ring-saffron dark:focus:border-saffron" 
+                  placeholder="johndoe@gmail.com" required/>
+                </div>
+              <div class="mb-4">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-500">Password</label>
                 <input type="password" id="password" class="mt-1 block w-full p-2.5 bg-white border border-saffron rounded-md text-sm shadow-sm placeholder-gray-400
                   focus:outline-none focus:border-saffron focus:ring-1 focus:ring-saffron
-                  disabled:bg-white disabled:text-gray-500 disabled:border-saffron disabled:shadow-none
-                  invalid:border-saffron invalid:text-saffron
+                  disabled:bg-white disabled:text-gray-300 disabled:border-saffron disabled:shadow-none
+                  invalid:border-saffron invalid:text-gray-500
                   focus:invalid:border-red focus:invalid:ring-red
-                  dark:text-gray-700 dark:focus:ring-saffron dark:focus:border-saffron" placeholder="•••••••••" required/>
+                  dark:text-black dark:focus:ring-saffron dark:focus:border-saffron" placeholder="•••••••••" required/>
               </div> 
             </div>
 
@@ -76,9 +62,25 @@ function Login() {
             </div>
           </div>
         </div>
+
+        <div className="h-full w-1/2 p-32 flex flex-col justify-center items-center">
+          <div className="place-self-center">
+            <h1 className="text-5xl font-bold m-4">Hello, there</h1>
+            <p className="mb-16">
+              Join the largest<br></br> 
+              community of volunteers.
+            </p>
+          </div>
+          <div>
+            <p className="mb-4">Already have an account?</p>
+            <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">Login</button>
+          </div>
+        </div>
+
+        
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Register;
