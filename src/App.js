@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import { Home, Login, Register } from "./Pages";
 import { Home, Login, Events, EventDetail, Profile, About } from "./Pages";
 
 function App() {
@@ -14,6 +15,8 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="about" element={<About />} />
           {/* <Route path="signup" element={<SignUp />} /> */}
+          <Route path="register" element={<Register />} />
+          {}
         </Routes>
       </div>
     </Router>
