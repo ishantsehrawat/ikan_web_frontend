@@ -1,11 +1,12 @@
 import React from "react";
 
-import { Navbar, EventFinder } from "../components";
+import { Navbar, EventFinder, Footer } from "../components";
 import { globe } from "../images";
 import { arrow } from "../images/icons";
 
 function Home() {
   return (
+    <div>
     <div className="p-10">
       <Navbar Page={"home"} />
       <div className="flex justify-between h-auto w-auto px-16">
@@ -44,6 +45,8 @@ function Home() {
         />
       </div>
       <EventFinder Page={"home"} />
+    </div>
+      <Footer />
     </div>
   );
 }

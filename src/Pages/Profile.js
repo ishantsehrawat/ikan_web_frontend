@@ -1,23 +1,42 @@
 import React, { useState } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import {useNavigate} from 'react-router-dom';
 
-import { Navbar } from "../components";
-import { profile } from "../images";
+import { Navbar, Footer } from "../components";
+// import { profile } from "../images";
+import { doc, getDoc } from "firebase/firestore";
 
 function Profile() {
   const [userData, setUserData] = useState({});
   const user = auth.currentUser;
-  console.log(user);
+  const navigate = useNavigate();
+  // console.log(user);
 
   const logout = async () => {
     await signOut(auth)
       .then(() => {
         console.log("sign out successful");
         localStorage.removeItem("token");
+        navigate('/');
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
+
+
+
+const getUser = async () => {
+  await getDoc(doc(db, "users", "ishantsehrawat75@gmail.com")).then((docRef)=>{
+    console.log(docRef?._document?.data?.value?.mapValue?.fields);
+    // setUserData(docRef)
+  }).catch((err)=>
+  console.log(err))
+}
+
+console.log(userData)
+
+  getUser();
 
   return (
     <div className="bg-cgrey">
@@ -28,11 +47,11 @@ function Profile() {
       <div className="flex w-full justify-between">
         <div className="flex">
           <img
-            src={profile}
+            src={user?.photoURL}
             alt="profile"
             className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
           />
-          <p className="text-5xl font-semibold ml-10 mt-5">Eva Sansteve</p>
+          <p className="text-5xl font-semibold ml-10 mt-5">{user?.displayName}</p>
         </div>
         <button
           onClick={logout}
@@ -50,7 +69,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="Eva Sansteve"
+              defaultValue={user?.displayName}
               onChange={(e) =>
                 setUserData({ ...userData, name: e.target.value })
               }
@@ -132,7 +151,7 @@ function Profile() {
           </label>
         </form>
       </div>
-      <div className="bg-lightsaffron h-28 mt-20"></div>
+      <Footer />
     </div>
   );
 }
