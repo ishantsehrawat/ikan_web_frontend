@@ -21,7 +21,7 @@ function EventOverlay({ uEvent, setuEvent, eventType, setEventType }) {
         {eventType.map((et) => (
           <div className="py-1">
             <input
-              type="checkbox"
+              type="radio"
               className="mr-2"
               name={et.type}
               value={et.id}
