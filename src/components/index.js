@@ -5,3 +5,4 @@ export { default as EventOverlay } from "./EventOverlay";
 export { default as EventFinder } from "./EventFinder";
 export { default as OverlayBackground } from "./OverlayBackground";
 export { default as EventTile } from "./EventTile";
+export {default as Footer} from "./Footer";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Navbar } from "../components";
+import { Navbar, Footer } from "../components";
 
 function About() {
   return (
@@ -61,7 +61,8 @@ function About() {
           </div>
         </div>
       </div>
-      <div className="bg-lightsaffron h-32 mt-20"></div>
+      {/* <div className="bg-lightsaffron h-32 mt-20"></div> */}
+      <Footer/>
     </div>
   );
 }
