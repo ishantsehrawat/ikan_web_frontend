@@ -8,6 +8,7 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
+import {useNavigate} from 'react-router-dom';
 import { auth, db, provider } from "../firebase-config";
 
 import { logo } from "../images";
@@ -18,6 +19,7 @@ function Register() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [checked, setChecked] = useState(false);
+  const navigate = useNavigate();
 
   const userRef = collection(db, "users");
 
@@ -46,6 +48,8 @@ function Register() {
       localStorage.setItem("token", JSON.stringify(user.uid));
       console.log(auth.currentUser);
       createUser(user, "local", checked);
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -62,6 +66,8 @@ function Register() {
       if (res.empty) {
         createUser(user.user, user.providerId, true);
       }
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }

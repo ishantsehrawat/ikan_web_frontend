@@ -39,6 +39,7 @@ function Login() {
         JSON.stringify(auth.currentUser.accessToken)
       );
       console.log(auth.currentUser);
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
@@ -55,6 +56,7 @@ function Login() {
       if (res.empty) {
         createUser(user.user, user.providerId, true);
       }
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }

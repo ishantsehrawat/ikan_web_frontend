@@ -19,9 +19,9 @@ function App() {
       <div className="h-screen w-full bg-cgrey">
         <Routes>
           <Route index element={!user ? <Login /> : <Home />} />
+          <Route path="register" element={<Register />} />
           {user && (
             <>
-              <Route path="register" element={<Register />} />
               <Route path="events" element={<Events />} />
               <Route path="event-detail" element={<EventDetail />} />
               <Route path="profile" element={<Profile />} />

@@ -1,23 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import {useNavigate} from 'react-router-dom';
 
-import { Navbar } from "../components";
-import { profile } from "../images";
+import { Navbar, Footer } from "../components";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 function Profile() {
   const [userData, setUserData] = useState({});
   const user = auth.currentUser;
-  console.log(user);
+  const navigate = useNavigate();
 
   const logout = async () => {
     await signOut(auth)
       .then(() => {
         console.log("sign out successful");
         localStorage.removeItem("token");
+        navigate('/');
+        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
+
+useEffect(() => {
+  ;(async () => {
+    // e.preventDefault();
+    const colRef = doc(db, 'users', user?.email);
+    const snapshots = await getDoc(colRef);
+    const docs = snapshots.data()
+    setUserData(docs);
+  })()
+}, [user])
+
+// useEffect(() => {
+    const editUser = async () => {
+       await updateDoc(doc(db,'users',user?.email),userData);
+      const newUser = await getDoc(doc(db, 'users', user?.email)).data();
+    
+      setUserData(newUser)
+      console.log(newUser);
+      return newUser;
+    };
+  
+// }, [user])
+
+
+console.log(userData)
 
   return (
     <div className="bg-cgrey">
@@ -28,11 +56,11 @@ function Profile() {
       <div className="flex w-full justify-between">
         <div className="flex">
           <img
-            src={profile}
+            src={userData?.photo}
             alt="profile"
             className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
           />
-          <p className="text-5xl font-semibold ml-10 mt-5">Eva Sansteve</p>
+          <p className="text-5xl font-semibold ml-10 mt-5">{userData?.name}</p>
         </div>
         <button
           onClick={logout}
@@ -50,7 +78,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="Eva Sansteve"
+              defaultValue={userData?.name}
               onChange={(e) =>
                 setUserData({ ...userData, name: e.target.value })
               }
@@ -63,7 +91,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="evasanssteve@gmail.com"
+              defaultValue={userData?.email}
               onChange={(e) =>
                 setUserData({ ...userData, email: e.target.value })
               }
@@ -76,7 +104,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="evasanssteve@gmail.com"
+              defaultValue={userData?.phone}
               onChange={(e) =>
                 setUserData({ ...userData, phone: e.target.value })
               }
@@ -89,7 +117,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="@evansanssteve"
+              defaultValue={userData?.ig}
               onChange={(e) => setUserData({ ...userData, ig: e.target.value })}
             />
           </label>
@@ -100,7 +128,7 @@ function Profile() {
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="@evan_sanssteve"
+              defaultValue={userData?.tw}
               onChange={(e) => setUserData({ ...userData, tw: e.target.value })}
             />
           </label>
@@ -117,22 +145,21 @@ function Profile() {
             <textarea
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-52"
               name="message"
-              defaultValue="Aliquam dis vulputate vulputate integer sagittis. Faucibus dolor
-              ornare faucibus vel sed et eleifend habitasse amet. Montes, mauris
-              varius ac est bibendum. Scelerisque a, risus ac ante. Velit
-              consectetur neque, elit, aliquet. Non varius proin sed urna,
-              egestas consequat laoreet diam tincidunt. Magna eget faucibus cras
-              justo, tortor sed donec tempus. Imperdiet consequat, quis diam
-              arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate
-              nunc nec. Dui, massa viverr ."
+              defaultValue={userData?.about}
               onChange={(e) =>
-                setUserData({ ...userData, description: e.target.value })
+                setUserData({ ...userData, about: e.target.value })
               }
             />
           </label>
         </form>
+          <button
+          onClick={() => editUser()}
+          className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+        >
+          Edit
+        </button>
       </div>
-      <div className="bg-lightsaffron h-28 mt-20"></div>
+      <Footer />
     </div>
   );
 }
