@@ -19,6 +19,7 @@ function EventFinder({ Page }) {
   const [uDate, setuDate] = useState(false);
   const [eventdate, setDate] = useState(today);
   const [uEvent, setuEvent] = useState(false);
+  const [check, setcheck] = useState([false,false,false,false,false,false,false]);
   const [eventType, setEventType] = useState([
     {
       id: 1,
@@ -33,29 +34,35 @@ function EventFinder({ Page }) {
     {
       id: 3,
       type: "Education",
-      isCheched: false,
+      isChecked: true,
     },
     {
       id: 4,
       type: "Health",
-      isCheched: false,
+      isChecked: false,
     },
     {
       id: 5,
       type: "Animal Welfare",
-      isCheched: false,
+      isChecked: false,
     },
     {
       id: 6,
       type: "Cleanliness",
-      isCheched: false,
+      isChecked: false,
     },
     {
       id: 7,
       type: "Cloth Distribution",
-      isCheched: false,
+      isChecked: false,
     },
   ]);
+
+  console.log(eventType
+    .filter((et) => check[et.id-1] === true)
+    .map((et) => (
+      et.type
+    )))
 
   console.log(eventdate);
   // console.log(uDate);
@@ -82,7 +89,17 @@ function EventFinder({ Page }) {
           onClick={() => setuEvent(true)}
         >
           <p>Type</p>
-          <p className="font-normal tracking-widest">Food Distribution</p>
+          <p className="font-normal w-full tracking-widest text-left text-truncate overflow-hidden whitespace-nowrap" data-title={eventType
+            .filter((et) => check[et.id-1] === true)
+            .map((et) => (
+              et.type+", "
+            ))}>
+          {eventType
+            .filter((et) => check[et.id-1] === true)
+            .map((et) => (
+              et.type+", "
+            ))}
+          </p>
         </button>
         <a
           className="bg-saffron w-48 h-16 rounded-lg text-white flex justify-center items-center font-normal"
@@ -116,6 +133,8 @@ function EventFinder({ Page }) {
           eventType={eventType}
           setuEvent={setuEvent}
           setEventType={setEventType}
+          setcheck={setcheck}
+          check={check}
         />
       </div>
     </div>

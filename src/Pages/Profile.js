@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase-config";
 import {useNavigate} from 'react-router-dom';
 
 import { Navbar, Footer } from "../components";
-// import { profile } from "../images";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 function Profile() {
   const [userData, setUserData] = useState({});
   const user = auth.currentUser;
   const navigate = useNavigate();
-  // console.log(user);
 
   const logout = async () => {
     await signOut(auth)
@@ -24,19 +22,30 @@ function Profile() {
       .catch((err) => console.log(err));
   };
 
+useEffect(() => {
+  ;(async () => {
+    // e.preventDefault();
+    const colRef = doc(db, 'users', user?.email);
+    const snapshots = await getDoc(colRef);
+    const docs = snapshots.data()
+    setUserData(docs);
+  })()
+}, [user])
 
+// useEffect(() => {
+    const editUser = async () => {
+       await updateDoc(doc(db,'users',user?.email),userData);
+      const newUser = await getDoc(doc(db, 'users', user?.email)).data();
+    
+      setUserData(newUser)
+      console.log(newUser);
+      return newUser;
+    };
+  
+// }, [user])
 
-const getUser = async () => {
-  await getDoc(doc(db, "users", "ishantsehrawat75@gmail.com")).then((docRef)=>{
-    console.log(docRef?._document?.data?.value?.mapValue?.fields);
-    // setUserData(docRef)
-  }).catch((err)=>
-  console.log(err))
-}
 
 console.log(userData)
-
-  getUser();
 
   return (
     <div className="bg-cgrey">
@@ -47,11 +56,11 @@ console.log(userData)
       <div className="flex w-full justify-between">
         <div className="flex">
           <img
-            src={user?.photoURL}
+            src={userData?.photo}
             alt="profile"
             className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
           />
-          <p className="text-5xl font-semibold ml-10 mt-5">{user?.displayName}</p>
+          <p className="text-5xl font-semibold ml-10 mt-5">{userData?.name}</p>
         </div>
         <button
           onClick={logout}
@@ -69,7 +78,7 @@ console.log(userData)
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue={user?.displayName}
+              defaultValue={userData?.name}
               onChange={(e) =>
                 setUserData({ ...userData, name: e.target.value })
               }
@@ -82,7 +91,7 @@ console.log(userData)
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="evasanssteve@gmail.com"
+              defaultValue={userData?.email}
               onChange={(e) =>
                 setUserData({ ...userData, email: e.target.value })
               }
@@ -95,7 +104,7 @@ console.log(userData)
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="evasanssteve@gmail.com"
+              defaultValue={userData?.phone}
               onChange={(e) =>
                 setUserData({ ...userData, phone: e.target.value })
               }
@@ -108,7 +117,7 @@ console.log(userData)
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="@evansanssteve"
+              defaultValue={userData?.ig}
               onChange={(e) => setUserData({ ...userData, ig: e.target.value })}
             />
           </label>
@@ -119,7 +128,7 @@ console.log(userData)
             <input
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-10"
               type="text"
-              defaultValue="@evan_sanssteve"
+              defaultValue={userData?.tw}
               onChange={(e) => setUserData({ ...userData, tw: e.target.value })}
             />
           </label>
@@ -136,20 +145,19 @@ console.log(userData)
             <textarea
               className="border-2 rounded-lg border-transparent px-4 w-[600px] h-52"
               name="message"
-              defaultValue="Aliquam dis vulputate vulputate integer sagittis. Faucibus dolor
-              ornare faucibus vel sed et eleifend habitasse amet. Montes, mauris
-              varius ac est bibendum. Scelerisque a, risus ac ante. Velit
-              consectetur neque, elit, aliquet. Non varius proin sed urna,
-              egestas consequat laoreet diam tincidunt. Magna eget faucibus cras
-              justo, tortor sed donec tempus. Imperdiet consequat, quis diam
-              arcu, nulla lobortis justo netus dis. Eu in fringilla vulputate
-              nunc nec. Dui, massa viverr ."
+              defaultValue={userData?.about}
               onChange={(e) =>
-                setUserData({ ...userData, description: e.target.value })
+                setUserData({ ...userData, about: e.target.value })
               }
             />
           </label>
         </form>
+          <button
+          onClick={() => editUser()}
+          className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+        >
+          Edit
+        </button>
       </div>
       <Footer />
     </div>
