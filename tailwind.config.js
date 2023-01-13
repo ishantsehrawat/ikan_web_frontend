@@ -10,6 +10,9 @@ module.exports = {
         cgrey: "#F9F9F9",
         lightsaffron: "#FED7B5",
       },
+      backgroundImage: {
+        'notfound': "url('images/notfound.png')",
+      },
     },
   },
   plugins: [],
