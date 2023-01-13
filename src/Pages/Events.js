@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Navbar, EventFinder, EventTile } from "../components";
+import { Navbar, EventFinder, EventTile, Footer } from "../components";
 import { event1 } from "../images";
 
 function Events() {
   return (
     <div className="bg-cgrey">
-      <div className=" bg-lightsaffron h-1/2 w-full p-10">
+      <div className=" bg-lightsaffron h-1/2 w-full p-4 md:p-10">
         <Navbar Page="events" />
-        <div className="mt-28 ml-5">
+        <div className="mt-20 md:mt-28 ml-5 mb-10">
           <h1 className="text-4xl font-bold mb-3">Events</h1>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in
@@ -59,6 +59,7 @@ function Events() {
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
         />
       </div>
+      <Footer />
     </div>
   );
 }

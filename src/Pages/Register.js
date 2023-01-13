@@ -75,15 +75,15 @@ function Register() {
 
   return (
     <div className="h-full w-full ">
-      <div className="h-16 p-2">
-        <img className="h-12 w-auto pl-5" src={logo} alt="ikan" />
-      </div>
+      {/* <div className="h-16 p-2"> */}
+        <img className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16" src={logo} alt="ikan" />
+      {/* </div> */}
 
-      <div className="flex h-auto text-center">
-        <div className="flex-1">
-          <div className="bg-white w-full rounded-xl m-16 flex flex-col items-center ">
+      <div className="flex h-full text-center flex-col md:flex-row items-center justify-center">
+        <div className="md:w-full flex justify-center">
+          <div className="bg-white rounded-2xl w-[330px] md:w-[400px] md:h-[450px] flex flex-col items-center">
             <div className="p-5">
-              <h1 className="text-5xl font-bold ">Register</h1>
+              <h1 className="text-4xl md:text-5xl font-bold ">Register</h1>
             </div>
 
             <div className="flex flex-row">
@@ -172,8 +172,8 @@ function Register() {
           </div>
         </div>
 
-        <div className="h-full w-1/2 p-32 flex flex-col justify-center items-center">
-          <div className="place-self-center">
+        <div className="md:h-full md:w-full flex flex-col justify-center items-center mt-20 md:mt-0">
+          <div className="place-self-center hidden md:block">
             <h1 className="text-5xl font-bold m-4">Hello, there</h1>
             <p className="mb-16">
               Join the largest<br></br>
@@ -181,9 +181,9 @@ function Register() {
             </p>
           </div>
           <div>
-            <p className="mb-4">Already have an account?</p>
+            <p className="mb-4 font-bold md:font-normal">Already have an account?</p>
             <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-              <a href="/login">Login</a>
+              <a href="/">Login</a>
             </button>
           </div>
         </div>

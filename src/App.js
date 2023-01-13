@@ -27,9 +27,9 @@ function App() {
               <Route path="event-detail" element={<EventDetail />} />
               <Route path="profile" element={<Profile />} />
               <Route path="about" element={<About />} />
-              <Route path="*" element={<NotFound />} />
             </>
           )}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>
