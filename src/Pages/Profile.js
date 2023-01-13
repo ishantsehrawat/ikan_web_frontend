@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase-config";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import { Navbar, Footer } from "../components";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -16,36 +16,33 @@ function Profile() {
       .then(() => {
         console.log("sign out successful");
         localStorage.removeItem("token");
-        navigate('/');
+        navigate("/");
         window.location.reload();
       })
       .catch((err) => console.log(err));
   };
 
-useEffect(() => {
-  ;(async () => {
-    // e.preventDefault();
-    const colRef = doc(db, 'users', user?.email);
-    const snapshots = await getDoc(colRef);
-    const docs = snapshots.data()
-    setUserData(docs);
-  })()
-}, [user])
+  useEffect(() => {
+    (async () => {
+      const colRef = doc(db, "users", user?.email);
+      const snapshots = await getDoc(colRef);
+      const docs = snapshots.data();
+      setUserData(docs);
+    })();
+  }, [user]);
 
-// useEffect(() => {
-    const editUser = async () => {
-       await updateDoc(doc(db,'users',user?.email),userData);
-      const newUser = await getDoc(doc(db, 'users', user?.email)).data();
-    
-      setUserData(newUser)
-      console.log(newUser);
-      return newUser;
-    };
-  
-// }, [user])
+  // useEffect(() => {
+  async function editUser() {
+    await updateDoc(doc(db, "users", user?.email), userData);
+    const newUser = await getDoc(doc(db, "users", user?.email)).data();
+    setUserData(newUser);
+    console.log(newUser);
+    return newUser;
+  }
 
+  // }, [user])
 
-console.log(userData)
+  console.log(userData);
 
   return (
     <div className="bg-cgrey">
@@ -55,11 +52,16 @@ console.log(userData)
       </div>
       <div className="flex w-full justify-between">
         <div className="flex">
-          <img
-            src={userData?.photo}
-            alt="profile"
-            className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
-          />
+          {!userData?.photo ? (
+            <div></div>
+          ) : (
+            <img
+              src={userData?.photo}
+              alt="profile"
+              className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
+            />
+          )}
+
           <p className="text-5xl font-semibold ml-10 mt-5">{userData?.name}</p>
         </div>
         <button
@@ -152,7 +154,7 @@ console.log(userData)
             />
           </label>
         </form>
-          <button
+        <button
           onClick={() => editUser()}
           className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
         >

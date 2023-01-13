@@ -16,7 +16,7 @@ function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, ch
     <div
       className={
         uEvent
-          ? "absolute z-20 p-4 w-[400px] bg-cgrey rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          ? "absolute z-20 p-4 w-[330px] bg-cgrey rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           : "hidden"
       }
     >

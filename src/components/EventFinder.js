@@ -68,24 +68,26 @@ function EventFinder({ Page }) {
   // console.log(uDate);
   // console.log(locationName);
   return (
-    <div className={Page === "home" ? "-mt-7 z-10" : "-mt-6 z-10 mx-10 h-full"}>
-      <div className="px-10 w-auto h-28 bg-white rounded-lg flex justify-between items-center font-bold">
+    <div className={Page === "home" ? " z-20" : " z-20 -mt-10 mx-10 h-full"}>
+      <div className="px-10 w-auto py-2 md:py-0 md:h-28 bg-white rounded-lg flex flex-wrap justify-between items-center font-bold text-xs md:text-base text-left">
+        <div className="flex justify-between w-full md:w-1/2">
         <button
-          className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
+          className="bg-gray w-1/2 md:w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
           onClick={() => setuLocation(true)}
         >
           <p>Location</p>
-          <p className="font-normal tracking-widest">{locationName}</p>
+          <p className="font-normal text-left w-full tracking-widest text-truncate overflow-hidden whitespace-nowrap">{locationName}</p>
         </button>
         <button
-          className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
+          className="bg-gray w-1/2 md:w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
           onClick={() => setuDate(true)}
         >
           <p>Date</p>
-          <p className="font-normal tracking-widest">{eventdate}</p>
+          <p className="font-normal text-left w-full tracking-widest text-truncate overflow-hidden whitespace-nowrap">{eventdate}</p>
         </button>
+        </div>
         <button
-          className="bg-gray w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
+          className="bg-gray w-full mb-4 md:mb-0 md:w-64 h-16 rounded-lg flex flex-col pl-3 hover:bg-slate-100 items-start justify-center"
           onClick={() => setuEvent(true)}
         >
           <p>Type</p>
@@ -102,7 +104,7 @@ function EventFinder({ Page }) {
           </p>
         </button>
         <a
-          className="bg-saffron w-48 h-16 rounded-lg text-white flex justify-center items-center font-normal"
+          className="bg-saffron w-full md:w-48 h-8 md:h-16 rounded-lg text-white flex justify-center items-center font-normal"
           href="/events"
         >
           <img src={search} alt="search" className="pr-3" /> Search

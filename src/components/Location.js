@@ -21,7 +21,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
     <div
       className={
         uLocation
-          ? "absolute z-20 w-[704px] h-[319px] bg-white rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          ? "absolute z-20 w-[330px] md:w-[704px] md:h-[319px] bg-white rounded-xl shadow-lg top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           : "hidden"
       }
     >
@@ -29,9 +29,9 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
       <div className="p-10 text-lg">
         <div className="">
           <form className="">
-            <div className="flex flex-col">
-              <div className="flex justify-between ">
-                <div className="flex flex-col w-2/5 pb-10">
+            <div className="flex flex-col items-center md:items-start">
+              <div className="flex flex-col md:flex-row justify-between items-center">
+                <div className="flex flex-col w-[270px] md:w-2/5 pb-10">
                   <label className="font-bold">Country </label>
                   <select
                     name="country"
@@ -52,7 +52,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
                   </select>
                 </div>
 
-                <div className="flex flex-col w-2/5 pb-10">
+                <div className="flex flex-col w-[270px] md:w-2/5 pb-10">
                   <label className="font-bold">State</label>
                   <select
                     className=""
@@ -73,7 +73,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
                   </select>
                 </div>
               </div>
-              <div className="flex flex-col w-2/5 pb-10">
+              <div className="flex flex-col w-[270px] md:w-2/5 pb-10">
                 <label className="font-bold">City</label>
                 <select
                   className=""
@@ -95,7 +95,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
             <div className="w-full flex justify-center">
               <button
                 type="button"
-                className="bg-saffron text-white rounded-lg w-40 h-12"
+                className="bg-saffron text-white rounded-lg w-[270px] md:w-40 h-12"
                 onClick={() => {
                   setLocationName(
                     cityname + ", " + statename + ", " + countryname
