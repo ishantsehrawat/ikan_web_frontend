@@ -64,7 +64,7 @@ console.log(userData)
         </div>
         <button
           onClick={logout}
-          className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+          className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black transition duration-500 hover:bg-white hover:text-black hover:b-2"
         >
           Log Out
         </button>

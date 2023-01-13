@@ -44,8 +44,8 @@ function Navbar({ Page }) {
         href="/events"
         className={
           Page === "events"
-            ? "h-full w-36 bg-white text-black rounded-md flex justify-center items-center border-2 border-black"
-            : "h-full w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+            ? "h-full w-36 bg-white text-black rounded-md flex justify-center items-center border-2 border-black "
+            : "h-full w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black transition duration-500 hover:bg-white hover:text-black hover:b-2"
         }
       >
         Events
