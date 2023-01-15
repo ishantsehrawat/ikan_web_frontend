@@ -6,13 +6,12 @@ import { arrowup } from "../images/icons";
 function EventDetail() {
   return (
     <div className="bg-cgrey">
-      <div className=" bg-lightsaffron h-1/2 w-full p-10">
+      <div className=" bg-eventDetail h-1/2 w-full p-10">
         <Navbar Page="event-detail" />
-        <div className="mt-28 ml-5">
+        <div className="mt-28 text-white ml-5">
           <h1 className="text-4xl font-bold mb-3">Event Details</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in
-            est adipiscing in phasellus non in justo.
+          Welcome to the event details page. Here you will find all the information you need to know about a specific event, including date, time, location, and event description.
           </p>
         </div>
       </div>

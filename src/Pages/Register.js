@@ -18,17 +18,15 @@ import { google } from "../images/icons";
 function Register() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(true);
   const navigate = useNavigate();
 
   const userRef = collection(db, "users");
 
-  console.log(checked);
-
-  const createUser = async (user, authprovider, checked) => {
+  const createUser = async (user, authprovider) => {
     await setDoc(doc(userRef, user.email), {
       name: user?.displayName,
-      type: checked ? "volunteer" : "organisation",
+      type: "volunteer",
       phone: user?.phoneNumber,
       photo: user?.photoURL,
       email: user.email,
@@ -45,9 +43,9 @@ function Register() {
         registerPassword
       );
       const user = res.user;
+      console.log(user)
       localStorage.setItem("token", JSON.stringify(user.uid));
-      console.log(auth.currentUser);
-      createUser(user, "local", checked);
+      createUser(user, "local");
       navigate('/');
       window.location.reload();
     } catch (err) {
@@ -64,7 +62,7 @@ function Register() {
       localStorage.setItem("token", JSON.stringify(user.user.uid));
       console.log(auth.currentUser);
       if (res.empty) {
-        createUser(user.user, user.providerId, true);
+        createUser(user.user, user.providerId);
       }
       navigate('/');
       window.location.reload();
@@ -86,7 +84,7 @@ function Register() {
               <h1 className="text-4xl md:text-5xl font-bold ">Register</h1>
             </div>
 
-            <div className="flex flex-row">
+            {/* <div className="flex flex-row">
               <span className="mx-7 text-sm font-medium text-gray-900 dark:text-gray-500 whitespace-normal">
                 Volunteer
               </span>
@@ -107,7 +105,7 @@ function Register() {
                   Organisation
                 </span>
               </label>
-            </div>
+            </div> */}
 
             <button
               className="w-10 h-10 m-4 rounded-full bg-white outline outline-2 outline-cgrey text-black shadow flex justify-center items-center"

@@ -68,7 +68,7 @@ function EventFinder({ Page }) {
   // console.log(uDate);
   // console.log(locationName);
   return (
-    <div className={Page === "home" ? " z-20" : " z-20 -mt-10 mx-10 h-full"}>
+    <div className={Page === "home" ? " z-20 drop-shadow-lg backdrop-blur-lg" : " z-20 -mt-10 mx-10 h-full drop-shadow-lg backdrop-blur-lg"}>
       <div className="px-10 w-auto py-2 md:py-0 md:h-28 bg-white rounded-lg flex flex-wrap justify-between items-center font-bold text-xs md:text-base text-left">
         <div className="flex justify-between w-full md:w-1/2">
         <button
