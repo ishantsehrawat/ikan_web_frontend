@@ -8,6 +8,7 @@ import {
   Profile,
   About,
   Register,
+  Donate,
   NotFound,
 } from "./Pages";
 
@@ -27,6 +28,7 @@ function App() {
               <Route path="event-detail" element={<EventDetail />} />
               <Route path="profile" element={<Profile />} />
               <Route path="about" element={<About />} />
+              <Route path="donate" element={<Donate />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
