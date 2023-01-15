@@ -21,10 +21,9 @@ function Home() {
             <br />
             Are Here
           </h1>
-          <p className="tracking-widest mt-3">
-            This Platform website is for the platform of platforming
+          <p className="tracking-widest md:-mt-5 w-full md:w-4/5">
+          We are dedicated to connecting passionate individuals with meaningful volunteer opportunities that align with their skills and interests. 
             <br />
-            the major Platformers Platforming
           </p>
           <div className="w-full md:w-80 mt-4 md:-mt-8 flex items-center justify-between">
             <a

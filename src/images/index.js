@@ -4,3 +4,4 @@ export { default as globe } from "./bro.png";
 export { default as event1 } from "./event1.jpg";
 export { default as profile } from "./profile.jpg";
 export { default as notfound } from "./notfound.png"; 
+export { default as eventHeader } from "./eventsheader.jpg"

@@ -6,7 +6,7 @@ import { logoOrange } from "../images";
 function Footer({ Page }) {
   return (
     <div className={Page === "notfound" ? "mt-0" : "mt-20"}>
-      <div className="bg-lightsaffron h-32 w-full px-4 flex justify-around gap-2 items-center">
+      <div className="bg-donateBG h-32 w-full px-4 flex justify-around gap-2 items-center">
         <p className="ml-3 mr-4 md:mr-10 font-bold text-white md:text-xl">
           <span className="hidden md:block">
             No act of kindness, no matter how small, is ever wasted.{" "}

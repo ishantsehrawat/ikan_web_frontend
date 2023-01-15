@@ -5,9 +5,9 @@ import { Navbar, Footer } from "../components";
 function About() {
   return (
     <div className="bg-cgrey">
-      <div className=" bg-lightsaffron h-[50vh] w-full p-10">
+      <div className=" bg-aboutHeader h-[50vh] w-full p-10">
         <Navbar Page="about" />
-        <div className="mt-40 ml-5">
+        <div className="mt-40 text-white ml-5">
           <h1 className="text-4xl font-bold mb-3">About Us</h1>
         </div>
       </div>
@@ -16,16 +16,13 @@ function About() {
           <div>
             <h1 className="text-4xl font-semibold mb-4">Vision</h1>
             <p className="w-[450px]">
-              Creating a platform for streamlining the interaction between
-              volunteers and organisations. And working towards long lasting
-              social services.
+            A world where every person has the opportunity to make a positive impact through volunteering would be one in which there are ample opportunities for individuals to get involved in their communities and make a difference.
             </p>
           </div>
           <div>
             <h1 className="text-4xl font-semibold mb-4">Mission</h1>
             <p className="w-[450px]">
-              Building credibility for volunteer organisations and encouraging
-              more people to volunteer for social services.
+            Connecting volunteers with meaningful opportunities to serve their communities involves identifying the specific needs of different organizations and matching them with individuals who have the skills and interests to help meet those needs.
             </p>
           </div>
         </div>
@@ -35,20 +32,14 @@ function About() {
             There is no greater joy nor greater reward than to make a
             fundamental difference in someone's life. The aim behind this
             project is to help individuals and organizations ,working for the
-            greater good, come together and connect. A lot of young adults and
-            college students wish to volunteer for social work but are unable to
-            do so due to the lack of information and credibility and a proper
-            platform to achieve this. There are several NGOs which cannot afford
-            to have a website due to financial reasons, even if someone makes
-            one for them it is really difficult to maintain it with all the
-            other finances involved. This way the work does not receive adequate
-            attention and a lot of people are unaware. <br />
-            <br />A lot of these NGOs are also focused towards teaching young
-            students. Having volunteered as a teacher ourselves, we agree that
-            not everyone is academically well performing but that does not mean
-            that they are bound to fail in life. This can be prevented by
-            teaching them other life skills and providing them with
-            opportunities to explore other avenues in life.
+            greater good, come together and connect.
+            <ul className="flex flex-col gap-2 mt-4">
+              <li><span className="font-semibold">Community:</span> We believe that volunteering is a powerful way to build stronger and more connected communities.</li>
+              <li><span className="font-semibold">Empowerment:</span> We empower individuals to take action and make a difference in their communities.</li>
+              <li><span className="font-semibold">Inclusion:</span> We strive to create a platform that is inclusive and accessible to all.</li>
+              <li><span className="font-semibold">Support:</span> We are committed to providing support and resources to both volunteers and non-profit organizations.</li>
+              <li><span className="font-semibold">Impact:</span> We measure our success by the positive impact we make in our communities.</li>
+            </ul>
           </p>
         </div>
         <div>

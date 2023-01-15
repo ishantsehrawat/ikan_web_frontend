@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
-import { auth, db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-
-import { Navbar, Footer } from "../components";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+
+import { auth, db } from "../firebase-config";
+import { Navbar, Footer, EventList } from "../components";
 
 function Profile() {
   const [userData, setUserData] = useState({});
@@ -22,41 +22,38 @@ function Profile() {
       .catch((err) => console.log(err));
   };
 
+  console.log(user?.photoURL);
+
   useEffect(() => {
-    (async () => {
-      const colRef = doc(db, "users", user?.email);
+    const colRef = doc(db, "users", String(user?.email));
+    const getUser = async () => {
       const snapshots = await getDoc(colRef);
       const docs = snapshots.data();
       setUserData(docs);
-    })();
-  }, [user]);
+    }
 
-  // useEffect(() => {
+    getUser();
+  }, [user])
+
   async function editUser() {
-    await updateDoc(doc(db, "users", user?.email), userData);
-    const newUser = await getDoc(doc(db, "users", user?.email)).data();
-    setUserData(newUser);
-    console.log(newUser);
-    return newUser;
+    await updateDoc(doc(db, "users", user?.email), userData).then(() => {
+      window.alert("User Updated Successfully");
+    });
   }
-
-  // }, [user])
-
-  console.log(userData);
 
   return (
     <div className="bg-cgrey">
-      <div className=" bg-lightsaffron h-[50vh] w-full p-10">
+      <div className=" bg-profileHeader h-[50vh] w-full p-10">
         <Navbar Page="profile" />
         <div className="mt-28 ml-5"></div>
       </div>
       <div className="flex w-full justify-between">
         <div className="flex">
-          {!userData?.photo ? (
+          {!user?.photoURL ? (
             <div></div>
           ) : (
             <img
-              src={userData?.photo}
+              src={user?.photoURL}
               alt="profile"
               className="w-48 h-48 rounded-full border-4 border-black object-cover  ml-20 -translate-y-1/2"
             />
@@ -161,6 +158,7 @@ function Profile() {
           Edit
         </button>
       </div>
+      <EventList />
       <Footer />
     </div>
   );

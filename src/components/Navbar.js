@@ -5,7 +5,6 @@ import { menu, close } from "../images/icons";
 
 function Navbar({ Page }) {
   const [open, setOpen] = useState(false);
-  console.log(open);
   return (
     <div>
       {/* big navbar */}

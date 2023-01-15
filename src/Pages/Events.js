@@ -6,13 +6,12 @@ import { event1 } from "../images";
 function Events() {
   return (
     <div className="bg-cgrey">
-      <div className=" bg-lightsaffron h-1/2 w-full p-4 md:p-10">
+      <div className=" bg-eventHeader  h-1/2 w-full p-4 md:p-10">
         <Navbar Page="events" />
-        <div className="mt-20 md:mt-28 ml-5 mb-10">
+        <div className="mt-20 text-white md:mt-28 ml-5 mb-10">
           <h1 className="text-4xl font-bold mb-3">Events</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in
-            est adipiscing in phasellus non in justo.
+          Discover volunteer opportunities that match your interests and availability. Join us and make a difference.
           </p>
         </div>
       </div>

@@ -9,6 +9,7 @@ import {
   About,
   Register,
   NotFound,
+  AddEvent,
 } from "./Pages";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <>
               <Route path="events" element={<Events />} />
               <Route path="event-detail" element={<EventDetail />} />
+              <Route path="add-event" element={<AddEvent />} />
               <Route path="profile" element={<Profile />} />
               <Route path="about" element={<About />} />
             </>

@@ -6,3 +6,4 @@ export { default as linkedin } from "./Linkedin.png";
 export { default as arrowup } from "./arrow.png";
 export { default as menu } from "./menu.png";
 export { default as close } from "./Close.png";
+export { default as group } from "./Group.png";
