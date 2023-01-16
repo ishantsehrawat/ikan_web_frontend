@@ -5,5 +5,6 @@ export { default as Events } from "./Events";
 export { default as EventDetail } from "./EventDetail";
 export { default as Profile } from "./Profile";
 export { default as About } from "./About";
+export { default as Donate } from "./Donate";
 export {default as NotFound} from "./NotFound";
 export {default as AddEvent} from "./AddEvent";

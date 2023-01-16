@@ -8,6 +8,7 @@ import {
   Profile,
   About,
   Register,
+  Donate,
   NotFound,
   AddEvent,
 } from "./Pages";
@@ -29,6 +30,7 @@ function App() {
               <Route path="add-event" element={<AddEvent />} />
               <Route path="profile" element={<Profile />} />
               <Route path="about" element={<About />} />
+              <Route path="donate" element={<Donate />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />
