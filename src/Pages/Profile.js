@@ -22,7 +22,7 @@ function Profile() {
       .catch((err) => console.log(err));
   };
 
-  console.log(user?.photoURL);
+  console.log(userData);
 
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
