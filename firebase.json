@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "ikan-web",
+    "site": "ikanvolunteer",
     "public": "build",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [

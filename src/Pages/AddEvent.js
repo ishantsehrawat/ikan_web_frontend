@@ -91,14 +91,14 @@ function AddEvent() {
                         </span>
                         <input className="border-2 rounded-lg p-4 h-10" type="text" onChange={(e) => { setEventData((prev) => ({ ...prev, name: e.target.value })) }} placeholder="Blanket Donation" />
                     </label>
-                    <div className="flex justify-start">
+                    <div className="flex flex-col md:flex-row md:justify-start gap-4">
                         <label className="flex flex-col gap-1">
                             <span className="text-textblue font-semibold text-lg">
                                 Event Date:
                             </span>
                             <input className="border-2 rounded-lg p-4 h-10" type="date" onChange={(e) => { setEventData((prev) => ({ ...prev, date: e.target.value })) }} placeholder="" />
                         </label>
-                        <label className="flex flex-col gap-1 ml-24 w-full">
+                        <label className="flex flex-col gap-1 md:ml-24 w-full">
                             <span className="text-textblue font-semibold text-lg">
                                 Event Pictures: {perc}%
                             </span>
@@ -113,14 +113,14 @@ function AddEvent() {
                         </span>
                         <textarea name="message" onChange={(e) => { setEventData((prev) => ({ ...prev, description: e.target.value })) }} className="border-2 rounded-lg p-4 w-full h-44" />
                     </label>
-                    <div className="flex justify-start">
+                    <div className="flex flex-col md:flex-row justify-start gap-4">
                         <label className="flex flex-col gap-1">
                             <span className="text-textblue font-semibold text-lg">
                                 Number of Volunteers Required:
                             </span>
                             <input className="border-2 rounded-lg p-4 h-10" type="number" onChange={(e) => { setEventData((prev) => ({ ...prev, volreq: e.target.value })) }} placeholder="10" />
                         </label>
-                        <label className="flex flex-col gap-1 ml-24 ">
+                        <label className="flex flex-col gap-1 md:ml-24 ">
                             <span className="text-textblue font-semibold text-lg">
                                 Type:
                             </span>

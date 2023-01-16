@@ -68,14 +68,14 @@ function Navbar({ Page }) {
 
       {/* small navbar menu */}
       {open ? (
-        <div className="md:hidden h-full w-screen bg-white absolute -ml-4 top-0">
+        <div className="md:hidden z-20 h-[5000px] overflow-y-hidden w-screen bg-white absolute -ml-4 top-0">
           <img
             className="h-7 absolute top-6 right-8 w-auto"
             src={close}
             onClick={() => setOpen(!open)}
             alt="menu"
           />
-          <div className="absolute h-full text-2xl flex flex-col left-12 justify-center gap-4">
+          <div className="absolute h-screen text-2xl flex flex-col left-12 justify-center gap-4">
             <a href="/">Home</a>
             <a href="/about">About Us</a>
             <a href="/profile">Profile</a>
