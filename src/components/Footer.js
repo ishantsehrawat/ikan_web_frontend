@@ -5,7 +5,7 @@ import { logoOrange } from "../images";
 
 function Footer({ Page }) {
   return (
-    <div className={Page === "notfound" ? "mt-0" : "mt-20"}>
+    <div className={Page === "notfound" ? "mt-0" : "mt-0"}>
       <div className="bg-donateBG h-32 w-full px-4 flex justify-around gap-2 items-center">
         <p className="ml-3 mr-4 md:mr-10 font-bold text-white md:text-xl">
           <span className="hidden md:block">
@@ -60,8 +60,8 @@ function Footer({ Page }) {
             <a href="/">
               <p>projectikan@gmail.com</p>
             </a>
-            <a href="/">
-              <p>+91 12345 67890</p>
+            <a href="/tel:9958679035">
+              <p>+91 99586 79035</p>
             </a>
             <a href="/">
               <p>Rohini, Delhi</p>
