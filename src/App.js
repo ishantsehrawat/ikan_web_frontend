@@ -11,6 +11,12 @@ import {
   Donate,
   NotFound,
   AddEvent,
+  Organisations,
+  OrganisationDetail,
+  Volunteers,
+  VolunteerDetail,
+  Verification,
+  OrganisationJoin
 } from "./Pages";
 
 function App() {
@@ -31,6 +37,12 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="about" element={<About />} />
               <Route path="donate" element={<Donate />} />
+              <Route path="organisations" element={<Organisations />} />
+              <Route path="organisation-detail" element={<OrganisationDetail />} />
+              <Route path="volunteers" element={<Volunteers/>} />
+              <Route path="volunteer-detail" element={<VolunteerDetail />} />
+              <Route path="verification" element={<Verification />} />
+              <Route path="organisation-join" element={<OrganisationJoin />} />
             </>
           )}
           <Route path="*" element={<NotFound />} />

@@ -9,3 +9,5 @@ export { default as Footer } from "./Footer";
 export { default as EventList } from "./EventList";
 export { default as SmallEventTile } from "./SmallEventTile";
 export { default as AddEvent } from "./AddEvent";
+export {default as OrganisationTile} from './OrganisationTile'
+export {default as VolunteerTile} from './VolunteerTile'
