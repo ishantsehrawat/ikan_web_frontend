@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-
 import { auth, db } from "../firebase-config";
 import { Navbar, Footer, EventList } from "../components";
 

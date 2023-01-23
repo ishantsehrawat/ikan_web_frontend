@@ -6,3 +6,5 @@ export { default as donategraphic } from "./donategraphic.png";
 export { default as profile } from "./profile.jpg";
 export { default as notfound } from "./notfound.png"; 
 export { default as eventHeader } from "./eventsheader.jpg"
+export {default as organisation1} from "./Organisation1.jpg"
+export {default as volunteer1} from "./volunteer1.jpg"

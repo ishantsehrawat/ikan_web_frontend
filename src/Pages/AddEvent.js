@@ -125,7 +125,11 @@ function AddEvent() {
                             <span className="text-textblue font-semibold text-lg">
                                 Type:
                             </span>
-                            <input className="border-2 rounded-lg p-4 h-10" type="" onChange={(e) => { setEventData((prev) => ({ ...prev, type: e.target.value })) }} placeholder="Donation" />
+                            <select className="border-2 rounded-lg p-4 h-10" value={eventData.type} type="" onChange={(e) => { setEventData((prev) => ({ ...prev, type: e.target.value })) }} >
+                                <option value="donate">Donation</option>
+                                <option value="Host">Hosting</option>
+                                <option value="Volunteer">Volunteer work</option>
+                            </select>
                         </label>
                     </div>
                 </form>

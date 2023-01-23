@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Navbar, EventFinder, Footer } from "../components";
 import { globe } from "../images";
 import { arrow } from "../images/icons";

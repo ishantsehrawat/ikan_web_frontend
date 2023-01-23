@@ -1,9 +1,18 @@
 import React from "react";
-
+import { signOut } from "firebase/auth";
+import{auth} from "../firebase-config";
 import { insta, linkedin } from "../images/icons";
 import { logoOrange } from "../images";
 
 function Footer({ Page }) {
+  const logout = async () => {
+    await signOut(auth)
+      .then(() => {
+        console.log("sign out successful");
+        localStorage.removeItem("token");
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <div className={Page === "notfound" ? "mt-0" : "mt-0"}>
       <div className="bg-donateBG h-32 w-full px-4 flex justify-around gap-2 items-center">
@@ -35,21 +44,21 @@ function Footer({ Page }) {
         <div className="flex flex-wrap h-full w-full justify-between pt-2 gap-4">
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">Useful Links</p>
-            <a href="/">Where to register ?</a>
-            <a href="/">How to verify ?</a>
-            <a href="/">Who can Donate ?</a>
+            <a onClick={logout} href="/register">Where to register ?</a>
+            <a href="/verification">How to verify ?</a>
+            <a href="/donate">Who can Donate ?</a>
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">For Individuals</p>
-            <a href="/">Register Here</a>
-            <a href="/">Events</a>
-            <a href="/">Organisations</a>
+            <a onClick={logout} href="/register">Register Here</a>
+            <a href="/Events">Events</a>
+            <a href="/Organisations">Organisations</a>
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">For Organisations</p>
-            <a href="/">Register Here</a>
-            <a href="/">Volunteers</a>
-            <a href="/">How to join us ?</a>
+            <a onClick={logout} href="/register">Register Here</a>
+            <a href="/volunteers">Volunteers</a>
+            <a href="/organisation-join">How to join us ?</a>
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">News</p>
