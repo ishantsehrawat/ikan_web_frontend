@@ -7,7 +7,7 @@ import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 function Date({ uDate, setDate, setuDate }) {
   //   console.log(uDate);
   const handleDateChange = (date) => {
-    const formatteddate = dayjs(date).format("DD - MM - YYYY");
+    const formatteddate = dayjs(date).format("YYYY-MM-DD");
     setDate(formatteddate);
     setuDate(false);
   };

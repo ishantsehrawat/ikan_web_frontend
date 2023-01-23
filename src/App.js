@@ -15,7 +15,7 @@ import {
 
 function App() {
   const user = localStorage.getItem("token");
-  console.log(user);
+  // console.log(user);
 
   return (
     <Router>
@@ -25,6 +25,7 @@ function App() {
           <Route path="register" element={<Register />} />
           {user && (
             <>
+              <Route path="events/:loc/:date/:events" element={<Events />} />
               <Route path="events" element={<Events />} />
               <Route path="event-detail" element={<EventDetail />} />
               <Route path="add-event" element={<AddEvent />} />

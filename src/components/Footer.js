@@ -57,7 +57,7 @@ function Footer({ Page }) {
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">Contact Us</p>
-            <a href="/">
+            <a href="/mailto:projectikan@gmail.com">
               <p>projectikan@gmail.com</p>
             </a>
             <a href="/tel:9958679035">
