@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { doc, getDoc, setDoc, collection } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
 
 import { auth, db, storage } from "../firebase-config";
 import { Navbar, Footer, OverlayBackground } from "../components"
@@ -65,9 +65,10 @@ function AddEvent() {
 
     const eventRef = collection(db, "events");
 
-
+    // console.log(user);
     const addEvent = async () => {
         const eid = eventData.name + "@" + new Date().getTime();
+        setEventData((prev) => ({ ...prev, host: user?.email }));
         setEventData((prev) => ({ ...prev, eid: eid }));
 
         await setDoc(doc(eventRef, eid), eventData).then(() => {
@@ -136,6 +137,34 @@ function AddEvent() {
                 </button>
             </div>
             <Footer />
+            {/* Location Overlay
+      <div className="h-full">
+        <OverlayBackground Overlay={uLocation} setBackButton={setuLocation} />
+        <Location
+          uLocation={uLocation}
+          setLocationName={setLocationName}
+          setuLocation={setuLocation}
+        />
+      </div>
+
+      {/* Date Overlay */}
+      {/* <div>
+        <OverlayBackground Overlay={uDate} setBackButton={setuDate} />
+        <Date uDate={uDate} setDate={setDate} setuDate={setuDate} />
+      </div> */}
+
+      {/* Event Overlay */}
+      {/* <div>
+        <OverlayBackground Overlay={uEvent} setBackButton={setuEvent} />
+        <EventOverlay
+          uEvent={uEvent}
+          eventType={eventType}
+          setuEvent={setuEvent}
+          setEventType={setEventType}
+          setcheck={setcheck}
+          check={check}
+        />
+      </div> */}
         </div>
     )
 }

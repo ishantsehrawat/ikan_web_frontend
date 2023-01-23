@@ -1,9 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";  
+
 
 import { Navbar, EventFinder, EventTile, Footer } from "../components";
+import {db} from "../firebase-config"
 import { event1 } from "../images";
 
 function Events() {
+  const [eventArray, setEventArray] =  useState([]);
+  const eventRef = collection(db, "events");
+  let fetchedData = [];
+
+  useEffect(()=>{
+    fetchData()
+  },[])
+
+    const fetchData = async () => {
+      try {
+        const q = query(eventRef, orderBy("name"));
+        const querySnapshot = await getDocs(q);
+        // querySnapshot.forEach((doc) => {
+        //   data.push(doc.data());
+        // });
+        // console.log(data);
+        if (querySnapshot.docs) {
+          querySnapshot.docs.forEach((doc) => {
+              fetchedData.push(doc.data());
+          });
+          console.log(fetchedData)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fetchData();
+
+useEffect(()=>{
+  // setEventArray(fetchedData);
+})
+
   return (
     <div className="bg-cgrey">
       <div className=" bg-eventHeader  h-1/2 w-full p-4 md:p-10">

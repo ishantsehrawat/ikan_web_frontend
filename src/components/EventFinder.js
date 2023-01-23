@@ -1,25 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import {useNavigate, useParams} from "react-router-dom"
 
 import { Location, Date, EventOverlay, OverlayBackground } from "../components";
+import {db} from "../firebase-config"
+import {eventObject} from "../Data/Location/events"
 import { search } from "../images/icons";
 
 let date = dayjs().date();
 let month = dayjs().month() + 1;
 let year = dayjs().year();
-const separator = " - ";
+const separator = "-";
 
-const today = `${date}${separator}${
+const today = `${year}${separator}${
   month < 10 ? `0${month}` : `${month}`
-}${separator}${year}`;
+}${separator}${date}`;
 
 function EventFinder({ Page }) {
+  const navigate = useNavigate();
+  const { loc, date, events } = useParams();
   const [uLocation, setuLocation] = useState(false);
   const [locationName, setLocationName] = useState("New Delhi, Delhi, India");
   const [uDate, setuDate] = useState(false);
   const [eventdate, setDate] = useState(today);
   const [uEvent, setuEvent] = useState(false);
   const [check, setcheck] = useState([false,false,false,false,false,false,false]);
+  const [ev, setev] = useState(0);
+  const [eventArray, setEventArray] = useState([]);
   const [eventType, setEventType] = useState([
     {
       id: 1,
@@ -58,17 +65,40 @@ function EventFinder({ Page }) {
     },
   ]);
 
-  console.log(eventType
-    .filter((et) => check[et.id-1] === true)
-    .map((et) => (
-      et.type
-    )))
+  const searchEvent = () => {
+    navigate(`/events/${locationName}/${eventdate}/${ev}`)
+  }
 
-  console.log(eventdate);
-  // console.log(uDate);
-  // console.log(locationName);
+useEffect(()=>{
+  const handleAddEvents = (number) => {
+    if (!number) {
+        console.error("No number found in the URL");
+        return;
+    }
+    let eventIds = number.toString().split("")
+    if(!(eventIds[0] === '0')){
+      setEventArray(eventIds)
+    }
+    
+  };
+  if(events){
+    handleAddEvents(events)
+  }
+},[events])
+  
+
+  useEffect(() => {
+    if(date){
+      setDate(date)
+    }
+    if(loc){
+      setLocationName(loc);
+    }
+  },[date, loc]);
+
+
   return (
-    <div className={Page === "home" ? " z-20 drop-shadow-lg backdrop-blur-lg" : " z-20 -mt-10 mx-10 h-full drop-shadow-lg backdrop-blur-lg"}>
+    <div className={Page === "home" ? " z-20 drop-shadow-lg backdrop-blur-lg mt-10" : " z-20 -mt-10 mx-10 h-full drop-shadow-lg backdrop-blur-lg"}>
       <div className="px-10 w-auto py-2 md:py-0 md:h-28 bg-white rounded-lg flex flex-wrap justify-between items-center font-bold text-xs md:text-base text-left">
         <div className="flex justify-between w-full md:w-1/2">
         <button
@@ -91,24 +121,22 @@ function EventFinder({ Page }) {
           onClick={() => setuEvent(true)}
         >
           <p>Type</p>
-          <p className="font-normal w-full tracking-widest text-left text-truncate overflow-hidden whitespace-nowrap" data-title={eventType
+          <p className="font-normal w-full tracking-widest text-left text-truncate overflow-hidden whitespace-nowrap" >
+          {eventArray.length === 0 ? eventType
             .filter((et) => check[et.id-1] === true)
             .map((et) => (
               et.type+", "
-            ))}>
-          {eventType
-            .filter((et) => check[et.id-1] === true)
-            .map((et) => (
-              et.type+", "
-            ))}
+            )) : 
+              eventArray?.map((et)=> eventObject[et-1].type+", ")
+            }
           </p>
         </button>
-        <a
+        <button
           className="bg-saffron w-full md:w-48 h-8 md:h-16 rounded-lg text-white flex justify-center items-center font-normal"
-          href="/events"
+          onClick={searchEvent}
         >
           <img src={search} alt="search" className="pr-3" /> Search
-        </a>
+        </button>
       </div>
 
       {/* Location Overlay */}
@@ -137,6 +165,7 @@ function EventFinder({ Page }) {
           setEventType={setEventType}
           setcheck={setcheck}
           check={check}
+          setev={setev}
         />
       </div>
     </div>

@@ -1,16 +1,14 @@
 import React from "react";
 
-function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, check }) {
-  console.log(eventType.map((et) => et.isChecked));
-  // const [check, setcheck] = useState([true,false,false,false,false,false,false]);
+function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, check, setev }) {
 
   const updateArray = (id) => {
     const newArray = [...check];
     newArray[id-1] = !newArray[id-1];
+    setev(prev => prev*10+id)
     setcheck(newArray)
   }
 
-  console.log(check)
 
   return (
     <div
@@ -20,13 +18,6 @@ function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, ch
           : "hidden"
       }
     >
-      {/* <div className="w-full px-2 h-12 shadow-[0px 2px 70px rgba(0, 0, 0, 0.1)] flex items-center rounded-lg text-lg bg-white">
-        {eventType
-          .filter((et) => et.isChecked === true)
-          .map((et) => (
-            <p className="pl-2">{et.type},</p>
-          ))}
-      </div> */}
       <div className="py-1 h-auto w-full">
         {eventType.map((et) => (
           <div className="py-1">
@@ -35,7 +26,6 @@ function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, ch
               className="mr-2"
               name={et.type}
               value={et.id}
-              // checked={ }
               onChange={(e) =>
                 updateArray(et.id)
               }
