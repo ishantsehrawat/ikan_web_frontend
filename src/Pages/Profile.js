@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-
 import { auth, db } from "../firebase-config";
 import { Navbar, Footer, EventList } from "../components";
 
@@ -153,12 +152,14 @@ function Profile() {
         </form>
         <button
           onClick={() => editUser()}
-          className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+          className="h-12 my-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
         >
-          Edit
+          Save
         </button>
       </div>
+      <div className={(userData?.type === "organisation") ? "" : "hidden"}>
       <EventList />
+      </div>
       <Footer />
     </div>
   );
