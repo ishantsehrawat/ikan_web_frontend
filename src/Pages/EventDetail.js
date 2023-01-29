@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar } from "../components";
+import { Navbar, Footer } from "../components";
 import { event1 } from "../images";
 import { arrowup } from "../images/icons";
 
@@ -60,7 +60,7 @@ function EventDetail() {
           </div>
         </div>
       </div>
-      <div className="h-[50vh] w-full bg-lightsaffron flex justify-center items-center">
+      <div className="h-[50vh] -mb-20 w-full bg-lightsaffron flex justify-center items-center">
         <div className="h-[40vh] w-[1100px] flex justify-between">
           <div className="flex flex-col justify-between">
             <h2 className="underline font-bold">Description</h2>
@@ -125,6 +125,7 @@ function EventDetail() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
