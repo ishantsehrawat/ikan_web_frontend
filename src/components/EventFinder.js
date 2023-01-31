@@ -16,7 +16,7 @@ const today = `${year}${separator}${
   month < 10 ? `0${month}` : `${month}`
 }${separator}${date}`;
 
-function EventFinder({ Page }) {
+function EventFinder({ Page,SearchParamsSet }) {
   const navigate = useNavigate();
   const { loc, date, events } = useParams();
   const [uLocation, setuLocation] = useState(false);
@@ -66,6 +66,7 @@ function EventFinder({ Page }) {
   ]);
   const searchEvent = () => {
     navigate(`/events/${locationName}/${eventdate}/${ev}`)
+    SearchParamsSet()
   }
 
 useEffect(()=>{

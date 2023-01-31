@@ -98,7 +98,7 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
                 className="bg-saffron text-white rounded-lg w-[270px] md:w-40 h-12"
                 onClick={() => {
                   setLocationName(
-                    cityname + ", " + statename + ", " + countryname
+                    countryname + ", " + statename + ", " + cityname
                   );
                   setuLocation(false);
                 }}

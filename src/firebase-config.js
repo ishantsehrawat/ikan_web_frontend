@@ -8,12 +8,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCskvv7rKBHyWIXgz0J8-Jv4k6Tv0w3FIE",
-  authDomain: "ikan-47608.firebaseapp.com",
-  projectId: "ikan-47608",
-  storageBucket: "ikan-47608.appspot.com",
-  messagingSenderId: "996677061517",
-  appId: "1:996677061517:web:e375c92f61fde576108bc4",
+  apiKey: "AIzaSyDUOcWKpvVEnDuxEEAJ2N90FzuhIpwOR4s",
+  authDomain: "ikan-de46d.firebaseapp.com",
+  projectId: "ikan-de46d",
+  storageBucket: "ikan-de46d.appspot.com",
+  messagingSenderId: "691049986459",
+  appId: "1:691049986459:web:b5778d9572133839f8c93e"
 };
 
 // Initialize Firebase

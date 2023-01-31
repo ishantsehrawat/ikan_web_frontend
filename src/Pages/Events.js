@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import { query, collection, getDocs, where, onSnapshot } from "firebase/firestore";
 import { collection, getDocs} from "firebase/firestore";
+import { useLocation } from "react-router-dom";
 // import {useParams} from "react-router-dom"
 
 
@@ -10,10 +11,13 @@ import { db } from "../firebase-config"
 
 function Events() {
   const [eventArray, setEventArray] = useState([]);
-  // const [queryData, setQueryData] = useState([]);
-  // const eventRef = collection(db, "events");
-  // let fetchedData = [];
-
+  const location = useLocation()
+  const LocArr= location.pathname.split("/")
+  if(LocArr.length>2){
+    const LocationCorrect = LocArr[2].split("%20")
+    LocArr[2]=LocationCorrect.join(" ")
+  }
+  console.log(LocArr)
   // useEffect(() => {
   //   const fetchData = async () => {
   //     try {
@@ -72,7 +76,9 @@ function Events() {
       </div>
       <EventFinder Page="events" />
       <div className="pt-12 flex flex-col items-center">
-        {eventArray?.map((event) => (
+        {eventArray?.map((event) => {
+          if(LocArr.length===2){
+            return (
                 <EventTile key={event?.id}
                 image={event?.img}
                 title={event?.name}
@@ -82,7 +88,23 @@ function Events() {
                 description={event?.description}
                 type={event?.type}
                 />
-              ))}
+              )}
+            else{
+              if(LocArr[2]===(event?.Country+", "+event?.State+", "+event?.City)&&LocArr[3]===event?.date&&LocArr[4]===event?.type){
+                return (
+                <EventTile key={event?.id}
+                image={event?.img}
+                title={event?.name}
+                organisation={event?.host}
+                location={event?.Country+", "+event?.State+", "+event?.City}
+                date={event?.date}
+                description={event?.description}
+                type={event?.type}
+                />
+                )
+              }
+            }
+              })}
         
       </div>
       <Footer />

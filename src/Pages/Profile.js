@@ -42,9 +42,8 @@ function Profile() {
       setEventData(data.docs.map((doc) => ({ ...doc.data()})));
     };
     getAllEvents();
-    const events=eventData.filter(event=>event.host===user?.email)
-    setEventData(events)
-}, [user,eventData]);
+    
+}, []);
   async function editUser() {
     await updateDoc(doc(db, "users", user?.email), userData).then(() => {
       window.alert("User Updated Successfully");
@@ -168,8 +167,10 @@ function Profile() {
         </button>
       </div>
       <div className={(userData?.type === "organisation") ? "" : "hidden"}>
-      {eventData?.map((event) => (
-                <EventTile
+      {eventData?.map((event) =>{
+                if(event?.host===user?.email){
+                return (
+                <EventTile key={event?.name}
                 image={event?.img}
                 title={event?.name}
                 organisation={event?.host}
@@ -178,7 +179,7 @@ function Profile() {
                 description={event?.description}
                 type={event?.type}
                 />
-              ))}
+              )}})}
       </div>
       <Footer />
     </div>
