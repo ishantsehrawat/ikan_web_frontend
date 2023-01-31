@@ -4,6 +4,11 @@ import { event1 } from "../images";
 import { arrowup } from "../images/icons";
 
 function EventDetail() {
+  
+  const apply=()=>{
+    window.alert("Applied");
+  }
+
   return (
     <div className="bg-cgrey">
       <div className=" bg-eventDetail h-1/2 w-full p-10">
@@ -18,11 +23,11 @@ function EventDetail() {
       <div className="h-[50vh] w-full flex justify-center items-center">
         <div className="flex h-72 w-[1100px] justify-center">
           <div className="flex">
-            <div className="flex flex-col justify-between">
+            {/* <div className="flex flex-col justify-between">
               <img className="h-1/3 p-1 " src={event1} alt="event" />
               <img className="h-1/3 p-1 " src={event1} alt="event" />
               <img className="h-1/3 p-1 " src={event1} alt="event" />
-            </div>
+            </div> */}
             <img className="p-1" src={event1} alt="event" />
           </div>
           <div className="flex flex-col w-[500px] justify-between ml-5 my-5">
@@ -31,16 +36,16 @@ function EventDetail() {
                 <h2 className="text-xl font-semibold">
                   Food Distribution: Zero Hunger
                 </h2>
-                <p className="text-gray-500">Dwarka, Delhi</p>
+                <p className="text-gray-500">New Delhi, Delhi</p>
               </div>
-              <h4 className="text-sm text-gray-700">Drishti</h4>
+              <h4 className="text-sm text-gray-700">ishant@ikan.com</h4>
             </div>
             <div className="">
               <p className="text-gray-500">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna
                 in est adipiscing in phasellus non in justo.
               </p>
-              <p className="text-gray-500 mt-3">10-11-2022</p>
+              <p className="text-gray-500 mt-3">2023-02-04</p>
             </div>
             <div className="text-sm">
               <p>
@@ -57,6 +62,11 @@ function EventDetail() {
                 <span className="text-gray-500">@project_zero_hunger</span>
               </p>
             </div>
+            <button
+              onClick={apply}
+              className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black transition duration-500 hover:bg-white hover:text-black hover:b-2">
+              Apply
+            </button>
           </div>
         </div>
       </div>
