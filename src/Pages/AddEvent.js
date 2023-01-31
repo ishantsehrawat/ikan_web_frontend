@@ -50,7 +50,6 @@ function AddEvent() {
     //     };
     //     file && uploadFile();
     // },[file])
-
     useEffect(() => {
         const uploadFile = () => {
             const name = file.name + new Date().getTime();

@@ -43,7 +43,6 @@ function Events() {
     getAllEvents();
   }, []);
   // const param = useParams();
-
   // useEffect(() => {
   //   const getQueryUsers = async () => {
   //     // const data = await getDocs(collection(db, "events"));
@@ -74,7 +73,7 @@ function Events() {
       <EventFinder Page="events" />
       <div className="pt-12 flex flex-col items-center">
         {eventArray?.map((event) => (
-                <EventTile
+                <EventTile key={event?.id}
                 image={event?.img}
                 title={event?.name}
                 organisation={event?.host}

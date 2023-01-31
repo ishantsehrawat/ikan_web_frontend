@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDocs,collection,doc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../firebase-config";
-import { Navbar, Footer, EventList } from "../components";
+import { Navbar, Footer, EventTile } from "../components";
 
 function Profile() {
   const [userData, setUserData] = useState({});
+  const [eventData,setEventData] = useState([]);
   const user = auth.currentUser;
   const navigate = useNavigate();
 
@@ -33,13 +34,22 @@ function Profile() {
 
     getUser();
   }, [user])
-
+  useEffect(() => {
+    const getAllEvents = async () => {
+      const data = await getDocs(collection(db, "events"));
+      // const querySnapshot = await getDocs(query(collection(db, "event"), where("name", "==", "Daaru Donation")));
+      // setQueryData(querySnapshot.docs.map((doc)=>({...doc.data()})))
+      setEventData(data.docs.map((doc) => ({ ...doc.data()})));
+    };
+    getAllEvents();
+    const events=eventData.filter(event=>event.host===user?.email)
+    setEventData(events)
+}, [user,eventData]);
   async function editUser() {
     await updateDoc(doc(db, "users", user?.email), userData).then(() => {
       window.alert("User Updated Successfully");
     });
   }
-
   return (
     <div className="bg-cgrey">
       <div className=" bg-profileHeader h-[50vh] w-full p-10">
@@ -158,7 +168,17 @@ function Profile() {
         </button>
       </div>
       <div className={(userData?.type === "organisation") ? "" : "hidden"}>
-      <EventList />
+      {eventData?.map((event) => (
+                <EventTile
+                image={event?.img}
+                title={event?.name}
+                organisation={event?.host}
+                location={event?.Country+", "+event?.State+", "+event?.City}
+                date={event?.date}
+                description={event?.description}
+                type={event?.type}
+                />
+              ))}
       </div>
       <Footer />
     </div>

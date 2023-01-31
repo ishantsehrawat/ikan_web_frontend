@@ -64,7 +64,6 @@ function EventFinder({ Page }) {
       isChecked: false,
     },
   ]);
-
   const searchEvent = () => {
     navigate(`/events/${locationName}/${eventdate}/${ev}`)
   }
