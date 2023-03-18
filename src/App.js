@@ -16,7 +16,8 @@ import {
   Volunteers,
   VolunteerDetail,
   Verification,
-  OrganisationJoin
+  OrganisationJoin,
+  ComingSoon,
 } from "./Pages";
 
 function App() {
@@ -27,9 +28,9 @@ function App() {
     <Router>
       <div className="h-screen w-full bg-cgrey">
         <Routes>
-          <Route index element={!user ? <Login /> : <Home />} />
+          <Route index element={!user ? <Login /> : <ComingSoon />} />
           <Route path="register" element={<Register />} />
-          {user && (
+          {/* {user && (
             <>
               <Route path="events/:loc/:date/:events" element={<Events />} />
               <Route path="events" element={<Events />} />
@@ -39,13 +40,16 @@ function App() {
               <Route path="about" element={<About />} />
               <Route path="donate" element={<Donate />} />
               <Route path="organisations" element={<Organisations />} />
-              <Route path="organisation-detail" element={<OrganisationDetail />} />
-              <Route path="volunteers" element={<Volunteers/>} />
+              <Route
+                path="organisation-detail"
+                element={<OrganisationDetail />}
+              />
+              <Route path="volunteers" element={<Volunteers />} />
               <Route path="volunteer-detail" element={<VolunteerDetail />} />
               <Route path="verification" element={<Verification />} />
               <Route path="organisation-join" element={<OrganisationJoin />} />
             </>
-          )}
+          )} */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
