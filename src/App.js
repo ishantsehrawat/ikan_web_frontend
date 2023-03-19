@@ -22,7 +22,7 @@ import { auth } from "./firebase-config";
 //   ComingSoon,
 //   VerifyEmail,
 // } from "./Pages";
-import { Login, Register, ComingSoon, VerifyEmail } from "./Pages";
+import { Login, Register, ComingSoon, VerifyEmail, NotFound } from "./Pages";
 
 function App() {
   const user = localStorage.getItem("token");
@@ -55,13 +55,11 @@ function App() {
               <Route path="organisation-join" element={<OrganisationJoin />} />
             </>
           )} */}
-          {/* <Route
-            path="*"
-            element={userData?.emailVerified ? <NotFound /> : <VerifyEmail />}
-          /> */}
+
+          {/* <Route path="*" element={<NotFound />} /> */}
           <Route
             path="*"
-            element={userData?.emailVerified ? <ComingSoon /> : <VerifyEmail />}
+            element={userData?.emailVerified ? <NotFound /> : <VerifyEmail />}
           />
         </Routes>
       </div>
