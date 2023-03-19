@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithRedirect, getRedirectResult } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithRedirect,
+  getRedirectResult,
+  sendEmailVerification,
+} from "firebase/auth";
 import {
   doc,
   setDoc,
@@ -13,8 +18,6 @@ import { auth, db, provider } from "../firebase-config";
 import { logo } from "../images";
 import { google } from "../images/icons";
 //import GoogleIcon from '@mui/icons-material/Google';
-
-
 
 function Register() {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -42,15 +45,20 @@ function Register() {
         registerEmail,
         registerPassword
       );
-      console.log(res);
       const user = res.user;
-      console.log(user)
+      console.log(user);
+      await sendEmailVerification(res.user)
+        .then(() => {
+          window.alert("Verification email sent");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
       localStorage.setItem("token", JSON.stringify(user.uid));
       createUser(user, "local").then(() => {
         window.alert("user created successfully");
-        window.location.href = "/"
+        window.location.href = "/";
       });
-
     } catch (err) {
       console.log(err.message);
     }
@@ -76,9 +84,8 @@ function Register() {
   // };
 
   const signInWithGoogle = async () => {
-    signInWithRedirect(auth, provider)
-
-  }
+    signInWithRedirect(auth, provider);
+  };
 
   const getUser = async (registerEmail) => {
     const res = await getDocs(
@@ -86,7 +93,7 @@ function Register() {
     );
     console.log(res);
     return res;
-  }
+  };
 
   getRedirectResult(auth)
     .then(async (result) => {
@@ -100,35 +107,38 @@ function Register() {
       getUser(user?.email).then((res) => {
         console.log("res" + res.empty);
         if (res.empty) {
-          console.log("res empty")
+          console.log("res empty");
           createUser(user, user.providerId).then(() => {
             window.alert("user created successfully");
-
           });
         }
-      })
+      });
       localStorage.setItem("token", JSON.stringify(user?.uid));
       console.log(auth.currentUser);
-    }).then(() => {
+    })
+    .then(() => {
       window.location.href = "/";
-    }).catch((error) => {
+    })
+    .catch((error) => {
       // Handle Errors here.
       // const errorCode = error.code;
       // const errorMessage = error.message;
       // // The email of the user's account used.
       // const email = error.customData.email;
       // // The AuthCredential type that was used.
-      console.log(error.message)
+      console.log(error.message);
       // const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
     });
 
-
-
   return (
     <div className="h-full w-full ">
       {/* <div className="h-16 p-2"> */}
-      <img className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16" src={logo} alt="ikan" />
+      <img
+        className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16"
+        src={logo}
+        alt="ikan"
+      />
       {/* </div> */}
 
       <div className="flex h-full text-center flex-col md:flex-row items-center justify-center">
@@ -233,7 +243,9 @@ function Register() {
             </p>
           </div>
           <div>
-            <p className="mb-4 font-bold md:font-normal">Already have an account?</p>
+            <p className="mb-4 font-bold md:font-normal">
+              Already have an account?
+            </p>
             <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
               <a href="/">Login</a>
             </button>

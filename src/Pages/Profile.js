@@ -8,6 +8,7 @@ import { Navbar, Footer, EventList } from "../components";
 function Profile() {
   const [userData, setUserData] = useState({});
   const user = auth.currentUser;
+  console.log(user);
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -21,7 +22,7 @@ function Profile() {
       .catch((err) => console.log(err));
   };
 
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
@@ -29,10 +30,10 @@ function Profile() {
       const snapshots = await getDoc(colRef);
       const docs = snapshots.data();
       setUserData(docs);
-    }
+    };
 
     getUser();
-  }, [user])
+  }, [user]);
 
   async function editUser() {
     await updateDoc(doc(db, "users", user?.email), userData).then(() => {

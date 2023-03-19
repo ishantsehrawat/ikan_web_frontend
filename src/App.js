@@ -1,28 +1,33 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import {
-  Home,
-  Login,
-  Events,
-  EventDetail,
-  Profile,
-  About,
-  Register,
-  Donate,
-  NotFound,
-  AddEvent,
-  Organisations,
-  OrganisationDetail,
-  Volunteers,
-  VolunteerDetail,
-  Verification,
-  OrganisationJoin,
-  ComingSoon,
-} from "./Pages";
+import { auth } from "./firebase-config";
+
+// import {
+//   Home,
+//   Login,
+//   Events,
+//   EventDetail,
+//   Profile,
+//   About,
+//   Register,
+//   Donate,
+//   NotFound,
+//   AddEvent,
+//   Organisations,
+//   OrganisationDetail,
+//   Volunteers,
+//   VolunteerDetail,
+//   Verification,
+//   OrganisationJoin,
+//   ComingSoon,
+//   VerifyEmail,
+// } from "./Pages";
+import { Login, Register, ComingSoon, VerifyEmail } from "./Pages";
 
 function App() {
   const user = localStorage.getItem("token");
-  // console.log(user);
+  const userData = auth.currentUser;
+  console.log(userData);
 
   return (
     <Router>
@@ -30,7 +35,7 @@ function App() {
         <Routes>
           <Route index element={!user ? <Login /> : <ComingSoon />} />
           <Route path="register" element={<Register />} />
-          {/* {user && (
+          {/* {user && userData?.emailVerified && (
             <>
               <Route path="events/:loc/:date/:events" element={<Events />} />
               <Route path="events" element={<Events />} />
@@ -50,7 +55,14 @@ function App() {
               <Route path="organisation-join" element={<OrganisationJoin />} />
             </>
           )} */}
-          <Route path="*" element={<NotFound />} />
+          {/* <Route
+            path="*"
+            element={userData?.emailVerified ? <NotFound /> : <VerifyEmail />}
+          /> */}
+          <Route
+            path="*"
+            element={userData?.emailVerified ? <ComingSoon /> : <VerifyEmail />}
+          />
         </Routes>
       </div>
     </Router>
