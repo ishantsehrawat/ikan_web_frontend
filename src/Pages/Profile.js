@@ -28,6 +28,8 @@ function Profile() {
   };
 
   // getting user data from firestore
+  // console.log(userData);
+
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
     const getUser = async () => {
