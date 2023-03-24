@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import {
   getDocs,
@@ -17,6 +18,7 @@ import { google } from "../images/icons";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
   const userRef = collection(db, "users");
 
   const createUser = async (user, authprovider, checked) => {
@@ -39,7 +41,8 @@ function Login() {
         JSON.stringify(auth.currentUser.accessToken)
       );
       console.log(auth.currentUser);
-      window.location.reload();
+      // window.location.reload();
+      redirect("/");
     } catch (err) {
       console.log(err.message);
     }
@@ -56,7 +59,8 @@ function Login() {
       if (res.empty) {
         createUser(user.user, user.providerId, true);
       }
-      window.location.reload();
+      // window.location.reload();
+      redirect("/");
     } catch (err) {
       console.log(err.message);
     }
@@ -65,7 +69,11 @@ function Login() {
   return (
     <div className="h-full w-full ">
       {/* <div className="h-16 p-2"> */}
-        <img className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16" src={logo} alt="ikan" />
+      <img
+        className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16"
+        src={logo}
+        alt="ikan"
+      />
       {/* </div> */}
 
       <div className="flex h-full text-center flex-col-reverse md:flex-row items-center justify-center">
@@ -78,9 +86,11 @@ function Login() {
             </p>
           </div>
           <div>
-            <p className="mb-4 font-bold md:font-normal">Don't have an account?</p>
+            <p className="mb-4 font-bold md:font-normal">
+              Don't have an account?
+            </p>
             <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-              <a href="/register">Register</a>
+              <Link to="/register">Register</Link>
             </button>
           </div>
         </div>

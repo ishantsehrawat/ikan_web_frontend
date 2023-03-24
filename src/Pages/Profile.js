@@ -7,17 +7,21 @@ import { Navbar, Footer, EventList } from "../components";
 
 function Profile() {
   const [userData, setUserData] = useState({});
-  const user = auth.currentUser;
-  console.log(user);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  useEffect(() => {
+    const user = auth.currentUser;
+    console.log(user);
+    setUser(user);
+  }, []);
 
   const logout = async () => {
     await signOut(auth)
       .then(() => {
         console.log("sign out successful");
-        localStorage.removeItem("token");
+        localStorage.clear();
         navigate("/");
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((err) => console.log(err));
   };

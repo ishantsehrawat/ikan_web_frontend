@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { sendEmailVerification, sendSignInLinkToEmail } from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 
 import { auth } from "../firebase-config";
 import { Navbar, Footer } from "../components";
 
 export default function NotFound() {
-  // const [user, setuser] = useState({});
-  // useEffect(() => {
-  //   const res = auth.currentUser;
-  // }, [auth, user]);
-  const res = auth.currentUser;
-  console.log(auth.currentUser);
-  // console.log(user);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const res = auth.currentUser;
+    setUser(res);
+  }, []);
+
   const verify = async () => {
-    await sendEmailVerification(res)
+    await sendEmailVerification(user)
       .then(() => {
         window.alert("Verification email sent");
       })

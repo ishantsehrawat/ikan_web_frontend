@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { logo } from "../images";
 import { menu, close } from "../images/icons";
@@ -9,12 +10,12 @@ function Navbar({ Page }) {
     <div>
       {/* big navbar */}
       <div className="hidden md:h-16 md:w-auto z-20 rounded-lg md:flex justify-between items-center p-2 bg-white">
-        <a href="/">
+        <Link to="/">
           <img className="h-12 w-auto pl-4 " src={logo} alt="ikan" />
-        </a>
+        </Link>
         <div className="h-full w-96 text-lg  flex justify-between">
-          <a
-            href="/"
+          <Link
+            to="/"
             className={
               Page === "home"
                 ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
@@ -22,9 +23,9 @@ function Navbar({ Page }) {
             }
           >
             Home
-          </a>
-          <a
-            href="/about"
+          </Link>
+          <Link
+            to="/about"
             className={
               Page === "about"
                 ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
@@ -32,9 +33,9 @@ function Navbar({ Page }) {
             }
           >
             About Us
-          </a>
-          <a
-            href="profile"
+          </Link>
+          <Link
+            to="/profile"
             className={
               Page === "profile"
                 ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
@@ -42,10 +43,10 @@ function Navbar({ Page }) {
             }
           >
             Profile
-          </a>
+          </Link>
         </div>
-        <a
-          href="/events"
+        <Link
+          to="/events"
           className={
             Page === "events"
               ? "h-full w-36 bg-white text-black rounded-md flex justify-center items-center border-2 border-black "
@@ -53,7 +54,7 @@ function Navbar({ Page }) {
           }
         >
           Events
-        </a>
+        </Link>
       </div>
       {/* small navbar */}
       <div className="md:hidden z-10 h-12 rounded-lg w-full bg-white flex justify-center items-center">
@@ -76,10 +77,10 @@ function Navbar({ Page }) {
             alt="menu"
           />
           <div className="absolute h-full text-2xl flex flex-col left-12 justify-center gap-4">
-            <a href="/">Home</a>
-            <a href="/about">About Us</a>
-            <a href="/profile">Profile</a>
-            <a href="/events">Events</a>
+            <Link to="/">Home</Link>
+            <Link to="/about">About Us</Link>
+            <Link to="/profile">Profile</Link>
+            <Link to="/events">Events</Link>
           </div>
         </div>
       ) : null}
