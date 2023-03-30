@@ -19,6 +19,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const userRef = collection(db, "users");
 
+  // creating user in firestore
   const createUser = async (user, authprovider, checked) => {
     await setDoc(doc(userRef, user.email), {
       name: user?.displayName,
@@ -31,6 +32,7 @@ function Login() {
     });
   };
 
+  // login with email and password
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -44,6 +46,7 @@ function Login() {
     }
   };
 
+  // login with google
   const signInWithGoogle = async () => {
     try {
       const user = await signInWithPopup(auth, provider);

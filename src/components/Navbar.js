@@ -69,7 +69,7 @@ function Navbar({ Page }) {
 
       {/* small navbar menu */}
       {open ? (
-        <div className="md:hidden h-full w-screen bg-white absolute -ml-4 top-0">
+        <div className="z-30 md:hidden h-full w-screen bg-white absolute -ml-4 top-0">
           <img
             className="h-7 absolute top-6 right-8 w-auto"
             src={close}

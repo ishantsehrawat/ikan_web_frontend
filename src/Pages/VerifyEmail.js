@@ -6,11 +6,14 @@ import { Navbar, Footer } from "../components";
 
 export default function NotFound() {
   const [user, setUser] = useState(null);
+
+  // getting user data on page load
   useEffect(() => {
     const res = auth.currentUser;
     setUser(res);
   }, []);
 
+  // logout function
   const verify = async () => {
     await sendEmailVerification(user)
       .then(() => {

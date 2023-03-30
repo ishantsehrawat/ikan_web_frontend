@@ -9,6 +9,7 @@ function EventOverlay({
   check,
   setev,
 }) {
+  // update event type
   const updateArray = (id) => {
     const newArray = [...check];
     newArray[id - 1] = !newArray[id - 1];

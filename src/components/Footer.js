@@ -5,6 +5,7 @@ import { insta, linkedin } from "../images/icons";
 import { logoOrange } from "../images";
 
 function Footer({ Page }) {
+  // logout function
   const logout = async () => {
     await signOut(auth)
       .then(() => {

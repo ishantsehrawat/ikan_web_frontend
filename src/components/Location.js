@@ -9,13 +9,9 @@ function Countrystatecity({ uLocation, setLocationName, setuLocation }) {
   const [statename, setstatename] = useState("Delhi");
   const [cityname, setcityname] = useState("New Delhi");
 
+  // getting state and city based on country
   const st = state.filter((st) => st.country_id === countryid);
   const ct = city.filter((ct) => ct.state_id === stateid);
-
-  //   const handleClick = () => {
-  //     setLocationName(countryname + ", " + statename + ", " + cityname);
-  //     setuLocation(false);
-  //   };
 
   return (
     <div

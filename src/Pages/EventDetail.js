@@ -12,6 +12,7 @@ function EventDetail() {
   const [event, setEvent] = useState({});
   const [hostData, setHostData] = useState({});
 
+  // fetching events on page load
   useEffect(() => {
     const colRef = doc(db, "events", String(eid));
     const getEvent = async () => {

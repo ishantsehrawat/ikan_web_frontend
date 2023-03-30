@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc, setDoc, collection } from "firebase/firestore";
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadTask,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 import { auth, db, storage } from "../firebase-config";
 import { Navbar, Footer, OverlayBackground } from "../components";
@@ -26,9 +20,11 @@ function AddEvent() {
   });
   const user = auth.currentUser;
 
+  // getting location data
   const st = state.filter((st) => st.country_id === countryid);
   const ct = city.filter((ct) => ct.state_id === stateid);
 
+  // getting user data
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
     const getUser = async () => {
@@ -42,22 +38,7 @@ function AddEvent() {
     getUser();
   }, [user]);
 
-  // useEffect(()=>{
-  //     const uploadFile = () => {
-  //         const name = file.name + new Date().getTime();
-  //         const storageRef = ref(storage, name);
-  //         // const uploadTask = uploadBytesResumable(storageRef, file);
-  //         uploadBytes(storageRef, file).then((snapshot) => {
-  //             console.log('Uploaded a blob or file!');
-  //         });
-  //         () => {
-  //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-  //                 setEventData((prev) => ({ ...prev, img: downloadURL }));
-  //             });
-  //         }
-  //     };
-  //     file && uploadFile();
-  // },[file])
+  // uploading image to firebase storage
   useEffect(() => {
     const uploadFile = () => {
       const name = file.name + new Date().getTime();
@@ -69,18 +50,7 @@ function AddEvent() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          // console.log("Upload is " + progress + "% done");
           setPerc(progress);
-          // switch (snapshot.state) {
-          //     case "paused":
-          //         console.log("Upload is paused");
-          //         break;
-          //     case "running":
-          //         console.log("Upload is running");
-          //         break;
-          //     default:
-          //         break;
-          // }
         },
         (error) => {
           console.log(error);
@@ -97,10 +67,9 @@ function AddEvent() {
   }, [file]);
 
   console.log(perc);
+
+  // adding event to firebase firestore
   const eventRef = collection(db, "events");
-
-  const addData = () => {};
-
   const addEvent = async () => {
     const eid = eventData.name + "@" + new Date().getTime();
     await setDoc(doc(eventRef, eid), eventData)
@@ -111,18 +80,6 @@ function AddEvent() {
         console.log(err.message);
       });
   };
-
-  // const setData = async (eventData) => {
-  //   await setDoc(doc(eventRef, eventData.eid), eventData)
-  //     .then(() => {
-  //       window.alert("Event Updated Successfully");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // };
-
-  console.log(eventData);
 
   return (
     <div className="bg-cgrey">
@@ -324,7 +281,7 @@ function AddEvent() {
             onClick={() => addEvent()}
             className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
           >
-            Edit
+            Createkaam
           </button>
         </div>
       )}

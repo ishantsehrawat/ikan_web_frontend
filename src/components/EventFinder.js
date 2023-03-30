@@ -73,10 +73,12 @@ function EventFinder({ Page }) {
     },
   ]);
 
+  // search event
   const searchEvent = () => {
     navigate(`/events/${locationName}/${eventdate}/${ev}`);
   };
 
+  // update event type
   useEffect(() => {
     const handleAddEvents = (number) => {
       if (!number) {
@@ -93,6 +95,7 @@ function EventFinder({ Page }) {
     }
   }, [eventTypeID]);
 
+  // update location
   useEffect(() => {
     if (date) {
       setDate(date);

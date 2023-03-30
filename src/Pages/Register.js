@@ -24,6 +24,7 @@ function Register() {
 
   const userRef = collection(db, "users");
 
+  // creating user in firestore
   const createUser = async (user, authprovider) => {
     await setDoc(doc(userRef, user?.email), {
       name: user?.displayName,
@@ -36,6 +37,7 @@ function Register() {
     });
   };
 
+  // login with email and password
   const userRegistration = async () => {
     try {
       const res = await createUserWithEmailAndPassword(
@@ -61,10 +63,12 @@ function Register() {
     }
   };
 
+  // login with google
   const signInWithGoogle = async () => {
     signInWithRedirect(auth, provider);
   };
 
+  // get user from firestore
   const getUser = async (registerEmail) => {
     const res = await getDocs(
       query(collection(db, "users"), where("email", "==", registerEmail))
@@ -72,6 +76,7 @@ function Register() {
     return res;
   };
 
+  // get user from firestore
   getRedirectResult(auth)
     .then(async (result) => {
       const user = result.user;
@@ -89,7 +94,9 @@ function Register() {
     .then(() => {
       window.location.href = "/";
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.log(error.message);
+    });
 
   return (
     <div className="h-full w-full ">
