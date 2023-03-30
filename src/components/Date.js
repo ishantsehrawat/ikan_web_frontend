@@ -5,7 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 
 function Date({ uDate, setDate, setuDate }) {
-  //   console.log(uDate);
+  // handling date change
   const handleDateChange = (date) => {
     const formatteddate = dayjs(date).format("YYYY-MM-DD");
     setDate(formatteddate);

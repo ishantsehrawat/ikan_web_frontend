@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { createUserWithEmailAndPassword, signInWithRedirect, getRedirectResult } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithRedirect,
+  getRedirectResult,
+  sendEmailVerification,
+} from "firebase/auth";
 import {
   doc,
   setDoc,
@@ -12,17 +17,14 @@ import { auth, db, provider } from "../firebase-config";
 
 import { logo } from "../images";
 import { google } from "../images/icons";
-//import GoogleIcon from '@mui/icons-material/Google';
-
-
 
 function Register() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  // const [checked, setChecked] = useState(true);
 
   const userRef = collection(db, "users");
 
+  // creating user in firestore
   const createUser = async (user, authprovider) => {
     await setDoc(doc(userRef, user?.email), {
       name: user?.displayName,
@@ -35,6 +37,7 @@ function Register() {
     });
   };
 
+  // login with email and password
   const userRegistration = async () => {
     try {
       const res = await createUserWithEmailAndPassword(
@@ -42,93 +45,67 @@ function Register() {
         registerEmail,
         registerPassword
       );
-      console.log(res);
       const user = res.user;
-      console.log(user)
+      await sendEmailVerification(res.user)
+        .then(() => {
+          window.alert("Verification email sent");
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
       localStorage.setItem("token", JSON.stringify(user.uid));
       createUser(user, "local").then(() => {
         window.alert("user created successfully");
-        window.location.href = "/"
+        window.location.href = "/";
       });
-
     } catch (err) {
       console.log(err.message);
     }
   };
 
-  // const signInWithGoogle = async () => {
-  //   try {
-  //     const user = await signInWithRedirect(auth, provider);
-  // const res = await getDocs(
-  //   query(collection(db, "users"), where("email", "==", user.user.email))
-  // );
-  // localStorage.setItem("token", JSON.stringify(user.user.uid));
-  // console.log(auth.currentUser);
-  // console.log("res" + res);
-  // if (res.empty) {
-  //   createUser(user.user, user.providerId);
-  // }
-  //     // navigate('/');
-  //     // window.location.reload();
-  //   } catch (err) {
-  //     window.alert(err.message);
-  //   }
-  // };
-
+  // login with google
   const signInWithGoogle = async () => {
-    signInWithRedirect(auth, provider)
+    signInWithRedirect(auth, provider);
+  };
 
-  }
-
+  // get user from firestore
   const getUser = async (registerEmail) => {
     const res = await getDocs(
       query(collection(db, "users"), where("email", "==", registerEmail))
     );
-    console.log(res);
     return res;
-  }
+  };
 
+  // get user from firestore
   getRedirectResult(auth)
     .then(async (result) => {
-      // This gives you a Google Access Token. You can use it to access Google APIs.
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-
-      // The signed-in user info.
       const user = result.user;
-      console.log(user);
       getUser(user?.email).then((res) => {
         console.log("res" + res.empty);
         if (res.empty) {
-          console.log("res empty")
+          console.log("res empty");
           createUser(user, user.providerId).then(() => {
             window.alert("user created successfully");
-
           });
         }
-      })
+      });
       localStorage.setItem("token", JSON.stringify(user?.uid));
-      console.log(auth.currentUser);
-    }).then(() => {
+    })
+    .then(() => {
       window.location.href = "/";
-    }).catch((error) => {
-      // Handle Errors here.
-      // const errorCode = error.code;
-      // const errorMessage = error.message;
-      // // The email of the user's account used.
-      // const email = error.customData.email;
-      // // The AuthCredential type that was used.
-      console.log(error.message)
-      // const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
+    })
+    .catch((error) => {
+      console.log(error.message);
     });
-
-
 
   return (
     <div className="h-full w-full ">
       {/* <div className="h-16 p-2"> */}
-      <img className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16" src={logo} alt="ikan" />
+      <img
+        className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16"
+        src={logo}
+        alt="ikan"
+      />
       {/* </div> */}
 
       <div className="flex h-full text-center flex-col md:flex-row items-center justify-center">
@@ -233,7 +210,9 @@ function Register() {
             </p>
           </div>
           <div>
-            <p className="mb-4 font-bold md:font-normal">Already have an account?</p>
+            <p className="mb-4 font-bold md:font-normal">
+              Already have an account?
+            </p>
             <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
               <a href="/">Login</a>
             </button>

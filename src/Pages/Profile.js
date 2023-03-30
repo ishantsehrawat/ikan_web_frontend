@@ -7,33 +7,39 @@ import { Navbar, Footer, EventList } from "../components";
 
 function Profile() {
   const [userData, setUserData] = useState({});
-  const user = auth.currentUser;
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  // getting user data on page load
+  useEffect(() => {
+    const user = auth.currentUser;
+    setUser(user);
+  }, []);
+
+  // logout function
   const logout = async () => {
     await signOut(auth)
       .then(() => {
         console.log("sign out successful");
-        localStorage.removeItem("token");
+        localStorage.clear();
         navigate("/");
-        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
 
-  console.log(userData);
-
+  // getting user data from firestore
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
     const getUser = async () => {
       const snapshots = await getDoc(colRef);
       const docs = snapshots.data();
       setUserData(docs);
-    }
+    };
 
     getUser();
-  }, [user])
+  }, [user]);
 
+  // updating user data
   async function editUser() {
     await updateDoc(doc(db, "users", user?.email), userData).then(() => {
       window.alert("User Updated Successfully");
@@ -157,7 +163,12 @@ function Profile() {
           Edit
         </button>
       </div>
-      <EventList />
+      {userData?.type === "organisation" ? (
+        <EventList />
+      ) : (
+        <div className="pt-10"></div>
+      )}
+      {/* <EventList /> */}
       <Footer />
     </div>
   );

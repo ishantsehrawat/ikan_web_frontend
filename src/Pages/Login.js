@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, redirect } from "react-router-dom";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import {
   getDocs,
@@ -12,13 +13,13 @@ import {
 import { auth, db, provider } from "../firebase-config";
 import { logo } from "../images";
 import { google } from "../images/icons";
-//import GoogleIcon from '@mui/icons-material/Google';
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const userRef = collection(db, "users");
 
+  // creating user in firestore
   const createUser = async (user, authprovider, checked) => {
     await setDoc(doc(userRef, user.email), {
       name: user?.displayName,
@@ -31,6 +32,7 @@ function Login() {
     });
   };
 
+  // login with email and password
   const login = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -38,13 +40,13 @@ function Login() {
         "token",
         JSON.stringify(auth.currentUser.accessToken)
       );
-      console.log(auth.currentUser);
-      window.location.reload();
+      redirect("/");
     } catch (err) {
       console.log(err.message);
     }
   };
 
+  // login with google
   const signInWithGoogle = async () => {
     try {
       const user = await signInWithPopup(auth, provider);
@@ -52,11 +54,10 @@ function Login() {
         query(collection(db, "users"), where("email", "==", user.user.email))
       );
       localStorage.setItem("token", JSON.stringify(user.user.uid));
-      console.log(auth.currentUser);
       if (res.empty) {
         createUser(user.user, user.providerId, true);
       }
-      window.location.reload();
+      redirect("/");
     } catch (err) {
       console.log(err.message);
     }
@@ -64,9 +65,11 @@ function Login() {
 
   return (
     <div className="h-full w-full ">
-      {/* <div className="h-16 p-2"> */}
-        <img className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16" src={logo} alt="ikan" />
-      {/* </div> */}
+      <img
+        className="absolute h-10 md:h-12 w-auto top-12 left-6 md:left-16"
+        src={logo}
+        alt="ikan"
+      />
 
       <div className="flex h-full text-center flex-col-reverse md:flex-row items-center justify-center">
         <div className="md:h-full md:w-full flex flex-col justify-center items-center mt-20 md:mt-0">
@@ -78,9 +81,11 @@ function Login() {
             </p>
           </div>
           <div>
-            <p className="mb-4 font-bold md:font-normal">Don't have an account?</p>
+            <p className="mb-4 font-bold md:font-normal">
+              Don't have an account?
+            </p>
             <button className="bg-transparent hover:bg-saffron text-black font-semibold hover:text-white py-2 px-4 border border-black hover:border-transparent rounded">
-              <a href="/register">Register</a>
+              <Link to="/register">Register</Link>
             </button>
           </div>
         </div>

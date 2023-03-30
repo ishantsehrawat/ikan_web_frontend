@@ -1,43 +1,90 @@
 import React, { useEffect, useState } from "react";
-import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";  
-
+import { useParams } from "react-router-dom";
+import {
+  query,
+  orderBy,
+  collection,
+  getDocs,
+  where,
+  and,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
 
 import { Navbar, EventFinder, EventTile, Footer } from "../components";
-import {db} from "../firebase-config"
-import { event1 } from "../images";
 
 function Events() {
-  const [eventArray, setEventArray] =  useState([]);
   const eventRef = collection(db, "events");
-  let fetchedData = [];
+  const [events, setevents] = useState([]);
+  const { loc, date, eventTypeID } = useParams();
 
-  useEffect(()=>{
-    fetchData()
-  },[])
+  // fetching events on page load
+  useEffect(() => {
+    eventTypeID === undefined ? fetchData() : getEvent();
+  }, [eventTypeID]);
 
-    const fetchData = async () => {
-      try {
-        const q = query(eventRef, orderBy("name"));
-        const querySnapshot = await getDocs(q);
-        // querySnapshot.forEach((doc) => {
-        //   data.push(doc.data());
-        // });
-        // console.log(data);
-        if (querySnapshot.docs) {
-          querySnapshot.docs.forEach((doc) => {
-              fetchedData.push(doc.data());
-          });
-          console.log(fetchedData)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  // creating eventType array from eventTypeID
+  if (eventTypeID !== undefined) {
+    var type = [];
+    var digits = eventTypeID.toString().split("");
+    type = digits.map(String);
+    if (type[0] === "0") {
+      type = ["1", "2", "3", "4", "5", "6", "7"];
     }
-    fetchData();
+  }
 
-useEffect(()=>{
-  // setEventArray(fetchedData);
-})
+  // splitting location into city, state and country
+  var city;
+  var state;
+  var country;
+  if (loc !== undefined) {
+    city = loc.split(", ")[0];
+    state = loc.split(", ")[1];
+    country = loc.split(", ")[2];
+  }
+
+  // fetching all events
+  async function fetchData() {
+    try {
+      const q = query(eventRef, orderBy("name"));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.docs) {
+        const data = [];
+        querySnapshot.docs.forEach((doc) => {
+          let event = doc.data();
+          event.eid = doc.id;
+          data.push(event);
+        });
+        setevents(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // fetching events based on search parameters
+  async function getEvent() {
+    const q = query(
+      eventRef,
+      and(
+        where("type", "in", type),
+        where("date", "==", date),
+        where("City", "==", city),
+        where("State", "==", state),
+        where("Country", "==", country)
+      )
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs) {
+      const data = [];
+      querySnapshot.docs.forEach((doc) => {
+        let event = doc.data();
+        event.eid = doc.id;
+        data.push(event);
+      });
+      setevents(data);
+    }
+  }
 
   return (
     <div className="bg-cgrey">
@@ -46,52 +93,17 @@ useEffect(()=>{
         <div className="mt-20 text-white md:mt-28 ml-5 mb-10">
           <h1 className="text-4xl font-bold mb-3">Events</h1>
           <p>
-          Discover volunteer opportunities that match your interests and availability. Join us and make a difference.
+            Discover volunteer opportunities that match your interests and
+            availability. Join us and make a difference.
           </p>
         </div>
       </div>
       <EventFinder Page="events" />
+      <p className="text-gray-400 pt-10 pl-20">{events.length} events found</p>
       <div className="pt-12 flex flex-col items-center">
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
+        {events.map((event) => (
+          <EventTile key={event.eid} event={event} />
+        ))}
       </div>
       <Footer />
     </div>
