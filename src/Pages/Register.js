@@ -17,12 +17,10 @@ import { auth, db, provider } from "../firebase-config";
 
 import { logo } from "../images";
 import { google } from "../images/icons";
-//import GoogleIcon from '@mui/icons-material/Google';
 
 function Register() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  // const [checked, setChecked] = useState(true);
 
   const userRef = collection(db, "users");
 
@@ -46,7 +44,6 @@ function Register() {
         registerPassword
       );
       const user = res.user;
-      console.log(user);
       await sendEmailVerification(res.user)
         .then(() => {
           window.alert("Verification email sent");
@@ -64,25 +61,6 @@ function Register() {
     }
   };
 
-  // const signInWithGoogle = async () => {
-  //   try {
-  //     const user = await signInWithRedirect(auth, provider);
-  // const res = await getDocs(
-  //   query(collection(db, "users"), where("email", "==", user.user.email))
-  // );
-  // localStorage.setItem("token", JSON.stringify(user.user.uid));
-  // console.log(auth.currentUser);
-  // console.log("res" + res);
-  // if (res.empty) {
-  //   createUser(user.user, user.providerId);
-  // }
-  //     // navigate('/');
-  //     // window.location.reload();
-  //   } catch (err) {
-  //     window.alert(err.message);
-  //   }
-  // };
-
   const signInWithGoogle = async () => {
     signInWithRedirect(auth, provider);
   };
@@ -91,19 +69,12 @@ function Register() {
     const res = await getDocs(
       query(collection(db, "users"), where("email", "==", registerEmail))
     );
-    console.log(res);
     return res;
   };
 
   getRedirectResult(auth)
     .then(async (result) => {
-      // This gives you a Google Access Token. You can use it to access Google APIs.
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
-      // const token = credential.accessToken;
-
-      // The signed-in user info.
       const user = result.user;
-      console.log(user);
       getUser(user?.email).then((res) => {
         console.log("res" + res.empty);
         if (res.empty) {
@@ -114,22 +85,11 @@ function Register() {
         }
       });
       localStorage.setItem("token", JSON.stringify(user?.uid));
-      console.log(auth.currentUser);
     })
     .then(() => {
       window.location.href = "/";
     })
-    .catch((error) => {
-      // Handle Errors here.
-      // const errorCode = error.code;
-      // const errorMessage = error.message;
-      // // The email of the user's account used.
-      // const email = error.customData.email;
-      // // The AuthCredential type that was used.
-      console.log(error.message);
-      // const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+    .catch((error) => {});
 
   return (
     <div className="h-full w-full ">

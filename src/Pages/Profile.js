@@ -9,9 +9,9 @@ function Profile() {
   const [userData, setUserData] = useState({});
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  console.log(userData);
   useEffect(() => {
     const user = auth.currentUser;
-    console.log(user);
     setUser(user);
   }, []);
 
@@ -21,12 +21,9 @@ function Profile() {
         console.log("sign out successful");
         localStorage.clear();
         navigate("/");
-        // window.location.reload();
       })
       .catch((err) => console.log(err));
   };
-
-  // console.log(userData);
 
   useEffect(() => {
     const colRef = doc(db, "users", String(user?.email));
@@ -162,7 +159,12 @@ function Profile() {
           Edit
         </button>
       </div>
-      <EventList />
+      {userData?.type === "organisation" ? (
+        <EventList />
+      ) : (
+        <div className="pt-10"></div>
+      )}
+      {/* <EventList /> */}
       <Footer />
     </div>
   );

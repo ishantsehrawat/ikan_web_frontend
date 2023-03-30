@@ -1,29 +1,90 @@
-import React from "react";
-import { query, orderBy, collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import {
+  query,
+  orderBy,
+  collection,
+  getDocs,
+  where,
+  and,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
 
 import { Navbar, EventFinder, EventTile, Footer } from "../components";
-import { db } from "../firebase-config";
-import { event1 } from "../images";
 
 function Events() {
   const eventRef = collection(db, "events");
-  let fetchedData = [];
+  const [events, setevents] = useState([]);
+  const { loc, date, eventTypeID } = useParams();
 
-  const fetchData = async () => {
+  // fetching events on page load
+  useEffect(() => {
+    eventTypeID === undefined ? fetchData() : getEvent();
+  }, [eventTypeID]);
+
+  // creating eventType array from eventTypeID
+  if (eventTypeID !== undefined) {
+    var type = [];
+    var digits = eventTypeID.toString().split("");
+    type = digits.map(String);
+    if (type[0] === "0") {
+      type = ["1", "2", "3", "4", "5", "6", "7"];
+    }
+  }
+
+  // splitting location into city, state and country
+  var city;
+  var state;
+  var country;
+  if (loc !== undefined) {
+    city = loc.split(", ")[0];
+    state = loc.split(", ")[1];
+    country = loc.split(", ")[2];
+  }
+
+  // fetching all events
+  async function fetchData() {
     try {
       const q = query(eventRef, orderBy("name"));
       const querySnapshot = await getDocs(q);
       if (querySnapshot.docs) {
+        const data = [];
         querySnapshot.docs.forEach((doc) => {
-          fetchedData.push(doc.data());
+          let event = doc.data();
+          event.eid = doc.id;
+          data.push(event);
         });
-        console.log(fetchedData);
+        setevents(data);
       }
     } catch (error) {
       console.log(error);
     }
-  };
-  fetchData();
+  }
+
+  // fetching events based on search parameters
+  async function getEvent() {
+    const q = query(
+      eventRef,
+      and(
+        where("type", "in", type),
+        where("date", "==", date),
+        where("City", "==", city),
+        where("State", "==", state),
+        where("Country", "==", country)
+      )
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs) {
+      const data = [];
+      querySnapshot.docs.forEach((doc) => {
+        let event = doc.data();
+        event.eid = doc.id;
+        data.push(event);
+      });
+      setevents(data);
+    }
+  }
 
   return (
     <div className="bg-cgrey">
@@ -38,47 +99,11 @@ function Events() {
         </div>
       </div>
       <EventFinder Page="events" />
+      <p className="text-gray-400 pt-10 pl-20">{events.length} events found</p>
       <div className="pt-12 flex flex-col items-center">
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
-        <EventTile
-          image={event1}
-          title="Food Distribution: Zero Hunger"
-          organisation="Drishti"
-          location="Dwarka, Delhi"
-          date="10-11-2022"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Magna in est adipiscing in phasellus non in justo."
-        />
+        {events.map((event) => (
+          <EventTile key={event.eid} event={event} />
+        ))}
       </div>
       <Footer />
     </div>

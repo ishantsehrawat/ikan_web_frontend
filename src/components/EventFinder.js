@@ -18,7 +18,7 @@ const today = `${year}${separator}${
 
 function EventFinder({ Page }) {
   const navigate = useNavigate();
-  const { loc, date, events } = useParams();
+  const { loc, date, eventTypeID } = useParams();
   const [uLocation, setuLocation] = useState(false);
   const [locationName, setLocationName] = useState("New Delhi, Delhi, India");
   const [uDate, setuDate] = useState(false);
@@ -88,10 +88,10 @@ function EventFinder({ Page }) {
         setEventArray(eventIds);
       }
     };
-    if (events) {
-      handleAddEvents(events);
+    if (eventTypeID) {
+      handleAddEvents(eventTypeID);
     }
-  }, [events]);
+  }, [eventTypeID]);
 
   useEffect(() => {
     if (date) {

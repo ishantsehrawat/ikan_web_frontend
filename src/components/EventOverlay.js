@@ -1,14 +1,20 @@
 import React from "react";
 
-function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, check, setev }) {
-
+function EventOverlay({
+  uEvent,
+  setuEvent,
+  eventType,
+  setEventType,
+  setcheck,
+  check,
+  setev,
+}) {
   const updateArray = (id) => {
     const newArray = [...check];
-    newArray[id-1] = !newArray[id-1];
-    setev(prev => prev*10+id)
-    setcheck(newArray)
-  }
-
+    newArray[id - 1] = !newArray[id - 1];
+    setev((prev) => prev * 10 + id);
+    setcheck(newArray);
+  };
 
   return (
     <div
@@ -20,15 +26,13 @@ function EventOverlay({ uEvent, setuEvent, eventType, setEventType, setcheck, ch
     >
       <div className="py-1 h-auto w-full">
         {eventType.map((et) => (
-          <div className="py-1">
+          <div className="py-1" key={et.id}>
             <input
               type="checkbox"
               className="mr-2"
               name={et.type}
               value={et.id}
-              onChange={(e) =>
-                updateArray(et.id)
-              }
+              onChange={(e) => updateArray(et.id)}
             />
             <label>{et.type}</label>
           </div>
