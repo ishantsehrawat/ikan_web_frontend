@@ -36,13 +36,17 @@ function App() {
     });
   }, []);
   return (
-    <div className="h-screen w-full bg-cgrey">
+    <div className="h-screen w-full">
       <Routes>
         <Route index element={!user ? <Login /> : <Home />} />
         <Route path="register" element={<Register />} />
         {user && userData?.emailVerified && (
           <>
-            <Route path="events/:loc/:date/:eventTypeID" element={<Events />} />
+            {/* <Route path="events/:loc/:date/:eventTypeID" element={<Events />} /> */}
+            <Route
+              path="events/:city/:state/:country/:date/:eventTypeID"
+              element={<Events />}
+            />
             <Route path="events" element={<Events />} />
             <Route path="event-detail/:eid" element={<EventDetail />} />
             <Route path="add-event" element={<AddEvent />} />
