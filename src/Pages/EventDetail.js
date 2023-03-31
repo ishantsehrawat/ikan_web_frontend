@@ -157,7 +157,7 @@ function EventDetail() {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer Page="notfound" />
     </div>
   );
 }

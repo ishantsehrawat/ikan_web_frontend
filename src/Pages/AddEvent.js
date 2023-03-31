@@ -139,7 +139,7 @@ function AddEvent() {
               </label>
               <label className="flex flex-col gap-1 w-full">
                 <span className="text-textblue font-semibold text-lg">
-                  Event Pictures:
+                  Event Picture:
                 </span>
                 <input
                   className="border-2 rounded-lg h-10 w-full p-1"
@@ -281,7 +281,7 @@ function AddEvent() {
             onClick={() => addEvent()}
             className="h-12 mt-5 mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
           >
-            Createkaam
+            Create Event
           </button>
         </div>
       )}
