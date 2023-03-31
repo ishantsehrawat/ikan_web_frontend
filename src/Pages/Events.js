@@ -10,37 +10,36 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 
-import { Navbar, EventFinder, EventTile, Footer } from "../components";
+import {
+  Navbar,
+  EventFinder,
+  EventTile,
+  Footer,
+  EventSearch,
+} from "../components";
 
 function Events() {
   const eventRef = collection(db, "events");
   const [events, setevents] = useState([]);
-  const { loc, date, eventTypeID } = useParams();
+  const { city, state, country, date, eventTypeID } = useParams();
 
   // fetching events on page load
   useEffect(() => {
     eventTypeID === undefined ? fetchData() : getEvent();
   }, [eventTypeID]);
 
-  // creating eventType array from eventTypeID
-  if (eventTypeID !== undefined) {
-    var type = [];
-    var digits = eventTypeID.toString().split("");
-    type = digits.map(String);
-    if (type[0] === "0") {
-      type = ["1", "2", "3", "4", "5", "6", "7"];
-    }
-  }
+  // creating eventTypeIDArray from eventTypeIDString
+  const eventTypeIDArray = eventTypeID?.split(",");
 
   // splitting location into city, state and country
-  var city;
-  var state;
-  var country;
-  if (loc !== undefined) {
-    city = loc.split(", ")[0];
-    state = loc.split(", ")[1];
-    country = loc.split(", ")[2];
-  }
+  // var city;
+  // var state;
+  // var country;
+  // if (loc !== undefined) {
+  //   city = loc.split(", ")[0];
+  //   state = loc.split(", ")[1];
+  //   country = loc.split(", ")[2];
+  // }
 
   // fetching all events
   async function fetchData() {
@@ -66,7 +65,7 @@ function Events() {
     const q = query(
       eventRef,
       and(
-        where("type", "in", type),
+        where("type", "in", eventTypeIDArray),
         where("date", "==", date),
         where("City", "==", city),
         where("State", "==", state),
@@ -98,12 +97,17 @@ function Events() {
           </p>
         </div>
       </div>
-      <EventFinder Page="events" />
-      <p className="text-gray-400 pt-10 pl-20">{events.length} events found</p>
-      <div className="pt-12 flex flex-col items-center">
-        {events.map((event) => (
-          <EventTile key={event.eid} event={event} />
-        ))}
+      {/* <EventFinder Page="events" /> */}
+      <div className="px-10">
+        <EventSearch page="events" />
+        <p className="text-gray-400 pt-10 pl-20">
+          {events.length} events found
+        </p>
+        <div className="pt-12 flex flex-col items-center">
+          {events.map((event) => (
+            <EventTile key={event.eid} event={event} />
+          ))}
+        </div>
       </div>
       <Footer />
     </div>

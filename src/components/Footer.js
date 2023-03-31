@@ -15,7 +15,7 @@ function Footer({ Page }) {
       .catch((err) => console.log(err));
   };
   return (
-    <div className={Page === "notfound" ? "mt-0" : "mt-20"}>
+    <div className={Page === "notfound" ? "mt-0 bg-cgrey" : "mt-20 bg-cgrey"}>
       <div className="bg-donateBG h-32 w-full px-4 flex justify-around gap-2 items-center">
         <p className="ml-3 mr-4 md:mr-10 font-bold text-white md:text-xl">
           <span className="hidden md:block">
