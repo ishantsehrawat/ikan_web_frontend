@@ -10,13 +10,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 
-import {
-  Navbar,
-  EventFinder,
-  EventTile,
-  Footer,
-  EventSearch,
-} from "../components";
+import { Navbar, EventTile, Footer, EventSearch } from "../components";
 
 function Events() {
   const eventRef = collection(db, "events");
@@ -31,20 +25,11 @@ function Events() {
   // creating eventTypeIDArray from eventTypeIDString
   const eventTypeIDArray = eventTypeID?.split(",");
 
-  // splitting location into city, state and country
-  // var city;
-  // var state;
-  // var country;
-  // if (loc !== undefined) {
-  //   city = loc.split(", ")[0];
-  //   state = loc.split(", ")[1];
-  //   country = loc.split(", ")[2];
-  // }
-
   // fetching all events
   async function fetchData() {
     try {
-      const q = query(eventRef, orderBy("name"));
+      // const q = query(eventRef, orderBy("name"));
+      const q = query(eventRef, where("volreq", ">", 0));
       const querySnapshot = await getDocs(q);
       if (querySnapshot.docs) {
         const data = [];
@@ -66,6 +51,7 @@ function Events() {
       eventRef,
       and(
         where("type", "in", eventTypeIDArray),
+        where("volreq", ">", 0),
         where("date", "==", date),
         where("City", "==", city),
         where("State", "==", state),

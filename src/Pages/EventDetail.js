@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 
-import { auth, db } from "../firebase-config";
+import { db } from "../firebase-config";
 import { eventObject } from "../Data/Location/events";
 import { Footer, Navbar } from "../components";
 import { arrowup } from "../images/icons";
@@ -20,6 +20,23 @@ function EventDetail() {
       const docs = snapshots.data();
       setEvent(docs);
     };
+
+    getEvent();
+    // getUser();
+  }, [eid]);
+
+  // useEffect(() => {
+  //   const userRef = doc(db, "users", String(event?.host));
+  //   const getUser = async () => {
+  //     const snapshots = await getDoc(userRef);
+  //     const docs = snapshots.data();
+  //     setHostData(docs);
+  //   };
+
+  //   getUser();
+  // }, []);
+
+  useEffect(() => {
     const userRef = doc(db, "users", String(event?.host));
     const getUser = async () => {
       const snapshots = await getDoc(userRef);
@@ -27,13 +44,23 @@ function EventDetail() {
       setHostData(docs);
     };
 
-    getEvent();
     getUser();
-  }, [eid]);
-
-  const category = eventObject.filter((item) => item.id === 1)[0].type;
+  }, [event]);
 
   console.log(hostData);
+
+  const category = eventObject.filter(
+    (item) => item.id === parseInt(event?.type)
+  )[0]?.type;
+  // console.log(parseInt(event.type));
+
+  // console.log(hostData);
+
+  // async function showInterest() {
+  //   await updateDoc(doc(db, "events", event?.eid), eventData).then(() => {
+  //     window.alert("Thank you for showing interest in this event!");
+  //   });
+  // }
 
   return (
     <div className="bg-cgrey">

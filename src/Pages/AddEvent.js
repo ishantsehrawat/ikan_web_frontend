@@ -17,6 +17,7 @@ function AddEvent() {
     State: "Delhi",
     City: "New Delhi",
     type: "1",
+    interested: [],
   });
   const user = auth.currentUser;
 
@@ -178,7 +179,7 @@ function AddEvent() {
                       volreq: e.target.value,
                     }));
                   }}
-                  placeholder="10"
+                  placeholder={10}
                 />
               </label>
               <label className="flex flex-col gap-1">

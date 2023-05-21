@@ -58,6 +58,7 @@ function Login() {
         createUser(user.user, user.providerId, true);
       }
       redirect("/");
+      window.location.reload();
     } catch (err) {
       console.log(err.message);
     }
