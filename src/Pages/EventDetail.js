@@ -45,13 +45,15 @@ function EventDetail() {
     };
 
     getUser();
-  }, [event]);
+  }, [eid, event?.host]);
+
+  const category = eventObject.filter((item) => item.id === 1)[0].type;
 
   console.log(hostData);
 
-  const category = eventObject.filter(
-    (item) => item.id === parseInt(event?.type)
-  )[0]?.type;
+  // const category = eventObject.filter(
+  //   (item) => item.id === parseInt(event?.type)
+  // )[0]?.type;
   // console.log(parseInt(event.type));
 
   // console.log(hostData);
