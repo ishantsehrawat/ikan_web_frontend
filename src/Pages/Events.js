@@ -2,20 +2,36 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   query,
-  orderBy,
+  doc,
+  getDoc,
   collection,
   getDocs,
   where,
   and,
+  orderBy,
 } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db, auth } from "../firebase-config";
 
 import { Navbar, EventTile, Footer, EventSearch } from "../components";
+import { da } from "date-fns/locale";
 
 function Events() {
   const eventRef = collection(db, "events");
   const [events, setevents] = useState([]);
   const { city, state, country, date, eventTypeID } = useParams();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    const colRef = doc(db, "users", String(currentUser?.email));
+    const getUser = async () => {
+      const snapshots = await getDoc(colRef);
+      const docs = snapshots.data();
+      setUser(docs);
+    };
+
+    getUser();
+  }, []);
 
   // fetching events on page load
   useEffect(() => {
@@ -38,6 +54,10 @@ function Events() {
           event.eid = doc.id;
           data.push(event);
         });
+        data.sort((a, b) => {
+          return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
+        });
+
         setevents(data);
       }
     } catch (error) {
@@ -52,7 +72,7 @@ function Events() {
       and(
         where("type", "in", eventTypeIDArray),
         where("volreq", ">", 0),
-        where("date", "==", date),
+        where("date", "<=", date),
         where("City", "==", city),
         where("State", "==", state),
         where("Country", "==", country)
@@ -66,6 +86,9 @@ function Events() {
         let event = doc.data();
         event.eid = doc.id;
         data.push(event);
+      });
+      data.sort((a, b) => {
+        return a.date > b.date ? 1 : a.date < b.date ? -1 : 0;
       });
       setevents(data);
     }
@@ -91,7 +114,12 @@ function Events() {
         </p>
         <div className="pt-12 flex flex-col items-center">
           {events.map((event) => (
-            <EventTile key={event.eid} event={event} />
+            <EventTile
+              key={event.eid}
+              event={event}
+              user={user}
+              setUser={setUser}
+            />
           ))}
         </div>
       </div>
