@@ -5,7 +5,6 @@ import {
   getDoc,
   arrayRemove,
   arrayUnion,
-  FieldValue,
 } from "firebase/firestore";
 // import { doc, getDoc } from "firebase/firestore";
 
@@ -17,11 +16,12 @@ function EventTile({ event, user, setUser }) {
 
   useEffect(() => {
     if (
-      eventData?.interested.filter((item) => item === user?.email).length > 0
+      eventData?.interested?.length > 0 &&
+      eventData?.interested?.filter((item) => item === user?.email).length > 0
     ) {
       setbuttonTitle("Withdraw");
     }
-  }, []);
+  }, [eventData?.interested, user?.email]);
 
   async function getUserData() {
     const docRef = doc(db, "users", user?.email);
@@ -38,13 +38,13 @@ function EventTile({ event, user, setUser }) {
   }
 
   async function neditUser() {
-    const ref = doc(db, "users", user.email);
+    const ref = doc(db, "users", user?.email);
 
     // Atomically add a new region to the "regions" array field.
-    const events = user.events;
     const addEventField = {
-      events: arrayUnion(...events, eventData?.eid),
+      events: arrayUnion(eventData?.eid),
     };
+    console.log(addEventField);
     const removeEventField = {
       // events: Fieldvalue.arrayRemove(eventData?.eid),
       events: arrayRemove(eventData?.eid),
@@ -56,8 +56,8 @@ function EventTile({ event, user, setUser }) {
     ).then((res) => {
       console.log(res);
       if (buttonTitle === "Apply Now")
-        console.log("Event added to your profile!");
-      else console.log("Event removed from your profile!");
+        window.alert("Event added to your profile!");
+      else window.alert("Event removed from your profile!");
     });
     getUserData();
   }
@@ -77,8 +77,8 @@ function EventTile({ event, user, setUser }) {
       buttonTitle === "Apply Now" ? addEventField : removeEventField
     ).then(() => {
       if (buttonTitle === "Apply Now")
-        console.log("Thank you for showing interest in this event");
-      else console.log("You have removed your interest from this event!");
+        window.alert("Thank you for showing interest in this event");
+      else window.alert("You have removed your interest from this event!");
     });
     getEventData();
   }
@@ -128,6 +128,7 @@ function EventTile({ event, user, setUser }) {
                 ? "h-8 md:h-10 w-full md:w-36 text-sm bg-saffron text-white rounded-md flex justify-center items-center"
                 : "h-8 md:h-10 w-full md:w-36 text-sm bg-black text-white rounded-md flex justify-center items-center"
             }
+            disabled={event?.volreq <= 0 ? true : false}
             onClick={showInterest}
           >
             {buttonTitle}

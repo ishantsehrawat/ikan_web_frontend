@@ -8,12 +8,10 @@ import {
   getDocs,
   where,
   and,
-  orderBy,
 } from "firebase/firestore";
 import { db, auth } from "../firebase-config";
 
 import { Navbar, EventTile, Footer, EventSearch } from "../components";
-import { da } from "date-fns/locale";
 
 function Events() {
   const eventRef = collection(db, "events");
@@ -35,7 +33,7 @@ function Events() {
 
   // fetching events on page load
   useEffect(() => {
-    eventTypeID === undefined ? fetchData() : getEvent();
+    eventTypeID === undefined ? fetchData() : getEvent(); // eslint-disable-next-line
   }, [eventTypeID]);
 
   // creating eventTypeIDArray from eventTypeIDString

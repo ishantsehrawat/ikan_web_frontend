@@ -5,14 +5,16 @@ import {
   orderBy,
   limit,
   getDocs,
-  where,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
-import { db } from "../firebase-config";
+import { db, auth } from "../firebase-config";
 import { Navbar, Footer, EventTile, ExploreCounter } from "../components";
 
 function Explore() {
   const [mostLikedEvents, setMostLikedEvents] = useState([]);
+  const [user, setUser] = useState({});
 
   const event = {
     type: "2",
@@ -29,6 +31,18 @@ function Explore() {
     img: "https://firebasestorage.googleapis.com/v0/b/ikan-47608.appspot.com/o/volunteer.jpeg1680160956686?alt=media&token=5a7581b9-8978-48ab-ab70-de3dcd9b75c7",
     organisation: "ishant",
   };
+
+  useEffect(() => {
+    const currentUser = auth.currentUser;
+    const colRef = doc(db, "users", String(currentUser?.email));
+    const getUser = async () => {
+      const snapshots = await getDoc(colRef);
+      const docs = snapshots.data();
+      setUser(docs);
+    };
+
+    getUser();
+  }, []);
 
   async function fetchData() {
     const q = query(
@@ -68,7 +82,12 @@ function Explore() {
         <p className="text-gray-400 pt-10 pl-20"></p>
         <div className="pt-12 flex flex-col items-center">
           {mostLikedEvents.map((event) => (
-            <EventTile key={event.eid} event={event} />
+            <EventTile
+              key={event.eid}
+              event={event}
+              user={user}
+              setUser={setUser}
+            />
           ))}
 
           <ExploreCounter />

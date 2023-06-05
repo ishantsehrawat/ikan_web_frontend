@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, EventFinder, Footer, EventSearch } from "../components";
+import { Navbar, Footer, EventSearch } from "../components";
 import { globe } from "../images";
 import { arrow } from "../images/icons";
 
