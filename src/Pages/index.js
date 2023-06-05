@@ -16,3 +16,4 @@ export { default as Verification } from "./Verification";
 export { default as OrganisationJoin } from "./OrganisationJoin";
 export { default as ComingSoon } from "./ComingSoon";
 export { default as VerifyEmail } from "./VerifyEmail";
+export { default as Explore } from "./Explore";

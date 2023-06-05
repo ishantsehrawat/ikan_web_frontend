@@ -12,3 +12,4 @@ export { default as OrganisationTile } from "./OrganisationTile";
 export { default as VolunteerTile } from "./VolunteerTile";
 export { default as EventSearch } from "./EventSearch";
 export { default as Modal } from "./Modal";
+export { default as ExploreCounter } from "./ExploreCounter";

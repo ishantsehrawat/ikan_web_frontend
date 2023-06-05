@@ -21,6 +21,7 @@ import {
   VerifyEmail,
   Verification,
   OrganisationJoin,
+  Explore,
 } from "./Pages";
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
               element={<Events />}
             />
             <Route path="events" element={<Events />} />
+            <Route path="explore" element={<Explore />} />
             <Route path="event-detail/:eid" element={<EventDetail />} />
             <Route path="add-event" element={<AddEvent />} />
             <Route path="profile" element={<Profile />} />

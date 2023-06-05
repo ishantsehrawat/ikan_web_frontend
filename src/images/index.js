@@ -10,3 +10,4 @@ export { default as organisation1 } from "./Organisation1.jpg";
 export { default as volunteer1 } from "./volunteer1.jpg";
 export { default as ComingSoon } from "./comingSoon.png";
 export { default as verifyEmail } from "./verifyEmail.png";
+export { default as exploreCounterBG } from "./ExploreCounterBG.jpg";

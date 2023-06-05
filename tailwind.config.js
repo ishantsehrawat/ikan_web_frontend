@@ -22,6 +22,7 @@ module.exports = {
         skillupHeader: "url('images/skill.jpg')",
         comingSoon: "url('images/comingSoon.png')",
         verifyEmail: "url('images/verifyEmail.png')",
+        exploreCounterBG: "url('images/ExploreCounterBG.jpg')",
       },
     },
   },

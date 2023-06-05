@@ -29,7 +29,7 @@ function Home() {
             <div className="w-full md:w-80 mt-4 md:-mt-8 flex items-center justify-between">
               <a
                 className="h-12 w-full md:w-48 bg-saffron text-white rounded-md flex justify-center items-center"
-                href="/events"
+                href="/explore"
               >
                 Explore Now
               </a>
