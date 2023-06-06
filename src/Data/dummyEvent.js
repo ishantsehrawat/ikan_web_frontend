@@ -1,0 +1,15 @@
+export const event = {
+  type: "2",
+  date: "2023-03-30",
+  eid: "plant@1680160984483",
+  name: "plant",
+  State: "Delhi",
+  City: "New Delhi",
+  interested: ["ishantsehrawat75@gmail.com"],
+  volreq: 2,
+  description: "ffood",
+  host: "ishantsehrawat@bpitindia.com",
+  Country: "India",
+  img: "https://firebasestorage.googleapis.com/v0/b/ikan-47608.appspot.com/o/volunteer.jpeg1680160956686?alt=media&token=5a7581b9-8978-48ab-ab70-de3dcd9b75c7",
+  organisation: "ishant",
+};
