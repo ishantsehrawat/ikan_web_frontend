@@ -70,7 +70,7 @@ function Events() {
       and(
         where("type", "in", eventTypeIDArray),
         where("volreq", ">", 0),
-        where("date", "<=", date),
+        where("date", "==", date),
         where("City", "==", city),
         where("State", "==", state),
         where("Country", "==", country)
@@ -94,7 +94,7 @@ function Events() {
 
   return (
     <div className="bg-cgrey">
-      <div className=" bg-eventHeader  h-1/2 w-full p-4 md:p-10">
+      <div className=" bg-eventHeader h-1/2 w-full p-4 md:p-10">
         <Navbar Page="events" />
         <div className="mt-20 text-white md:mt-28 ml-5 mb-10">
           <h1 className="text-4xl font-bold mb-3">Events</h1>
@@ -107,7 +107,7 @@ function Events() {
       {/* <EventFinder Page="events" /> */}
       <div className="px-10">
         <EventSearch page="events" />
-        <p className="text-gray-400 pt-10 pl-20">
+        <p className="text-gray-400 pt-10 pl-0 md:pl-20">
           {events.length} events found
         </p>
         <div className="pt-12 flex flex-col items-center">

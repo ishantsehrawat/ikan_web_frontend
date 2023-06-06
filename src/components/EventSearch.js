@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { Tooltip, Zoom } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
@@ -8,8 +9,7 @@ import { useParams } from "react-router-dom";
 import { search } from "../images/icons";
 import { Modal } from "../components";
 import { country, state, city } from "../Data/Location";
-import { eventObject } from "../Data/Location/events";
-import { useNavigate } from "react-router-dom";
+import { eventObject } from "../Data/events";
 
 // today's date
 let date = dayjs().date();
@@ -26,24 +26,27 @@ function EventSearch({ page }) {
   const [stateName, setstatename] = useState("Delhi");
   const [countryName, setcountryname] = useState("India");
   const [date, setdate] = useState(today);
+  // eslint-disable-next-line
   const [type, settype] = useState(0);
   const [eventIDArray, seteventIDArray] = useState([]);
-  const { cityP, stateP, countryP, dateP, eventTypeIDP } = useParams();
-  if (cityP) {
-    setcityname(cityP);
-  }
-  if (stateP) {
-    setstatename(stateP);
-  }
-  if (countryP) {
-    setcountryname(countryP);
-  }
-  if (dateP) {
-    setdate(dateP);
-  }
-  if (eventTypeIDP) {
-    seteventIDArray(eventTypeIDP.split(","));
-  }
+  const params = useParams();
+  useEffect(() => {
+    if (params.city) {
+      setcityname(params.city);
+    }
+    if (params.state) {
+      setstatename(params.state);
+    }
+    if (params.country) {
+      setcountryname(params.country);
+    }
+    if (params.date) {
+      setdate(params.date);
+    }
+    if (params.eventTypeID) {
+      seteventIDArray(params.eventTypeID.split(","));
+    }
+  }, [params]);
 
   //   modal open state
   const [locationModalOpen, setLocationModalOpen] = useState(false);
@@ -60,7 +63,6 @@ function EventSearch({ page }) {
   //   for type modal
   // update event type
   const updateArray = (id) => {
-    // console.log("hi");
     var eventIDArrayTemp = eventIDArray;
     if (eventIDArray.includes(id.toString())) {
       var index = eventIDArray.indexOf(id.toString());
@@ -71,27 +73,31 @@ function EventSearch({ page }) {
       eventIDArrayTemp.push(id.toString());
     }
     seteventIDArray(eventIDArrayTemp);
-    console.log(eventIDArrayTemp);
   };
   const eventIDArrayAll = ["1", "2", "3", "4", "5", "6", "7"];
-
-  console.log(type);
 
   return (
     <div
       className={
         page === "events"
           ? "bg-white w-full md:h-28 rounded-lg -mt-10 mr-10 drop-shadow-lg flex flex-col md:flex-row justify-evenly md:items-center text-left"
-          : "bg-white w-full h-28 rounded-lg mt-10 drop-shadow-lg flex justify-evenly items-center text-left"
+          : "bg-white w-full md:h-28 rounded-lg mt-10 drop-shadow-lg flex flex-col md:flex-row justify-evenly md:items-center text-left"
       }
     >
-      <button
-        className="md:h-20 md:w-[20vw] mx-2 my-1 md:my-2 md:mx-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
-        onClick={() => setLocationModalOpen(true)}
+      <Tooltip
+        title={cityName + ", " + stateName + ", " + countryName}
+        placement="top"
+        arrow
+        TransitionComponent={Zoom}
       >
-        <p className="font-semibold text-base">Location</p>
-        <p>{cityName + ", " + stateName + ", " + countryName}</p>
-      </button>
+        <button
+          className="md:h-20 md:w-[20vw] mx-2 my-1 md:my-2 md:mx-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+          onClick={() => setLocationModalOpen(true)}
+        >
+          <p className="font-semibold text-base">Location</p>
+          <p>{cityName + ", " + stateName + ", " + countryName}</p>
+        </button>
+      </Tooltip>
       <button
         className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
         onClick={() => setDateModalOpen(true)}
@@ -99,21 +105,32 @@ function EventSearch({ page }) {
         <p className="font-semibold text-base">Date</p>
         <p>{date}</p>
       </button>
-      <button
-        className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
-        onClick={() => {
-          settype(0);
-          seteventIDArray([]);
-          setTypeModalOpen(true);
-        }}
+      <Tooltip
+        title={eventIDArray?.map((id) => {
+          return eventObject[id - 1]?.type + ", ";
+        })}
+        placement="top"
+        arrow
+        TransitionComponent={Zoom}
+        disableHoverListener={eventIDArray.length === 0}
       >
-        <p className="font-semibold text-base">Type</p>
-        <p>
-          {eventIDArray?.map((id) => {
-            return eventObject[id - 1]?.type + ", ";
-          })}
-        </p>
-      </button>
+        <button
+          id="typeOfEvent"
+          className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+          onClick={() => {
+            settype(0);
+            seteventIDArray([]);
+            setTypeModalOpen(true);
+          }}
+        >
+          <p className="font-semibold text-base">Type</p>
+          <p>
+            {eventIDArray?.map((id) => {
+              return eventObject[id - 1]?.type + ", ";
+            })}
+          </p>
+        </button>
+      </Tooltip>
       <a
         className="h-10 md:h-16 m-4 md:w-[15vw] bg-saffron rounded-md flex justify-center items-center text-white font-semibold text-lg"
         href={
