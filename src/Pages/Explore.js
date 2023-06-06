@@ -7,6 +7,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  where,
 } from "firebase/firestore";
 
 import { db, auth } from "../firebase-config";
@@ -45,18 +46,14 @@ function Explore() {
   }, []);
 
   async function fetchData() {
-    const q = query(
-      collection(db, "events"),
-      orderBy("likes", "desc"),
-      limit(3)
-    );
+    const q = query(collection(db, "events"), orderBy("likes", "desc"));
     const querySnapshot = await getDocs(q);
     if (querySnapshot.docs) {
       const data = [];
       querySnapshot.docs.forEach((doc) => {
         let event = doc.data();
         event.eid = doc.id;
-        data.push(event);
+        if (event.volreq > 0) data.push(event);
       });
       setMostLikedEvents(data);
     }
@@ -81,22 +78,30 @@ function Explore() {
       <div className="px-10">
         <p className="text-gray-400 pt-10 pl-20"></p>
         <div className="pt-12 flex flex-col items-center">
-          {mostLikedEvents.map((event) => (
-            <EventTile
-              key={event.eid}
-              event={event}
-              user={user}
-              setUser={setUser}
-            />
-          ))}
-
-          <ExploreCounter />
-
-          <EventTile event={event} />
-          <EventTile event={event} />
-          <EventTile event={event} />
-
-          {/* ))} */}
+          {mostLikedEvents.map((event, id) => {
+            if (id === 2) {
+              return (
+                <div>
+                  <ExploreCounter />
+                  <EventTile
+                    key={event.eid}
+                    event={event}
+                    user={user}
+                    setUser={setUser}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <EventTile
+                  key={event.eid}
+                  event={event}
+                  user={user}
+                  setUser={setUser}
+                />
+              );
+            }
+          })}
         </div>
       </div>
       <Footer />
