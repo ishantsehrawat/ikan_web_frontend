@@ -7,11 +7,11 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 // import { doc, getDoc } from "firebase/firestore";
-
+import { Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
 import { db } from "../firebase-config";
-
 function EventTile({ event, user, setUser }) {
   const [buttonTitle, setbuttonTitle] = useState("Apply Now");
+  const[likeTitle,setLikeTitle]=useState("unliked");
   const [eventData, setEventData] = useState({ ...event });
 
   useEffect(() => {
@@ -21,7 +21,13 @@ function EventTile({ event, user, setUser }) {
     ) {
       setbuttonTitle("Withdraw");
     }
-  }, [eventData?.interested, user?.email]);
+    if (
+      eventData?.liked?.length > 0 &&
+      eventData?.liked?.filter((item) => item === user?.email).length > 0
+    ) {
+      setLikeTitle("liked");
+    }
+  }, [eventData?.interested,eventData?.liked, user?.email]);
 
   async function getUserData() {
     const docRef = doc(db, "users", user?.email);
@@ -61,6 +67,30 @@ function EventTile({ event, user, setUser }) {
     });
     getUserData();
   }
+  async function neditUser2() {
+    const ref = doc(db, "users", user?.email);
+
+    // Atomically add a new region to the "regions" array field.
+    const addEventField = {
+      eventsliked: arrayUnion(eventData?.eid),
+    };
+    console.log(addEventField);
+    const removeEventField = {
+      // events: Fieldvalue.arrayRemove(eventData?.eid),
+      events: arrayRemove(eventData?.eid),
+    };
+    console.log(removeEventField);
+    await updateDoc(
+      ref,
+      likeTitle === "unliked" ? addEventField : removeEventField
+    ).then((res) => {
+      console.log(res);
+      if (likeTitle === "unliked")
+        window.alert("Event liked to your profile!");
+      else window.alert("Event unliked from your profile!");
+    });
+    getUserData();
+  }
   async function neditEvent() {
     const ref = doc(db, "events", eventData?.eid);
 
@@ -82,6 +112,27 @@ function EventTile({ event, user, setUser }) {
     });
     getEventData();
   }
+  async function neditEvent2() {
+    const ref = doc(db, "events", eventData?.eid);
+
+    // Atomically add a new region to the "regions" array field.
+    const liked = eventData.liked;
+    const addEventField = {
+      liked: arrayUnion(...liked, user?.email),
+    };
+    const removeEventField = {
+      liked: arrayRemove(user?.email),
+    };
+    await updateDoc(
+      ref,
+      likeTitle === "unliked" ? addEventField : removeEventField
+    ).then(() => {
+      if (likeTitle === "unliked")
+        window.alert("Thank you for liking this event");
+      else window.alert("You have unliked this event!");
+    });
+    getEventData();
+  }
 
   function showInterest() {
     if (buttonTitle === "Apply Now") {
@@ -94,7 +145,17 @@ function EventTile({ event, user, setUser }) {
       setbuttonTitle("Apply Now");
     }
   }
-
+  function showLikes() {
+    if (likeTitle === "unliked") {
+      neditUser2();
+      neditEvent2();
+      setLikeTitle("liked");
+    } else {
+      neditUser2();
+      neditEvent2();
+      setLikeTitle("unliked");
+    }
+  }
   return (
     <div className="w-[350px] md:w-[1100px] bg-white h-44 md:h-60 rounded-xl p-2 md:p-4 flex mb-9">
       <img
@@ -139,6 +200,9 @@ function EventTile({ event, user, setUser }) {
           >
             View Details
           </a>
+          <button onClick={showLikes}>
+              <Favorite sx={{ color: `${likeTitle==="unliked"?"#FFFFFF":"#ff3140"}`,stroke:"red", fontSize: 40 }} />
+            </button>
         </div>
       </div>
     </div>
