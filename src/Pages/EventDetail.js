@@ -154,7 +154,6 @@ function EventDetail() {
   }
   async function neditEvent2() {
     const ref = doc(db, "events", event?.eid);
-
     // Atomically add a new region to the "regions" array field.
     const liked = event.liked;
     const addEventField = {
