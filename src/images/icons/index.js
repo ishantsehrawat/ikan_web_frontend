@@ -7,3 +7,5 @@ export { default as arrowup } from "./arrow.png";
 export { default as menu } from "./menu.png";
 export { default as close } from "./Close.png";
 export { default as group } from "./Group.png";
+export {default as Vectorlikebutton} from "./Vectorlikebutton.png";
+export {default as heart} from "./heart.png"
