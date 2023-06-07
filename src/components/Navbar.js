@@ -68,14 +68,14 @@ function Navbar({ Page }) {
 
       {/* small navbar menu */}
       {open ? (
-        <div className="z-30 md:hidden h-full w-screen bg-white absolute -ml-4 top-0" style={{position:"fixed"}}>
+        <div className="z-30 md:hidden h-full w-screen bg-white  -ml-4 top-0 fixed">
           <img
             className="h-7 absolute top-6 right-8 w-auto"
             src={close}
             onClick={() => setOpen(!open)}
             alt="menu"
           />
-          <div className="absolute h-full text-2xl flex flex-col left-12 justify-center gap-4" style={{position:"fixed"}} >
+          <div className=" h-full text-2xl flex flex-col left-12 justify-center gap-4 fixed" >
             <Link to="/">Home</Link>
             <Link to="/about">About Us</Link>
             <Link to="/profile">Profile</Link>

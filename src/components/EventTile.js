@@ -9,7 +9,6 @@ import {
 // import { doc, getDoc } from "firebase/firestore";
 import { Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
 import { db } from "../firebase-config";
-import { Vectorlikebutton,heart } from "../images/icons";
 function EventTile({ event, user, setUser }) {
   const [buttonTitle, setbuttonTitle] = useState("Apply Now");
   const[likeTitle,setLikeTitle]=useState("unliked");
@@ -201,18 +200,6 @@ function EventTile({ event, user, setUser }) {
           >
             View Details
           </a>
-          {/* <button
-            className={
-              likeTitle === "unliked"
-                ? "h-8 md:h-10 w-full md:w-36 text-sm bg-saffron text-white rounded-md flex justify-center items-center"
-                : "h-8 md:h-10 w-full md:w-36 text-sm bg-black text-white rounded-md flex justify-center items-center"
-            }
-            disabled={event?.volreq <= 0 ? true : false}
-            onClick={showLikes}
-          >
-            {likeTitle}
-          </button> */}
-          {/* <img className="h-6 w-6" src={likeTitle==="unliked"?Vectorlikebutton:heart} alt={likeTitle==="unliked"?"Vectorlikebutton":"h"} onClick={showLikes} /> */}
           <button onClick={showLikes}>
               <Favorite sx={{ color: `${likeTitle==="unliked"?"#FFFFFF":"#ff3140"}`,stroke:"red", fontSize: 40 }} />
             </button>

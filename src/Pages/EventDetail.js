@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { arrayRemove, arrayUnion, updateDoc } from "firebase/firestore";
-import { Event, Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
+import { Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
 
 import { db, auth } from "../firebase-config";
 import { eventObject } from "../Data/events";
@@ -64,7 +64,7 @@ function EventDetail() {
     }
     if (
       event?.liked?.length > 0 &&
-      Event?.liked?.filter((item) => item === user?.email).length > 0
+      event?.liked?.filter((item) => item === user?.email).length > 0
     ) {
       setLikeTitle("liked");
     }
