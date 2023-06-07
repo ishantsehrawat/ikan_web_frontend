@@ -49,25 +49,19 @@ function Footer({ Page }) {
         <div className="flex flex-wrap h-full w-full justify-between pt-2 gap-4">
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">Useful Links</p>
-            <a onClick={logout} href="/register">
-              Where to register ?
-            </a>
+            <a href="/events">Where to register ?</a>
             <a href="/verification">How to verify ?</a>
             <a href="/donate">Who can Donate ?</a>
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">For Individuals</p>
-            <a onClick={logout} href="/register">
-              Register Here
-            </a>
+            <a href="/why-ikan">Why ikan?</a>
             <a href="/Events">Events</a>
             <a href="/Organisations">Organisations</a>
           </div>
           <div className="flex flex-col gap-1 md:gap-4 text-white-400">
             <p className="text-saffron underline">For Organisations</p>
-            <a onClick={logout} href="/register">
-              Register Here
-            </a>
+            <a href="/organisation-join">Register Here</a>
             <a href="/volunteers">Volunteers</a>
             <a href="/organisation-join">How to join us ?</a>
           </div>

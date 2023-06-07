@@ -59,7 +59,7 @@ function Register() {
         window.location.href = "/";
       });
     } catch (err) {
-      console.log(err.message);
+      window.alert(err.message);
     }
   };
 
