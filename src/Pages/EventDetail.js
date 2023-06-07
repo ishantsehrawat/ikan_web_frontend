@@ -92,9 +92,11 @@ function EventDetail() {
     // Atomically add a new region to the "regions" array field.
     const addEventField = {
       events: arrayUnion(event?.eid),
+      volreq: event?.volreq - 1,
     };
     const removeEventField = {
       events: arrayRemove(event?.eid),
+      volreq: event?.volreq + 1,
     };
     console.log(removeEventField);
     await updateDoc(
@@ -208,7 +210,7 @@ function EventDetail() {
           </p>
         </div>
       </div>
-      <div className="bg-cgrey rounded-t-lg p-3 md:p-0 m-8 md:m-0 -mt-32 md:mt-10 mb-10 flex justify-center items-center">
+      <div className="bg-cgrey rounded-t-lg p-[1px] md:p-0 m-8 md:m-0 -mt-32 md:mt-10 mb-10 flex justify-center items-center">
         <div className="">
           <div className="flex flex-col md:flex-row">
             <div className="flex w-full md:w-[600px]">
@@ -217,7 +219,11 @@ function EventDetail() {
               <img className="h-1/3 p-1 " src={event1} alt="event" />
               <img className="h-1/3 p-1 " src={event1} alt="event" />
             </div> */}
-              <img className="p-1" src={event?.img} alt="event" />
+              <img
+                className="p-1  rounded-lg md:rounded-none"
+                src={event?.img}
+                alt="event"
+              />
             </div>
             <div className="flex flex-col w-full md:w-[500px] justify-between md:ml-5 my-5">
               <div>
@@ -246,8 +252,11 @@ function EventDetail() {
                   <></>
                 )}
                 <p>
-                  Share:{" "}
+                  Social:{" "}
                   <span className="text-gray-500">@project_zero_hunger</span>
+                </p>
+                <p>
+                  Address: <span className="text-gray-500"></span>
                 </p>
               </div>
             </div>

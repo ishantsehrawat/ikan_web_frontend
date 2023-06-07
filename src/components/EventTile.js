@@ -98,9 +98,11 @@ function EventTile({ event, user, setUser }) {
     const interested = eventData.interested;
     const addEventField = {
       interested: arrayUnion(...interested, user?.email),
+      volreq: eventData?.volreq - 1,
     };
     const removeEventField = {
       interested: arrayRemove(user?.email),
+      volreq: eventData?.volreq + 1,
     };
     await updateDoc(
       ref,

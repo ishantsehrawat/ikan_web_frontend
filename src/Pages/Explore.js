@@ -48,7 +48,7 @@ function Explore() {
   return (
     <div className="bg-cgrey">
       <div className=" bg-eventHeader  h-1/2 w-full p-4 md:p-10">
-        <Navbar Page="events" />
+        <Navbar />
         <div className="mt-20 text-white md:mt-28 ml-5 mb-10">
           <h1 className="text-4xl font-bold mb-3">Explore</h1>
           <p>
