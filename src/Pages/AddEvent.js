@@ -18,6 +18,7 @@ function AddEvent() {
     City: "New Delhi",
     type: "1",
     interested: [],
+    liked: [],
   });
   const user = auth.currentUser;
 
@@ -176,7 +177,7 @@ function AddEvent() {
                   onChange={(e) => {
                     setEventData((prev) => ({
                       ...prev,
-                      volreq: e.target.value,
+                      volreq: Number(e.target.value),
                     }));
                   }}
                   placeholder={10}

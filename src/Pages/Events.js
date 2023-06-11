@@ -113,6 +113,7 @@ function Events() {
         <div className="pt-12 flex flex-col items-center">
           {events.map((event) => (
             <EventTile
+              eid={event.eid}
               key={event.eid}
               event={event}
               user={user}

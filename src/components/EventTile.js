@@ -7,11 +7,14 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 // import { doc, getDoc } from "firebase/firestore";
-import { Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
+
+import { group } from "../images/icons";
 import { db } from "../firebase-config";
+import { eventObject } from "../Data/events";
 function EventTile({ event, user, setUser }) {
   const [buttonTitle, setbuttonTitle] = useState("Apply Now");
-  const[likeTitle,setLikeTitle]=useState("unliked");
+  const [likeTitle, setLikeTitle] = useState("unliked");
   const [eventData, setEventData] = useState({ ...event });
 
   useEffect(() => {
@@ -27,7 +30,7 @@ function EventTile({ event, user, setUser }) {
     ) {
       setLikeTitle("liked");
     }
-  }, [eventData?.interested,eventData?.liked, user?.email]);
+  }, [eventData?.interested, eventData?.liked, user?.email]);
 
   async function getUserData() {
     const docRef = doc(db, "users", user?.email);
@@ -83,10 +86,8 @@ function EventTile({ event, user, setUser }) {
     await updateDoc(
       ref,
       likeTitle === "unliked" ? addEventField : removeEventField
-    ).then((res) => {
-      console.log(res);
-      if (likeTitle === "unliked")
-        window.alert("Event liked to your profile!");
+    ).then(() => {
+      if (likeTitle === "unliked") window.alert("Event liked to your profile!");
       else window.alert("Event unliked from your profile!");
     });
     getUserData();
@@ -159,52 +160,73 @@ function EventTile({ event, user, setUser }) {
     }
   }
   return (
-    <div className="w-[350px] md:w-[1100px] bg-white h-44 md:h-60 rounded-xl p-2 md:p-4 flex mb-9">
+    <div className="mt-4 bg-white rounded-xl w-[350px] md:w-[1100px] flex flex-col md:flex-row p-2 gap-4">
       <img
-        className="object-cover rounded-lg md:rounded-xl mr-3 md:mr-5 h-40 md:h-56 w-40 md:w-80"
+        className="w-full md:w-80 h-[200px] md:h-56 rounded-lg object-cover"
         src={event?.img}
-        alt={event?.name}
+        alt="event"
       />
-      <div className="flex w-full flex-col justify-around md:justify-between">
-        <div>
-          <div className="flex w-full flex-col md:flex-row justify-between">
-            <h2 className="text-base md:text-xl font-semibold">
-              {event?.name}
-            </h2>
-            <p className="text-gray-500">
-              {event?.City + ", " + event?.State + ", " + event?.Country}
+      <div className="flex flex-col md:flex-col justify-between w-full">
+        <div className=" flex flex-col h-full gap-2 mb-4">
+          <div className="flex justify-between">
+            <div className="flex gap-2 items-center">
+              <h1 className="text-lg font-semibold">{event?.name}</h1>
+              <p className="bg-saffron w-max h-max px-2 rounded-sm text-white text-sm hidden md:block">
+                {eventObject[event?.type - 1].type}
+              </p>
+            </div>
+            <p className="text-lg ml-5 flex items-center gap-2 md:mr-4">
+              <img className="h-4 w-6" src={group} alt="V" />
+              {event?.interested?.length}
             </p>
           </div>
-          <h4 className="hidden md:block text-sm text-gray-700">
-            {event?.organisation}
-          </h4>
+          <div className="w-full flex justify-between">
+            <p className="text-sm -mt-2 mb-2">by {event?.organisation}</p>
+            <p className="bg-saffron w-max px-2 rounded-sm text-white text-sm block md:hidden">
+              {eventObject[event?.type - 1].type}
+            </p>
+          </div>
+          <p className="hidden md:block text-black md:text-gray-500">
+            {event?.description}
+          </p>
+          <div className="w-full flex md:block justify-between">
+            <p className="text-black md:text-gray-500">{event?.date}</p>
+            <p className="text-black md:text-gray-500">
+              {event?.City}, {event?.State}, {event?.Country}
+            </p>
+          </div>
         </div>
-        <div className="">
-          <p className="hidden md:block text-gray-500">{event?.description}</p>
-          <p className="text-gray-500 mt-3">{event?.date}</p>
-          <p className="text-gray-500 mt-3">{eventData?.volreq}</p>
-        </div>
-        <div className="flex gap-2">
-          <button
-            className={
-              buttonTitle === "Apply Now"
-                ? "h-8 md:h-10 w-full md:w-36 text-sm bg-saffron text-white rounded-md flex justify-center items-center"
-                : "h-8 md:h-10 w-full md:w-36 text-sm bg-black text-white rounded-md flex justify-center items-center"
-            }
-            disabled={event?.volreq <= 0 ? true : false}
-            onClick={showInterest}
-          >
-            {buttonTitle}
-          </button>
-          <a
-            className="h-8 md:h-10 w-full md:w-36 text-sm bg-white text-black rounded-md flex justify-center items-center border-2 border-black"
-            href={`/event-detail/${event?.eid}`}
-          >
-            View Details
-          </a>
-          <button onClick={showLikes}>
-              <Favorite sx={{ color: `${likeTitle==="unliked"?"#FFFFFF":"#ff3140"}`,stroke:"red", fontSize: 40 }} />
+        <div className="w-full flex justify-between">
+          <div className="flex gap-2">
+            <button
+              className={
+                buttonTitle === "Apply Now"
+                  ? "h-8 md:h-10 w-max p-4 md:w-36 text-sm bg-saffron text-white rounded-md flex justify-center items-center"
+                  : "h-8 md:h-10 w-max p-4 md:w-36 text-sm bg-black text-white rounded-md flex justify-center items-center"
+              }
+              disabled={event?.volreq <= 0 ? true : false}
+              onClick={showInterest}
+            >
+              {buttonTitle}
             </button>
+            <a
+              className="h-8 md:h-10 w-max px-4 md:w-36 text-sm bg-white text-black rounded-md flex justify-center items-center border-2 border-black"
+              href={`/event-detail/${event?.eid}`}
+            >
+              View Details
+            </a>
+          </div>
+
+          <button onClick={showLikes}>
+            <Favorite
+              className="h-8 md:h-10 w-8 md:w-10 md:mr-4"
+              sx={{
+                color: `${likeTitle === "unliked" ? "#FFFFFF" : "#ff3140"}`,
+                stroke: "red",
+                // fontSize: 40,
+              }}
+            />
+          </button>
         </div>
       </div>
     </div>

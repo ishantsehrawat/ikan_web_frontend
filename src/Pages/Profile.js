@@ -161,11 +161,14 @@ function Profile() {
           Edit
         </button>
       </div>
-      {userData?.type === "organisation" ? (
-        <EventList user={userData} />
-      ) : (
-        <div className="pt-10"></div>
-      )}
+
+      <EventList user={userData} setUser={setUserData} title="Your Events" />
+      <EventList
+        user={userData}
+        setUser={setUserData}
+        title="Your Liked Events"
+      />
+
       {/* <EventList /> */}
       <Footer />
     </div>
