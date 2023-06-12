@@ -13,3 +13,8 @@ export { default as VolunteerTile } from "./VolunteerTile";
 export { default as EventSearch } from "./EventSearch";
 export { default as Modal } from "./Modal";
 export { default as ExploreCounter } from "./ExploreCounter";
+export { default as BasicInfoForm } from "./BasicInfoForm";
+export { default as MemberDetailsForm } from "./MemberDetailsForm";
+export { default as ContactDetailForm } from "./ContactDetailForm";
+export { default as POCDetailForm } from "./POCDetailForm";
+export { default as VerifcationDetailsForm } from "./VerifcationDetailsForm";
