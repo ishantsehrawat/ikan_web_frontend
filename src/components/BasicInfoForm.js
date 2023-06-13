@@ -1,26 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { Tooltip, Zoom } from "@mui/material";
 import { Info, AddAPhoto } from "@mui/icons-material";
 
 import { country, state, city } from "../Data/Location";
 
-function BasicInfoForm({ activeStep }) {
+function BasicInfoForm({
+  activeStep,
+  organisationData,
+  setOrganisationData,
+  user,
+}) {
   const [countryid, setcountryid] = useState("101");
   const [stateid, setstateid] = useState("10");
-  const [scale, setScale] = useState("small");
+  const scaleTemp = organisationData.BasicInfo.scale
+    ? organisationData?.BasicInfo?.scale
+    : "small";
+  const [scale, setScale] = useState(scaleTemp);
 
   const st = state.filter((st) => st.country_id === countryid);
   const ct = city.filter((ct) => ct.state_id === stateid);
 
+  useEffect(() => {
+    setScale(organisationData?.BasicInfo?.scale);
+    var newOrganisation = { ...organisationData };
+    newOrganisation.BasicInfo = {
+      ...organisationData.BasicInfo,
+      type: "NGO",
+      Country: "India",
+      State: "Delhi",
+      City: "New Delhi",
+      scale: scale,
+    };
+    setOrganisationData({ ...newOrganisation });
+  }, [user]);
+
+  // console.log(scale);
+
   return (
-    <div
-      className={
-        activeStep === 0 ? "w-full min-h-[60vh] flex flex-col" : "hidden"
-      }
-    >
-      <div className="flex w-full justify-between">
-        <div className="w-[45%] my-3">
+    <div className={activeStep === 0 ? "w-full flex flex-col" : "hidden"}>
+      <div className="flex w-full justify-between gap-4">
+        <div className="w-full md:w-[45%] my-3">
           <label htmlFor="name" className="font-bold text-lg">
             Organisation Name
           </label>
@@ -29,10 +49,23 @@ function BasicInfoForm({ activeStep }) {
             name="name"
             id="name"
             placeholder="Organisation Name on PAN Card"
+            value={
+              organisationData?.BasicInfo?.name
+                ? organisationData?.BasicInfo?.name
+                : ""
+            }
             className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
+            onChange={(e) => {
+              var newOrganisationData = { ...organisationData };
+              newOrganisationData.BasicInfo = {
+                ...newOrganisationData.BasicInfo,
+                name: e.target.value,
+              };
+              setOrganisationData({ ...newOrganisationData });
+            }}
           />
         </div>
-        <div className="w-[45%] h-16 mt-7 ">
+        <div className="md:w-[45%] h-16 mt-11 md:mt-7 ">
           <input
             type="file"
             name="file"
@@ -41,13 +74,13 @@ function BasicInfoForm({ activeStep }) {
           />
           <label
             className="text-[white] bg-[black] inline-block cursor-pointer focus:bg-red hover:bg-red"
-            for="file"
+            htmlFor="file"
           >
             <div className="flex h-full items-center gap-4">
-              <div className="bg-bluegrey rounded-full h-16 w-16 flex justify-center items-center">
-                <AddAPhoto sx={{ fontSize: 40, color: "#000000" }} />
+              <div className="bg-bluegrey rounded-full h-12 md:h-16 w-12 md:w-16 flex justify-center items-center">
+                <AddAPhoto sx={{ fontSize: 32, color: "#000000" }} />
               </div>{" "}
-              <p className="font-bold text-lg">Upload Logo</p>
+              <p className="font-bold text-lg hidden md:block">Upload Logo</p>
             </div>
           </label>
         </div>
@@ -61,15 +94,41 @@ function BasicInfoForm({ activeStep }) {
           name="description"
           id="desc"
           className="w-full h-12 py-2 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
+          value={
+            organisationData?.BasicInfo?.mission
+              ? organisationData?.BasicInfo?.mission
+              : ""
+          }
+          onChange={(e) => {
+            var newOrganisationData = { ...organisationData };
+            newOrganisationData.BasicInfo = {
+              ...newOrganisationData.BasicInfo,
+              mission: e.target.value,
+            };
+            setOrganisationData({ ...newOrganisationData });
+          }}
         />
       </div>
-      <div className="w-[45%] my-3">
+      <div className="w-full md:w-[45%] my-3">
         <label htmlFor="Type" className="font-bold text-lg">
           Type
         </label>
         <select
           name="type"
           className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
+          value={
+            organisationData?.BasicInfo?.type
+              ? organisationData?.BasicInfo?.type
+              : ""
+          }
+          onChange={(e) => {
+            var newOrganisationData = { ...organisationData };
+            newOrganisationData.BasicInfo = {
+              ...newOrganisationData.BasicInfo,
+              type: e.target.value,
+            };
+            setOrganisationData({ ...newOrganisationData });
+          }}
         >
           <option value="NGO">Non-Government Organisation</option>
           <option value="NPO">Non-Profit Organisation</option>
@@ -90,12 +149,27 @@ function BasicInfoForm({ activeStep }) {
           id="address"
           placeholder="Full Address"
           className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
+          value={
+            organisationData?.BasicInfo?.address
+              ? organisationData?.BasicInfo?.address
+              : ""
+          }
+          onChange={(e) => {
+            var newOrganisationData = { ...organisationData };
+            newOrganisationData.BasicInfo = {
+              ...newOrganisationData.BasicInfo,
+              address: e.target.value,
+            };
+            setOrganisationData({ ...newOrganisationData });
+          }}
         />
       </div>
       <div className="flex justify-between flex-wrap">
         {/* Country */}
-        <div className="w-[45%] my-3">
-          <label className="font-bold text-lg">Registered Country</label>
+        <div className="w-full md:w-[45%] my-3">
+          <label className="font-bold text-lg" htmlFor="country">
+            Registered Country
+          </label>
           <select
             name="country"
             className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
@@ -105,9 +179,19 @@ function BasicInfoForm({ activeStep }) {
               //   ...prev,
               //   Country: e.target.options[e.target.selectedIndex].text,
               // }));
+              var newOrganisationData = { ...organisationData };
+              newOrganisationData.BasicInfo = {
+                ...newOrganisationData.BasicInfo,
+                Country: e.target.options[e.target.selectedIndex].text,
+              };
+              setOrganisationData({ ...newOrganisationData });
             }}
           >
-            <option value="">India</option>
+            <option value="">
+              {organisationData?.BasicInfo?.Country
+                ? organisationData?.BasicInfo?.Country
+                : "India"}
+            </option>
             {country.map((getcon, index) => (
               <option key={index} value={getcon.country_id}>
                 {getcon.country_name}{" "}
@@ -116,8 +200,10 @@ function BasicInfoForm({ activeStep }) {
           </select>
         </div>
         {/* State */}
-        <div className="w-[45%] my-3">
-          <label className="font-bold text-lg">Registered State</label>
+        <div className="w-full md:w-[45%] my-3">
+          <label className="font-bold text-lg" htmlFor="state">
+            Registered State
+          </label>
           <select
             className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
             name="state"
@@ -127,9 +213,19 @@ function BasicInfoForm({ activeStep }) {
               //   ...prev,
               //   State: e.target.options[e.target.selectedIndex].text,
               // }));
+              var newOrganisationData = { ...organisationData };
+              newOrganisationData.BasicInfo = {
+                ...newOrganisationData.BasicInfo,
+                State: e.target.options[e.target.selectedIndex].text,
+              };
+              setOrganisationData({ ...newOrganisationData });
             }}
           >
-            <option value="">Delhi</option>
+            <option value="">
+              {organisationData?.BasicInfo?.State
+                ? organisationData?.BasicInfo?.State
+                : "Delhi"}
+            </option>
             {st.map((getst, index) => (
               <option key={index} value={getst.state_id}>
                 {getst.state_name}{" "}
@@ -138,8 +234,10 @@ function BasicInfoForm({ activeStep }) {
           </select>
         </div>
         {/* City */}
-        <div className="w-[45%] my-3">
-          <label className="font-bold text-lg">Registered City</label>
+        <div className="w-full md:w-[45%] my-3">
+          <label className="font-bold text-lg" htmlFor="city">
+            Registered City
+          </label>
           <select
             className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
             name="city"
@@ -148,9 +246,19 @@ function BasicInfoForm({ activeStep }) {
               //   ...prev,
               //   City: e.target.options[e.target.selectedIndex].text,
               // }));
+              var newOrganisationData = { ...organisationData };
+              newOrganisationData.BasicInfo = {
+                ...newOrganisationData.BasicInfo,
+                City: e.target.options[e.target.selectedIndex].text,
+              };
+              setOrganisationData({ ...newOrganisationData });
             }}
           >
-            <option value="">New Delhi</option>
+            <option value="">
+              {organisationData?.BasicInfo?.City
+                ? organisationData?.BasicInfo?.City
+                : "New Delhi"}
+            </option>
             {ct.map((gcity, index) => (
               <option key={index} value={gcity.city_id}>
                 {" "}
@@ -181,11 +289,20 @@ function BasicInfoForm({ activeStep }) {
           </Tooltip>
         </label>
         <ToggleButtonGroup
-          className="w-max h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none text-white"
+          className="w-full md:w-max h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none text-white flex justify-center"
           orientation="horizontal"
-          value={scale}
+          size="small"
+          value={organisationData?.BasicInfo?.scale}
           exclusive
-          onChange={(e, value) => setScale(value)}
+          onChange={(e, value) => {
+            var newOrganisationData = { ...organisationData };
+            newOrganisationData.BasicInfo = {
+              ...newOrganisationData.BasicInfo,
+              scale: value,
+            };
+            setOrganisationData({ ...newOrganisationData });
+            setScale(value);
+          }}
           aria-label="scale"
         >
           <ToggleButton
@@ -222,7 +339,7 @@ function BasicInfoForm({ activeStep }) {
           </ToggleButton>
           <ToggleButton
             sx={
-              scale === "med"
+              scale === "medium"
                 ? {
                     color: "white !important",
                     bgcolor: "#FE9D66 !important",
