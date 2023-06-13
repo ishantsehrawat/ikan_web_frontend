@@ -7,11 +7,17 @@ import {
   arrayUnion,
 } from "firebase/firestore";
 // import { doc, getDoc } from "firebase/firestore";
-import { Favorite } from "@mui/icons-material";
+import {
+  Favorite,
+  FavoriteBorderOutlined,
+  FavoriteOutlined,
+  PersonOutline,
+} from "@mui/icons-material";
 
 import { group } from "../images/icons";
 import { db } from "../firebase-config";
 import { eventObject } from "../Data/events";
+import { Tooltip } from "@mui/material";
 function EventTile({ event, user, setUser }) {
   const [buttonTitle, setbuttonTitle] = useState("Apply Now");
   const [likeTitle, setLikeTitle] = useState("unliked");
@@ -170,28 +176,65 @@ function EventTile({ event, user, setUser }) {
         <div className=" flex flex-col h-full gap-2 mb-4">
           <div className="flex justify-between">
             <div className="flex gap-2 items-center">
-              <h1 className="text-lg font-semibold">{event?.name}</h1>
+              <Tooltip title={`${event?.name}`} placement="top" arrow>
+                <h1 className="text-lg font-semibold truncate max-w-[220px] md:max-w-[450px]">
+                  {event?.name}
+                </h1>
+              </Tooltip>
               <p className="bg-saffron w-max h-max px-2 rounded-sm text-white text-sm hidden md:block">
                 {eventObject[event?.type - 1].type}
               </p>
             </div>
-            <p className="text-lg ml-5 flex items-center gap-2 md:mr-4">
-              <img className="h-4 w-6" src={group} alt="V" />
-              {event?.interested?.length}
-            </p>
+            <div className="flex md:mr-4 gap-2">
+              <Tooltip
+                title={`${event?.interested?.length} volunteers applied`}
+                placement="top"
+                arrow
+              >
+                <p className="text-lg flex items-center">
+                  <PersonOutline />
+                  {event?.interested?.length}
+                </p>
+              </Tooltip>
+              <Tooltip
+                title={`${event?.likes} volunteers liked`}
+                placement="top"
+                arrow
+              >
+                <p className="text-lg flex items-center">
+                  <FavoriteBorderOutlined />
+                  {event?.likes}
+                </p>
+              </Tooltip>
+            </div>
           </div>
           <div className="w-full flex justify-between">
-            <p className="text-sm -mt-2 mb-2">by {event?.organisation}</p>
+            <Tooltip
+              title={`${event?.organisation} is organising this event`}
+              placement="top"
+              arrow
+            >
+              <p className="text-sm -mt-2 mb-2 truncate max-w-[200px] md:max-w-[700px]">
+                by {event?.organisation}
+              </p>
+            </Tooltip>
             <p className="bg-saffron w-max px-2 rounded-sm text-white text-sm block md:hidden">
               {eventObject[event?.type - 1].type}
             </p>
           </div>
-          <p className="hidden md:block text-black md:text-gray-500">
-            {event?.description}
-          </p>
+          <Tooltip
+            title={`${event?.description}`}
+            placement="top"
+            arrow
+            classes={{ tooltip: "w-max" }}
+          >
+            <p className="hidden md:block text-black md:text-gray-500 truncate max-w-[700px] w-min">
+              {event?.description}
+            </p>
+          </Tooltip>
           <div className="w-full flex md:block justify-between">
             <p className="text-black md:text-gray-500">{event?.date}</p>
-            <p className="text-black md:text-gray-500">
+            <p className="text-black md:text-gray-500 truncate max-w-[220px]">
               {event?.City}, {event?.State}, {event?.Country}
             </p>
           </div>

@@ -2,17 +2,26 @@ import React, { useState } from "react";
 import { Fab } from "@mui/material";
 import { Add } from "@mui/icons-material";
 
-function MemberDetailsForm({ activeStep }) {
-  const [members, setMembers] = useState([]);
-  const [memberNo, setMemberNo] = useState([1]);
-
+function MemberDetailsForm({
+  activeStep,
+  organisationData,
+  setOrganisationData,
+  user,
+  memberNo,
+  setMemberNo,
+  members,
+  setMembers,
+}) {
+  // useState(() => {
+  //   console.log("triggered");
+  //   if (organisationData?.MemberInfo?.newMembers?.length > 0) {
+  //     setMembers([...organisationData?.MemberInfo?.newMembers]);
+  //     setMemberNo([...organisationData?.MemberInfo?.newMembers]);
+  //   }
+  // }, [organisationData]);
   return (
     <div
-      className={
-        activeStep === 1
-          ? "w-full min-h-[60vh] flex flex-col relative"
-          : "hidden"
-      }
+      className={activeStep === 1 ? "w-full flex flex-col relative" : "hidden"}
     >
       {memberNo.map((member, id) => (
         <div className="w-full my-3" key={id}>
@@ -33,16 +42,23 @@ function MemberDetailsForm({ activeStep }) {
             id="name"
             placeholder="Member Email should be registered with us"
             className="w-full h-12 border-2 border-bluegrey bg-bluegrey px-2 mt-1 focus:outline-none"
+            value={members[id] !== undefined ? members[id] : ""}
             onChange={(e) => {
               const newMembers = [...members];
               newMembers[id] = e.target.value;
               setMembers([...newMembers]);
+              var newOrganisationData = { ...organisationData };
+              newOrganisationData.MemberInfo = {
+                ...newOrganisationData.MemberInfo,
+                newMembers,
+              };
+              setOrganisationData({ ...newOrganisationData });
             }}
           />
         </div>
       ))}
 
-      <div className="fixed bottom-32 right-20">
+      <div className="fixed bottom-32 right-10 md:right-20">
         <Fab
           sx={{ bgcolor: "#FE9D66" }}
           aria-label="add"
