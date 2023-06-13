@@ -57,7 +57,9 @@ function Navbar({ Page }) {
       </div>
       {/* small navbar */}
       <div className="md:hidden z-10 h-12 rounded-lg w-full bg-white flex justify-center items-center">
-        <img className="h-10 w-auto pl-5" src={logo} alt="ikan" />
+        <a href="/">
+          <img className="h-10 w-auto pl-5" src={logo} alt="ikan" />
+        </a>
         <img
           className="h-7 absolute right-8 w-auto"
           src={!open ? menu : close}
@@ -75,7 +77,7 @@ function Navbar({ Page }) {
             onClick={() => setOpen(!open)}
             alt="menu"
           />
-          <div className=" h-full text-2xl flex flex-col left-12 justify-center gap-4 fixed" >
+          <div className=" h-full text-2xl flex flex-col left-12 justify-center gap-4 fixed">
             <Link to="/">Home</Link>
             <Link to="/about">About Us</Link>
             <Link to="/profile">Profile</Link>

@@ -34,44 +34,56 @@ function ExploreCounter() {
   }, []);
 
   return (
-    <div className="bg-exploreCounterBG w-[1100px] h-[595px] bg-cover bg-center rounded-3xl mb-10">
-      <div className="w-full h-full flex  justify-center items-center backdrop-brightness-50 rounded-3xl flex-col gap-20">
-        <span className="text-white text-8xl font-medium">Explore.</span>
-        <div className="flex w-full justify-around">
-          <div className="flex flex-col justify-center items-center w-96 ">
-            <span className="text-white text-8xl font-medium">
-              <CountUp
-                end={userCount}
-                enableScrollSpy="true"
-                delay={500}
-                duration={7}
-              />
-            </span>
-            <span className="text-white text-4xl font-medium">
-              People Helped
-            </span>
+    <div className="bg-exploreCounterBG w-[350px] md:w-[1100px] h-[595px] bg-cover bg-center rounded-3xl my-10">
+      <div className="w-full h-full flex  justify-center items-center backdrop-brightness-50 rounded-3xl flex-col">
+        <span className="text-white text-7xl md:text-8xl font-medium h-60 flex justify-center items-center">
+          Explore.
+        </span>
+        <div className="flex flex-col md:flex-row w-full h-full justify-around">
+          <div className="flex flex-col justify-center items-start md:items-center w-full md:w-96 ">
+            <div className="w-[150px] md:w-auto text-center flex flex-col mx-4 md:mx-0">
+              <span className="text-white text-6xl md:text-8xl font-medium">
+                <CountUp
+                  end={userCount}
+                  enableScrollSpy="true"
+                  delay={500}
+                  duration={7}
+                />
+              </span>
+              <span className="text-white text-lg md:text-4xl font-medium">
+                People Helped
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-96">
-            <span className="text-white text-8xl font-medium">
-              <CountUp
-                end={orgCount}
-                enableScrollSpy="true"
-                delay={500}
-                duration={7}
-              />
-            </span>
-            <span className="text-white text-4xl font-medium">NGO Collabs</span>
+          <div className="flex flex-col justify-center items-end md:items-center w-full md:w-96">
+            <div className="w-[150px] md:w-auto text-center flex flex-col mx-4 md:mx-0">
+              <span className="text-white text-6xl md:text-8xl font-medium">
+                <CountUp
+                  end={orgCount}
+                  enableScrollSpy="true"
+                  delay={500}
+                  duration={7}
+                />
+              </span>
+              <span className="text-white text-lg md:text-4xl font-medium">
+                NGO Collabs
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center w-96">
-            <span className="text-white text-8xl font-medium">
-              <CountUp
-                end={eventCount}
-                enableScrollSpy="true"
-                delay={500}
-                duration={7}
-              />
-            </span>
-            <span className="text-white text-4xl font-medium">Events</span>
+          <div className="flex flex-col justify-center items-start md:items-center w-full md:w-96">
+            <div className="w-[150px] md:w-auto text-center flex flex-col mx-4 md:mx-0">
+              <span className="text-white text-6xl md:text-8xl font-medium">
+                <CountUp
+                  end={eventCount}
+                  enableScrollSpy="true"
+                  delay={500}
+                  duration={7}
+                />
+              </span>
+              <span className="text-white text-lg md:text-4xl font-medium">
+                Events
+              </span>
+            </div>
           </div>
         </div>
       </div>
