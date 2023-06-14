@@ -31,10 +31,6 @@ import InfoIcon from '@mui/icons-material/Info';
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {/* 1. Open <a href="https://www.google.com/maps">google maps</a>< br />
-            2. search location of your event on google maps.< br />
-            3. Click on share and copy the link of the location.< br />
-            4. Paste the link to the event google location link. < br /> */}
             {children}
           </DialogContentText>
         </DialogContent>
