@@ -210,7 +210,7 @@ function AddEvent() {
                   onChange={(e) => {
                     setEventData((prev) => ({
                       ...prev,
-                      volreq: e.target.value,
+                      volreq: Number(e.target.value),
                     }));
                   }}
                   placeholder={10}
@@ -223,7 +223,6 @@ function AddEvent() {
                 <select
                   name="type"
                   className="border-2 rounded-lg px-4 h-10"
-                  isMulti
                   onChange={(e) => {
                     setEventData((prev) => ({ ...prev, type:e.target.value }));
                   }}
