@@ -18,4 +18,5 @@ export { default as MemberDetailsForm } from "./MemberDetailsForm";
 export { default as ContactDetailForm } from "./ContactDetailForm";
 export { default as POCDetailForm } from "./POCDetailForm";
 export { default as VerifcationDetailsForm } from "./VerifcationDetailsForm";
+export {default as Popup} from './Popup'
 export { default as EventTileProfile } from "./EventTileProfile";

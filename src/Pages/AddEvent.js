@@ -3,9 +3,8 @@ import { doc, getDoc, setDoc, collection } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 import { auth, db, storage } from "../firebase-config";
-import { Navbar, Footer, OverlayBackground } from "../components";
+import { Navbar, Footer, OverlayBackground,Popup } from "../components";
 import { country, state, city } from "../Data/Location";
-
 function AddEvent() {
   const [countryid, setcountryid] = useState("101");
   const [stateid, setstateid] = useState("10");
@@ -18,7 +17,10 @@ function AddEvent() {
     City: "New Delhi",
     type: "1",
     interested: [],
-    liked: [],
+    liked:[],
+    address:"",
+    googleLocLink:"",
+    coordinator:""
   });
   const user = auth.currentUser;
 
@@ -125,6 +127,24 @@ function AddEvent() {
                 placeholder="Blanket Donation"
               />
             </label>
+            <label className="flex flex-col gap-2">
+              <span className="text-textblue font-semibold text-lg">
+                Coordinator Email:
+              </span>
+              <span>
+              <input
+                className="border-2 rounded-lg p-4 h-10 w-80"
+                type="text"
+                onChange={(e) => {
+                  setEventData((prev) => ({ ...prev, coordinator: e.target.value }));
+                }}
+                placeholder="Insert coordinator email here."
+              />
+              <Popup title="Coordinator Email">
+                Add the coordinator email already registered with IKAN
+              </Popup>
+              </span>
+            </label>
             <div className="flex justify-start flex-wrap gap-10">
               <label className="flex flex-col gap-1">
                 <span className="text-textblue font-semibold text-lg">
@@ -135,6 +155,19 @@ function AddEvent() {
                   type="date"
                   onChange={(e) => {
                     setEventData((prev) => ({ ...prev, date: e.target.value }));
+                  }}
+                  placeholder=""
+                />
+              </label>
+              <label className="flex flex-col gap-1">
+                <span className="text-textblue font-semibold text-lg">
+                  Event start time:
+                </span>
+                <input
+                  className="border-2 rounded-lg p-4 h-10"
+                  type="time"
+                  onChange={(e) => {
+                    setEventData((prev) => ({ ...prev, time: e.target.value }));
                   }}
                   placeholder=""
                 />
@@ -191,7 +224,7 @@ function AddEvent() {
                   name="type"
                   className="border-2 rounded-lg px-4 h-10"
                   onChange={(e) => {
-                    setEventData((prev) => ({ ...prev, type: e.target.value }));
+                    setEventData((prev) => ({ ...prev, type:e.target.value }));
                   }}
                 >
                   <option value="1">Food Distribution</option>
@@ -204,9 +237,22 @@ function AddEvent() {
                 </select>
               </label>
             </div>
+            <label className="flex flex-col gap-2">
+              <span className="text-textblue font-semibold text-lg">
+                Address:
+              </span>
+              <input
+                className="border-2 rounded-lg p-4 h-10"
+                type="text"
+                onChange={(e) => {
+                  setEventData((prev) => ({ ...prev, address: e.target.value }));
+                }}
+                placeholder="Your address"
+              />
+            </label>
             <div className="flex justify-start flex-wrap gap-10">
               {/* Country */}
-              <label className="flex flex-col gap-1 ">
+              <label className="flex flex-col gap-1 md:w-1/5 ">
                 <span className="text-textblue font-semibold text-lg">
                   Country:
                 </span>
@@ -230,7 +276,7 @@ function AddEvent() {
                 </select>
               </label>
               {/* State */}
-              <label className="flex flex-col gap-1 ">
+              <label className="flex flex-col gap-1 md:w-1/5">
                 <span className="text-textblue font-semibold text-lg">
                   State:
                 </span>
@@ -254,7 +300,7 @@ function AddEvent() {
                 </select>
               </label>
               {/* City */}
-              <label className="flex flex-col gap-1">
+              <label className="flex flex-col gap-1 md:w-1/5">
                 <span className="text-textblue font-semibold text-lg">
                   City:
                 </span>
@@ -277,6 +323,25 @@ function AddEvent() {
                   ))}
                 </select>
               </label>
+              <label className="flex flex-col gap-2 md:w-1/5">
+              <span className="text-textblue font-semibold text-lg">
+                 Location link: 
+              <Popup title="How to get the google location link">
+              1. Open <a className="underline decoration-blue-600" href="https://www.google.com/maps" target="_blank">google maps</a>< br />
+              2. search location of your event on google maps.< br />
+               3. Click on share and copy the link of the location.< br />
+              4. Paste the link to the event google location link. < br /> 
+              </Popup>
+              </span>
+              <input
+                className="border-2 rounded-lg p-4 h-10"
+                type="text"
+                onChange={(e) => {
+                  setEventData((prev) => ({ ...prev, googleLocLink: e.target.value }));
+                }}
+                placeholder="Insert location link here"
+              />
+            </label>
             </div>
           </form>
           <button
