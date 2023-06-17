@@ -10,11 +10,9 @@ import {
 import {
   Favorite,
   FavoriteBorderOutlined,
-  FavoriteOutlined,
   PersonOutline,
 } from "@mui/icons-material";
 
-import { group } from "../images/icons";
 import { db } from "../firebase-config";
 import { eventObject } from "../Data/events";
 import { Tooltip } from "@mui/material";
