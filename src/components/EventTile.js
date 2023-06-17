@@ -84,7 +84,7 @@ function EventTile({ event, user, setUser }) {
     console.log(addEventField);
     const removeEventField = {
       // events: Fieldvalue.arrayRemove(eventData?.eid),
-      events: arrayRemove(eventData?.eid),
+      eventsliked: arrayRemove(eventData?.eid),
     };
     console.log(removeEventField);
     await updateDoc(
