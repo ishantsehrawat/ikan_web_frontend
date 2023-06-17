@@ -21,6 +21,7 @@ import {
   VerifyEmail,
   Verification,
   OrganisationJoin,
+  OrganisationProfile,
   Explore,
 } from "./Pages";
 
@@ -57,8 +58,8 @@ function App() {
             <Route path="donate" element={<Donate />} />
             <Route path="organisations" element={<Organisations />} />
             <Route
-              path="organisation-detail"
-              element={<OrganisationDetail />}
+              path="organisation-profile/:oid"
+              element={<OrganisationProfile />}
             />
             <Route path="volunteers" element={<Volunteers />} />
             <Route path="volunteer-detail" element={<VolunteerDetail />} />
