@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { arrayRemove, arrayUnion, updateDoc } from "firebase/firestore";
 import { Favorite, FavoriteOutlinedIcon } from "@mui/icons-material";
-
+import emailjs from '@emailjs/browser';
 import { db, auth } from "../firebase-config";
 import { eventObject } from "../Data/events";
 import { Footer, Navbar } from "../components";
@@ -15,7 +15,8 @@ function EventDetail() {
   const [buttonTitle, setbuttonTitle] = useState("Apply Now");
   const[likeTitle,setLikeTitle]=useState("unliked");
   const [user, setUser] = useState({});
-
+  const [infoVolun,setInfoVolun]=useState("Additional Info");
+  const [volunteers,setVolunteers]=useState([])
   // fetching user data on page load
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -28,7 +29,6 @@ function EventDetail() {
 
     getUser();
   }, []);
-
   // fetching events on page load
   useEffect(() => {
     const colRef = doc(db, "events", String(eid));
@@ -53,7 +53,16 @@ function EventDetail() {
 
     getUser();
   }, [eid, event?.host]);
-
+  useEffect(()=>{
+    setVolunteers([])
+    const getUser = async (interest)=>{
+      const userRef = doc(db,"users",String(interest))
+      const snapshots=await getDoc(userRef);
+      const docs=snapshots.data()
+      setVolunteers((prev)=>[...prev,docs])
+    }
+    event?.interested?.map((interest)=>{getUser(interest);return 1})
+  },[event?.interested])
   // checking if user is already interested in event
   useEffect(() => {
     if (
@@ -78,7 +87,12 @@ function EventDetail() {
     const docs = snapshots.data();
     setUser(docs);
   }
-
+  async function getvolunteerData(interest){
+    const userRef = doc(db,"users",String(interest))
+      const snapshots=await getDoc(userRef);
+      const docs=snapshots.data()
+      setVolunteers((prev)=>[...prev,docs])
+  }
   async function getEventData() {
     const docRef = doc(db, "events", event?.eid);
     const snapshots = await getDoc(docRef);
@@ -109,8 +123,55 @@ function EventDetail() {
     });
     getUserData();
   }
+  async function removeuser(volemail) {
+    if(hostData?.email===user?.email){
+      const ref=doc(db,"users",volemail)
+      const removeEventField = {
+        events: arrayRemove(event?.eid),
+        volreq: event?.volreq + 1,
+      };
+      const templateParams={
+        to_email:volemail,
+        subject:"loren imsum",
+        message:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac."
+      }
+      await updateDoc(
+        ref,
+        removeEventField
+      ).then(() => {
+        emailjs.send("service_p2juihf", "template_19tq7uq", templateParams, "meQJ5evIialaxOAz1");
+        window.alert("Person removed. Email sent");
+      });
+      setVolunteers((prev)=>{
+        return prev.filter((vol)=>vol!==volemail)
+      })
+      setVolunteers([])
+    event?.interested?.map((interest)=>{getvolunteerData(interest);return 1})
+    }
+    else{
+      window.alert("You are not the event host");
+    }
+  }
+  async function removeduserevent(volemail){
+    if(hostData?.email===user?.email){
+      const ref = doc(db, "events",event?.eid);
+      const removeEventField = {
+        interested: arrayRemove(volemail),
+      };
+      await updateDoc(
+        ref,
+         removeEventField
+      ).then(() => {
+        window.alert("Person removed from event");
+      });
+      getEventData();
+    }
+    else{
+      window.alert("You are not the event host");
+    }
+  }
   async function neditEvent() {
-    const ref = doc(db, "events", event?.eid);
+    const ref = doc(db, "events",event?.eid);
 
     // Atomically add a new region to the "regions" array field.
     const interested = event.interested;
@@ -140,7 +201,7 @@ function EventDetail() {
     console.log(addEventField);
     const removeEventField = {
       // events: Fieldvalue.arrayRemove(eventData?.eid),
-      events: arrayRemove(event?.eid),
+      eventsliked: arrayRemove(event?.eid),
     };
     console.log(removeEventField);
     await updateDoc(
@@ -195,6 +256,13 @@ function EventDetail() {
       neditUser2();
       neditEvent2();
       setLikeTitle("unliked");
+    }
+  }
+  function removal(volsemail){
+    removeuser(volsemail);
+    removeduserevent(volsemail);
+    if(volsemail===user?.email){
+      setbuttonTitle("Apply Now")
     }
   }
   return (
@@ -279,11 +347,14 @@ function EventDetail() {
           </div>
         </div>
       </div>
-
+      
       <div className="w-full bg-lightsaffron flex justify-center items-center px-10 md:px-0 py-10">
-        <div className="w-full md:w-[1100px] flex flex-col">
-          <h3 className="font-bold mb-2">Additional information</h3>
-          <p className="text-sm">
+          <div className="w-full md:w-[1100px] flex flex-col">
+          <span className="flex flex-row">
+          <h3 className="font-bold mb-2 " onClick={()=>{setInfoVolun("Additional Info")}}>Additional information</h3>
+          <h3 className="font-bold mb-2 px-10" onClick={()=>{setInfoVolun("Volunteers");}}>Volunteers</h3>
+          </span>
+          {infoVolun==="Additional Info"?(<p className="text-sm">
             Aliquam dis vulputate vulputate integer sagittis. Faucibus dolor
             ornare faucibus vel sed et eleifend habitasse amet. Montes, mauris
             varius ac est bibendum. Scelerisque a, risus ac ante. Velit
@@ -292,7 +363,38 @@ function EventDetail() {
             tortor sed donec tempus. Imperdiet consequat, quis diam arcu, nulla
             lobortis justo netus dis. Eu in fringilla vulputate nunc nec. Dui,
             massa viverr .
-          </p>
+          </p>):(<table className="table-auto">
+              <thead>
+                <tr>
+                    <th>uid</th>
+                    <th>email</th>
+                    <th>type</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>Remove</th>
+                </tr>
+              </thead>
+              <tbody>
+                {volunteers.map((vols) => {
+                    return (
+                        <tr key={vols.uid}>
+                            <td>{vols.uid}</td>
+                            <td>{vols.email}</td>
+                            <td>{vols.type}</td>
+                            <td>{vols.name}</td>
+                            <td><img src={vols.photo}/></td>
+                            <td><button
+              className= "bg-red-500 text-white font-bold py-2 px-4 rounded"
+              onClick={()=>{removal(vols.email)}}
+            >
+              Reject
+            </button></td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>)}
+          
         </div>
       </div>
       <Footer Page="notfound" />
