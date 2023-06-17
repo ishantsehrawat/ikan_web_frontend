@@ -56,6 +56,10 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="about" element={<About />} />
             <Route path="donate" element={<Donate />} />
+            <Route
+              path="organisations/:city/:state/:country/:name/:scale"
+              element={<Organisations />}
+            />
             <Route path="organisations" element={<Organisations />} />
             <Route
               path="organisation-profile/:oid"

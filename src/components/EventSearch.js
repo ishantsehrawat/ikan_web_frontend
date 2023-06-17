@@ -21,11 +21,16 @@ const today = `${year}${separator}${
   month < 10 ? `0${month}` : `${month}`
 }${separator}${date}`;
 
-function EventSearch({ page }) {
+// scale object
+const scaleObject = ["Micro", "Small", "Medium", "Large", "Mega"];
+
+function EventSearch({ page, searchParameters }) {
   const [cityName, setcityname] = useState("New Delhi");
   const [stateName, setstatename] = useState("Delhi");
   const [countryName, setcountryname] = useState("India");
   const [date, setdate] = useState(today);
+  const [name, setname] = useState("");
+  const [scale, setscale] = useState([]);
   // eslint-disable-next-line
   const [type, settype] = useState(0);
   const [eventIDArray, seteventIDArray] = useState([]);
@@ -46,12 +51,20 @@ function EventSearch({ page }) {
     if (params.eventTypeID) {
       seteventIDArray(params.eventTypeID.split(","));
     }
+    if (params.name) {
+      setname(params.name);
+    }
+    if (params.scale) {
+      setscale(params.scale.split(","));
+    }
   }, [params]);
 
   //   modal open state
   const [locationModalOpen, setLocationModalOpen] = useState(false);
   const [dateModalOpen, setDateModalOpen] = useState(false);
   const [typeModalOpen, setTypeModalOpen] = useState(false);
+  const [nameModalOpen, setNameModalOpen] = useState(false);
+  const [scaleModalOpen, setScaleModalOpen] = useState(false);
 
   //   for location modal
   const [countryid, setcountryid] = useState("101");
@@ -76,6 +89,36 @@ function EventSearch({ page }) {
   };
   const eventIDArrayAll = ["1", "2", "3", "4", "5", "6", "7"];
 
+  //   for scale modal
+  const updateScaleArray = (id) => {
+    var scaleTemp = scale;
+    if (scale.includes(id)) {
+      var index = scale.indexOf(id);
+      if (index > -1) {
+        scaleTemp.splice(index, 1);
+      }
+    } else {
+      scaleTemp.push(id);
+    }
+    setscale(scaleTemp);
+  };
+
+  //   for search button
+  var searchLink = "";
+  if (page === "events" || page === "home") {
+    if (eventIDArray.length > 0) {
+      searchLink = `/events/${cityName}/${stateName}/${countryName}/${date}/${eventIDArray}`;
+    } else {
+      searchLink = `/events/${cityName}/${stateName}/${countryName}/${date}/${eventIDArrayAll}`;
+    }
+  } else if (page === "organisations") {
+    if (scale.length > 0) {
+      searchLink = `/Organisations/${cityName}/${stateName}/${countryName}/${name}/${scale}`;
+    } else {
+      searchLink = `/Organisations/${cityName}/${stateName}/${countryName}/${name}/${scaleObject}`;
+    }
+  }
+
   return (
     <div
       className={
@@ -84,63 +127,119 @@ function EventSearch({ page }) {
           : "bg-white w-full md:h-28 rounded-lg mt-10 drop-shadow-lg flex flex-col md:flex-row justify-evenly md:items-center text-left"
       }
     >
-      <Tooltip
-        title={cityName + ", " + stateName + ", " + countryName}
-        placement="top"
-        arrow
-        TransitionComponent={Zoom}
-      >
-        <button
-          className="md:h-20 md:w-[20vw] mx-2 my-1 md:my-2 md:mx-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
-          onClick={() => setLocationModalOpen(true)}
+      {/* Location */}
+      {searchParameters.includes("location") && (
+        <Tooltip
+          title={cityName + ", " + stateName + ", " + countryName}
+          placement="top"
+          arrow
+          TransitionComponent={Zoom}
         >
-          <p className="font-semibold text-base">Location</p>
-          <p>{cityName + ", " + stateName + ", " + countryName}</p>
-        </button>
-      </Tooltip>
-      <button
-        className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
-        onClick={() => setDateModalOpen(true)}
-      >
-        <p className="font-semibold text-base">Date</p>
-        <p>{date}</p>
-      </button>
-      <Tooltip
-        title={eventIDArray?.map((id) => {
-          return eventObject[id - 1]?.type + ", ";
-        })}
-        placement="top"
-        arrow
-        TransitionComponent={Zoom}
-        disableHoverListener={eventIDArray.length === 0}
-      >
+          <button
+            className="md:h-20 md:w-[20vw] mx-2 my-1 md:my-2 md:mx-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+            onClick={() => setLocationModalOpen(true)}
+          >
+            <p className="font-semibold text-base">Location</p>
+            <p>{cityName + ", " + stateName + ", " + countryName}</p>
+          </button>
+        </Tooltip>
+      )}
+
+      {/* Date */}
+      {searchParameters.includes("date") && (
         <button
-          id="typeOfEvent"
           className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
-          onClick={() => {
-            settype(0);
-            seteventIDArray([]);
-            setTypeModalOpen(true);
-          }}
+          onClick={() => setDateModalOpen(true)}
         >
-          <p className="font-semibold text-base">Type</p>
-          <p>
-            {eventIDArray?.map((id) => {
-              return eventObject[id - 1]?.type + ", ";
-            })}
-          </p>
+          <p className="font-semibold text-base">Date</p>
+          <p>{date}</p>
         </button>
-      </Tooltip>
+      )}
+
+      {/* Type */}
+      {searchParameters.includes("type") && (
+        <Tooltip
+          title={eventIDArray?.map((id) => {
+            return eventObject[id - 1]?.type + ", ";
+          })}
+          placement="top"
+          arrow
+          TransitionComponent={Zoom}
+          disableHoverListener={eventIDArray.length === 0}
+        >
+          <button
+            id="typeOfEvent"
+            className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+            onClick={() => {
+              settype(0);
+              seteventIDArray([]);
+              setTypeModalOpen(true);
+            }}
+          >
+            <p className="font-semibold text-base">Type</p>
+            <p>
+              {eventIDArray?.map((id) => {
+                return eventObject[id - 1]?.type + ", ";
+              })}
+            </p>
+          </button>
+        </Tooltip>
+      )}
+
+      {/* Name */}
+      {searchParameters.includes("name") && (
+        <Tooltip
+          title={name}
+          placement="top"
+          arrow
+          TransitionComponent={Zoom}
+          disableHoverListener={name === ""}
+        >
+          <button
+            className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+            onClick={() => setNameModalOpen(true)}
+          >
+            <p className="font-semibold text-base">Name</p>
+            <p>{name}</p>
+          </button>
+        </Tooltip>
+      )}
+
+      {/* Scale */}
+      {searchParameters.includes("scale") && (
+        <Tooltip
+          title={scale?.map((id) => {
+            return id + ", ";
+          })}
+          placement="top"
+          arrow
+          TransitionComponent={Zoom}
+          disableHoverListener={scale === ""}
+        >
+          <button
+            className="md:h-20 md:w-[20vw] m-2 p-1 md:p-3 flex flex-col items-start justify-evenly rounded-md hover:bg-slate-100 whitespace-nowrap overflow-hidden"
+            onClick={() => {
+              setScaleModalOpen(true);
+              setscale([]);
+            }}
+          >
+            <p className="font-semibold text-base">Scale</p>
+            <p>
+              {scale?.map((id) => {
+                return id + ", ";
+              })}
+            </p>
+          </button>
+        </Tooltip>
+      )}
+
+      {/* Submit */}
       <a
         className="h-10 md:h-16 m-4 md:w-[15vw] bg-saffron rounded-md flex justify-center items-center text-white font-semibold text-lg"
-        href={
-          eventIDArray.length > 0
-            ? `/events/${cityName}/${stateName}/${countryName}/${date}/${eventIDArray}`
-            : `/events/${cityName}/${stateName}/${countryName}/${date}/${eventIDArrayAll}`
-        }
+        href={searchLink}
       >
         <img src={search} alt="search" className="h-6 w-6 mr-2" />
-        Submit
+        Search
       </a>
 
       {/* Location Modal */}
@@ -149,7 +248,7 @@ function EventSearch({ page }) {
         onClose={() => setLocationModalOpen(false)}
       >
         <div className="flex flex-col gap-4">
-          <label className="flex flex-col">
+          <label key="country" className="flex flex-col">
             <p className="font-bold">Country</p>
             <select
               name="country"
@@ -167,7 +266,7 @@ function EventSearch({ page }) {
               ))}
             </select>
           </label>
-          <label className="flex flex-col">
+          <label key="state" className="flex flex-col">
             <p className="font-bold">State</p>
             <select
               className=""
@@ -185,7 +284,7 @@ function EventSearch({ page }) {
               ))}
             </select>
           </label>
-          <label className="flex flex-col">
+          <label key="city" className="flex flex-col">
             <p className="font-bold">City</p>
             <select
               className=""
@@ -237,6 +336,41 @@ function EventSearch({ page }) {
                 onChange={(e) => updateArray(et.id)}
               />
               {et.type}
+            </label>
+          ))}
+        </div>
+      </Modal>
+
+      {/* Name Modal */}
+      <Modal open={nameModalOpen} onClose={() => setNameModalOpen(false)}>
+        <div className="flex flex-col items-left gap-2 mt-2 mx-10">
+          <label className="flex flex-col gap-2 items-left">
+            <p className="font-bold">Name</p>
+            <input
+              type="text"
+              className="border-2 border-gray-300 rounded-md p-2"
+              placeholder="Name"
+              name="name"
+              value={name}
+              onChange={(e) => setname(e.target.value)}
+            />
+          </label>
+        </div>
+      </Modal>
+
+      {/* Scale Modal */}
+      <Modal open={scaleModalOpen} onClose={() => setScaleModalOpen(false)}>
+        <div className="flex flex-col items-left gap-2 mt-2 mx-10">
+          {scaleObject.map((et) => (
+            <label key={et.id} className="flex items-left">
+              <input
+                type="checkbox"
+                className="mr-2"
+                name={et}
+                value={et}
+                onChange={(e) => updateScaleArray(et)}
+              />
+              {et}
             </label>
           ))}
         </div>
