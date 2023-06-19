@@ -15,7 +15,7 @@ import {
 } from "@mui/icons-material";
 
 import { EventTileProfile, Footer, Navbar } from "../components";
-import { db } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 
 const AntTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -81,6 +81,8 @@ function OrganisationProfile() {
   const [orgData, setOrgData] = useState({});
   const [value, setValue] = React.useState(0);
   const { oid } = useParams();
+
+  const user = auth.currentUser;
 
   useEffect(() => {
     const orgRef = doc(db, "organisations", oid);
@@ -218,14 +220,16 @@ function OrganisationProfile() {
                 >
                   {orgData?.ContactDetails?.website}
                 </a>
-                <a
-                  className={
-                    "h-8 w-max md:px-8  text-sm bg-black text-white rounded-lg md:rounded flex justify-center items-center"
-                  }
-                  href="/organisation-join"
-                >
-                  Edit
-                </a>
+                {orgData?.POC?.email === user?.email ? (
+                  <a
+                    className={
+                      "h-8 w-max md:px-8  text-sm bg-black text-white rounded-lg md:rounded flex justify-center items-center"
+                    }
+                    href="/organisation-join"
+                  >
+                    Edit
+                  </a>
+                ) : null}
               </div>
             </div>
           </div>
