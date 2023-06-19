@@ -3,7 +3,7 @@ import { doc, getDoc, setDoc, collection } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 import { auth, db, storage } from "../firebase-config";
-import { Navbar, Footer, OverlayBackground,Popup } from "../components";
+import { Navbar, Footer, OverlayBackground, Popup } from "../components";
 import { country, state, city } from "../Data/Location";
 function AddEvent() {
   const [countryid, setcountryid] = useState("101");
@@ -17,10 +17,10 @@ function AddEvent() {
     City: "New Delhi",
     type: "1",
     interested: [],
-    liked:[],
-    address:"",
-    googleLocLink:"",
-    coordinator:""
+    liked: [],
+    address: "",
+    googleLocLink: "",
+    coordinator: "",
   });
   const user = auth.currentUser;
 
@@ -90,7 +90,7 @@ function AddEvent() {
       <div className="p-4 md:p-10">
         <Navbar />
       </div>
-      {!(userData?.type === "organisation") ? (
+      {!(userData?.type === "organisation" || userData?.type === "admin") ? (
         <div className="bg-white rounded-xl m-10 px-16 pt-20 pb-16 drop-shadow-lg flex flex-col justify-center items-center">
           <p>
             You are not authorised to add event, only verified organisations can
@@ -106,7 +106,9 @@ function AddEvent() {
       ) : (
         <div className="bg-white rounded-xl m-10 px-16 pt-20 pb-16 drop-shadow-lg flex flex-col justify-center items-center">
           <OverlayBackground
-            Overlay={!(userData?.type === "organisation")}
+            Overlay={
+              !(userData?.type === "organisation" || userData?.type === "admin")
+            }
             setBackButton={() =>
               window.alert(
                 "You are not authorised to add event.\nOnly verified organisations can add events"
@@ -132,17 +134,20 @@ function AddEvent() {
                 Coordinator Email:
               </span>
               <span>
-              <input
-                className="border-2 rounded-lg p-4 h-10 w-80"
-                type="text"
-                onChange={(e) => {
-                  setEventData((prev) => ({ ...prev, coordinator: e.target.value }));
-                }}
-                placeholder="Insert coordinator email here."
-              />
-              <Popup title="Coordinator Email">
-                Add the coordinator email already registered with IKAN
-              </Popup>
+                <input
+                  className="border-2 rounded-lg p-4 h-10 w-80"
+                  type="text"
+                  onChange={(e) => {
+                    setEventData((prev) => ({
+                      ...prev,
+                      coordinator: e.target.value,
+                    }));
+                  }}
+                  placeholder="Insert coordinator email here."
+                />
+                <Popup title="Coordinator Email">
+                  Add the coordinator email already registered with IKAN
+                </Popup>
               </span>
             </label>
             <div className="flex justify-start flex-wrap gap-10">
@@ -224,7 +229,7 @@ function AddEvent() {
                   name="type"
                   className="border-2 rounded-lg px-4 h-10"
                   onChange={(e) => {
-                    setEventData((prev) => ({ ...prev, type:e.target.value }));
+                    setEventData((prev) => ({ ...prev, type: e.target.value }));
                   }}
                 >
                   <option value="1">Food Distribution</option>
@@ -245,7 +250,10 @@ function AddEvent() {
                 className="border-2 rounded-lg p-4 h-10"
                 type="text"
                 onChange={(e) => {
-                  setEventData((prev) => ({ ...prev, address: e.target.value }));
+                  setEventData((prev) => ({
+                    ...prev,
+                    address: e.target.value,
+                  }));
                 }}
                 placeholder="Your address"
               />
@@ -324,24 +332,37 @@ function AddEvent() {
                 </select>
               </label>
               <label className="flex flex-col gap-2 md:w-1/5">
-              <span className="text-textblue font-semibold text-lg">
-                 Location link: 
-              <Popup title="How to get the google location link">
-              1. Open <a className="underline decoration-blue-600" href="https://www.google.com/maps" target="_blank">google maps</a>< br />
-              2. search location of your event on google maps.< br />
-               3. Click on share and copy the link of the location.< br />
-              4. Paste the link to the event google location link. < br /> 
-              </Popup>
-              </span>
-              <input
-                className="border-2 rounded-lg p-4 h-10"
-                type="text"
-                onChange={(e) => {
-                  setEventData((prev) => ({ ...prev, googleLocLink: e.target.value }));
-                }}
-                placeholder="Insert location link here"
-              />
-            </label>
+                <span className="text-textblue font-semibold text-lg">
+                  Location link:
+                  <Popup title="How to get the google location link">
+                    1. Open{" "}
+                    <a
+                      className="underline decoration-blue-600"
+                      href="https://www.google.com/maps"
+                      target="_blank"
+                    >
+                      google maps
+                    </a>
+                    <br />
+                    2. search location of your event on google maps.
+                    <br />
+                    3. Click on share and copy the link of the location.
+                    <br />
+                    4. Paste the link to the event google location link. <br />
+                  </Popup>
+                </span>
+                <input
+                  className="border-2 rounded-lg p-4 h-10"
+                  type="text"
+                  onChange={(e) => {
+                    setEventData((prev) => ({
+                      ...prev,
+                      googleLocLink: e.target.value,
+                    }));
+                  }}
+                  placeholder="Insert location link here"
+                />
+              </label>
             </div>
           </form>
           <button

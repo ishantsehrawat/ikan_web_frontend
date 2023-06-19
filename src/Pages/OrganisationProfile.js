@@ -109,11 +109,13 @@ function OrganisationProfile() {
         <div className="w-[1100px] h-full bg-cgrey -mt-32 rounded-lg">
           {/* top box */}
           <div className="w-full h-60 flex flex-col md:flex-row justify-between py-10 px-20 gap-20">
-            <img
-              src={orgData?.BasicInfo?.logo}
-              alt=""
-              className="w-40 h-40 rounded-full"
-            />
+            {orgData?.BasicInfo?.logo ? (
+              <img
+                src={orgData?.BasicInfo?.logo}
+                alt=""
+                className="w-40 h-40 rounded-full"
+              />
+            ) : null}
 
             {/* details */}
             <div className="w-full h-full flex flex-col justify-between">
@@ -171,9 +173,7 @@ function OrganisationProfile() {
               <div className="w-full flex gap-10">
                 <div className="flex flex-row gap-2">
                   <p className="font-bold">
-                    {orgData?.EventInfo?.totalEvents
-                      ? orgData?.EventInfo?.totalEvents.length
-                      : 0}
+                    {orgData?.events ? orgData?.events?.length : 0}
                   </p>
                   <p>Events</p>
                 </div>

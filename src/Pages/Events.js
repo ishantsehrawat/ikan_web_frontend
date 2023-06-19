@@ -106,7 +106,10 @@ function Events() {
       </div>
       {/* <EventFinder Page="events" /> */}
       <div className="px-10">
-        <EventSearch page="events" />
+        <EventSearch
+          page="events"
+          searchParameters={["location", "date", "type"]}
+        />
         <p className="text-gray-400 pt-10 pl-0 md:pl-20">
           {events.length} events found
         </p>

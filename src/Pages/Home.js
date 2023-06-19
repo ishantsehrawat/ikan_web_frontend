@@ -45,7 +45,10 @@ function Home() {
           />
         </div>
         {/* <EventFinder Page={"home"} /> */}
-        <EventSearch />
+        <EventSearch
+          searchParameters={["location", "date", "type"]}
+          page="home"
+        />
       </div>
       <Footer />
     </div>

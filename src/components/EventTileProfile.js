@@ -8,6 +8,7 @@ import {
   FavoriteOutlined,
   PersonOutlineOutlined,
 } from "@mui/icons-material";
+import { Tooltip } from "@mui/material";
 
 let date = dayjs().date();
 let month = dayjs().month() + 1;
@@ -87,7 +88,9 @@ function EventTileProfile({ eid, timeline }) {
           />
         </div>
         <div className="w-full h-[50px] px-5 flex justify-between items-center text-saffron">
-          <p className="text-xl font-bold ">{eventData?.name}</p>
+          <Tooltip title={eventData?.name} placement="top" arrow>
+            <p className="text-xl font-bold truncate">{eventData?.name}</p>
+          </Tooltip>
           <div className="flex gap-2">
             <div className="flex ">
               <FavoriteBorder className="!mt-0.5" fontSize="small" />
