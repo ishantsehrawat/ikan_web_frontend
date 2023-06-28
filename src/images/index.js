@@ -12,3 +12,4 @@ export { default as ComingSoon } from "./comingSoon.png";
 export { default as verifyEmail } from "./verifyEmail.png";
 export { default as exploreCounterBG } from "./ExploreCounterBG.jpg";
 export { default as business } from "./business-merger.png";
+export { default as organisationPlaceholder } from "./organisation-placeholder.svg";
