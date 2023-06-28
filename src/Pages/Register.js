@@ -81,9 +81,7 @@ function Register() {
     .then(async (result) => {
       const user = result.user;
       getUser(user?.email).then((res) => {
-        console.log("res" + res.empty);
         if (res.empty) {
-          console.log("res empty");
           createUser(user, user.providerId).then(() => {
             window.alert("user created successfully");
           });

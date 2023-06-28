@@ -51,7 +51,7 @@ function ExploreCounter() {
                 />
               </span>
               <span className="text-white text-lg md:text-4xl font-medium">
-                People Helped
+                Volunteers
               </span>
             </div>
           </div>

@@ -15,7 +15,7 @@ import {
   NotFound,
   AddEvent,
   Organisations,
-  OrganisationDetail,
+  UserProfile,
   Volunteers,
   VolunteerDetail,
   VerifyEmail,
@@ -53,7 +53,8 @@ function App() {
             <Route path="explore" element={<Explore />} />
             <Route path="event-detail/:eid" element={<EventDetail />} />
             <Route path="add-event" element={<AddEvent />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="edit-profile" element={<Profile />} />
+            <Route path="profile/:uid" element={<UserProfile />} />
             <Route path="about" element={<About />} />
             <Route path="donate" element={<Donate />} />
             <Route

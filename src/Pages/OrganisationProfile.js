@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import { styled } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { styled, Menu, MenuItem, Tooltip } from "@mui/material";
 import { Tab, Tabs } from "@mui/material";
 import {
   CalendarMonth,
@@ -12,6 +13,9 @@ import {
   EditCalendarOutlined,
   Twitter,
   YouTube,
+  Mail,
+  LinkOutlined,
+  Verified,
 } from "@mui/icons-material";
 
 import { EventTileProfile, Footer, Navbar } from "../components";
@@ -81,6 +85,9 @@ function TabPanel(props) {
 function OrganisationProfile() {
   const [orgData, setOrgData] = useState({});
   const [value, setValue] = React.useState(0);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const navigate = useNavigate();
   const { oid } = useParams();
 
   const user = auth.currentUser;
@@ -96,10 +103,12 @@ function OrganisationProfile() {
     getOrg();
   }, [oid]);
 
-  console.log(orgData);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -130,7 +139,10 @@ function OrganisationProfile() {
                 {/* 1st row */}
                 <div className="flex w-full justify-between">
                   <h1 className="text-2xl font-bold">
-                    {orgData?.BasicInfo?.name}
+                    {orgData?.BasicInfo?.name}{" "}
+                    {orgData?.isVerified === true ? (
+                      <Verified className="text-saffron" />
+                    ) : null}
                   </h1>
 
                   <div className="flex gap-3">
@@ -176,6 +188,12 @@ function OrganisationProfile() {
                     </a>
                   </div>
                 </div>
+                <button
+                  onClick={() => navigate(`/profile/${orgData?.POC?.email}`)}
+                  className="text-sm font-bold text-saffron text-left w-max -mt-2"
+                >
+                  {orgData?.POC?.name}
+                </button>
 
                 {/* 2nd row */}
                 <div className="w-full flex gap-10">
@@ -253,7 +271,103 @@ function OrganisationProfile() {
                 alt="No logo"
               />
               <div className="flex flex-col gap-2 w-full">
-                <p className="text-xl font-bold">{orgData?.BasicInfo?.name}</p>
+                <div className="flex w-full justify-between">
+                  <Tooltip
+                    title={`${orgData?.BasicInfo?.name}`}
+                    placement="top"
+                    arrow
+                  >
+                    <p className="text-xl font-bold max-w-[150px] truncate">
+                      {orgData?.BasicInfo?.name}{" "}
+                      {orgData?.isVerified === true ? (
+                        <Verified className="text-saffron" />
+                      ) : null}
+                    </p>
+                  </Tooltip>
+                  <button
+                    onClick={(e) => setAnchorEl(e.currentTarget)}
+                    className="bg-black text-white h-8 w-12 rounded-full"
+                  >
+                    <LinkOutlined sx={{ fontSize: 18 }} />
+                  </button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                    transformOrigin={{ horizontal: "right", vertical: "top" }}
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+                  >
+                    {orgData?.ContactDetails?.ig ? (
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          window.location.replace(
+                            `https://www.instagram.com/${orgData?.ContactDetails?.ig}/`
+                          );
+                        }}
+                      >
+                        <Instagram fontSize="small" />{" "}
+                        {orgData?.ContactDetails?.ig}
+                      </MenuItem>
+                    ) : null}
+                    {orgData?.ContactDetails?.tw ? (
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          window.location.replace(
+                            `https://twitter.com/${orgData?.ContactDetails?.tw}`
+                          );
+                        }}
+                      >
+                        <Twitter fontSize="small" />{" "}
+                        {orgData?.ContactDetails?.tw}
+                      </MenuItem>
+                    ) : null}
+                    {orgData?.ContactDetails?.ln ? (
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          window.location.replace(
+                            `https://www.linkedin.com/in/${orgData?.ContactDetails?.ln}`
+                          );
+                        }}
+                      >
+                        <LinkedIn fontSize="small" />{" "}
+                        {orgData?.ContactDetails?.ln}
+                      </MenuItem>
+                    ) : null}
+                    {orgData?.ContactDetails?.yt ? (
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          window.location.replace(
+                            `https://www.youtube.com/${orgData?.ContactDetails?.yt}`
+                          );
+                        }}
+                      >
+                        <YouTube fontSize="small" />{" "}
+                        {orgData?.ContactDetails?.yt}
+                      </MenuItem>
+                    ) : null}
+                    {orgData?.ContactDetails?.email ? (
+                      <MenuItem
+                        onClick={() => {
+                          handleClose();
+                          window.location.replace(
+                            `mailto:${orgData?.ContactDetails?.email}`
+                          );
+                        }}
+                      >
+                        <Mail fontSize="small" />
+                        {orgData?.contactDetails?.email}
+                      </MenuItem>
+                    ) : null}
+                  </Menu>
+                </div>
                 {orgData?.POC?.email === user?.email ? (
                   <a
                     className={
@@ -269,7 +383,12 @@ function OrganisationProfile() {
 
             {/* 2nd row */}
             <div className="flex flex-col pt-2 gap1">
-              <p className="text-sm font-bold">{orgData?.POC?.name}</p>
+              <button
+                onClick={() => navigate(`/profile/${orgData?.POC?.email}`)}
+                className="text-sm font-bold text-saffron text-left w-max"
+              >
+                {orgData?.POC?.name}
+              </button>
               <p className="text-xs">
                 <span className="font-bold">Darpan ID:</span>
                 {orgData?.VerificationDetails?.DarpanID}

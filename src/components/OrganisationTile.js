@@ -10,7 +10,6 @@ import React from "react";
 import { organisationPlaceholder } from "../images";
 
 const OrganisationTile = ({ orgData, user }) => {
-  console.log(orgData);
   return (
     <div>
       <div className="hidden md:block">

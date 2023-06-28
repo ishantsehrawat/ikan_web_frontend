@@ -35,14 +35,24 @@ function Footer({ Page }) {
           <img className="w-full md:w-40 h-auto" src={logoOrange} alt="ikan" />
           <div className="flex mt-1">
             <img
-              className="w-3 md:w-5 h-3 md:h-6 mr-2 md:mr-4"
+              className="w-3 md:w-5 h-[14px] md:h-6 mr-2 md:mr-4"
               src={insta}
               alt="ig"
+              onClick={() =>
+                window.location.replace(
+                  "https://www.instagram.com/ikan.volunteer"
+                )
+              }
             />
             <img
               className="w-3 md:w-5 h-3 md:h-5 mr-2 md:mr-4"
               src={linkedin}
               alt="in"
+              onClick={() =>
+                window.location.replace(
+                  "https://www.linkedin.com/in/ikan-volunteer-367463273/"
+                )
+              }
             />
           </div>
         </div>

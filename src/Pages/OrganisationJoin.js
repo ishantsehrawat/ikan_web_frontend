@@ -59,8 +59,6 @@ const OrganisationJoin = () => {
   const [members, setMembers] = useState([]);
   const [memberNo, setMemberNo] = useState([1]);
 
-  console.log(userData);
-
   const organisationRef = collection(db, "organisations");
 
   useEffect(() => {

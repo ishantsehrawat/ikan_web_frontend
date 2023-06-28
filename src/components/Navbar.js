@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+import { auth, db } from "../firebase-config";
 import { logo } from "../images";
-import { menu, close } from "../images/icons";
+import { CloseRounded, MenuRounded } from "@mui/icons-material";
 function Navbar({ Page }) {
   const [open, setOpen] = useState(false);
+  const user = auth.currentUser;
   return (
     <div>
       {/* big navbar */}
@@ -34,7 +36,7 @@ function Navbar({ Page }) {
             About Us
           </Link>
           <Link
-            to="/profile"
+            to={`/profile/${user?.email}`}
             className={
               Page === "profile"
                 ? "flex justify-center items-center px-4 font-bold border-b-4 border-saffron"
@@ -60,27 +62,27 @@ function Navbar({ Page }) {
         <a href="/">
           <img className="h-10 w-auto pl-5" src={logo} alt="ikan" />
         </a>
-        <img
-          className="h-7 absolute right-8 w-auto"
-          src={!open ? menu : close}
+        <button
+          className="h-7 w-auto absolute right-8"
           onClick={() => setOpen(!open)}
-          alt="menu"
-        />
+        >
+          {!open ? <MenuRounded /> : <CloseRounded />}
+        </button>
       </div>
 
       {/* small navbar menu */}
       {open ? (
         <div className="z-30 md:hidden h-full w-screen bg-white  -ml-4 top-0 fixed">
-          <img
+          <button
             className="h-7 absolute top-6 right-8 w-auto"
-            src={close}
             onClick={() => setOpen(!open)}
-            alt="menu"
-          />
+          >
+            <CloseRounded />
+          </button>
           <div className=" h-full text-2xl flex flex-col left-12 justify-center gap-4 fixed">
             <Link to="/">Home</Link>
             <Link to="/about">About Us</Link>
-            <Link to="/profile">Profile</Link>
+            <Link to={`/profile/${user?.email}`}>Profile</Link>
             <Link to="/events">Events</Link>
           </div>
         </div>

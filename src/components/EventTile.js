@@ -57,17 +57,14 @@ function EventTile({ event, user, setUser }) {
     const addEventField = {
       events: arrayUnion(eventData?.eid),
     };
-    console.log(addEventField);
     const removeEventField = {
       // events: Fieldvalue.arrayRemove(eventData?.eid),
       events: arrayRemove(eventData?.eid),
     };
-    console.log(removeEventField);
     await updateDoc(
       ref,
       buttonTitle === "Apply Now" ? addEventField : removeEventField
     ).then((res) => {
-      console.log(res);
       if (buttonTitle === "Apply Now")
         window.alert("Event added to your profile!");
       else window.alert("Event removed from your profile!");
@@ -81,12 +78,10 @@ function EventTile({ event, user, setUser }) {
     const addEventField = {
       eventsliked: arrayUnion(eventData?.eid),
     };
-    console.log(addEventField);
     const removeEventField = {
       // events: Fieldvalue.arrayRemove(eventData?.eid),
       eventsliked: arrayRemove(eventData?.eid),
     };
-    console.log(removeEventField);
     await updateDoc(
       ref,
       likeTitle === "unliked" ? addEventField : removeEventField

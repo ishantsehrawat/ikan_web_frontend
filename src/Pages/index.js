@@ -18,3 +18,4 @@ export { default as ComingSoon } from "./ComingSoon";
 export { default as VerifyEmail } from "./VerifyEmail";
 export { default as Explore } from "./Explore";
 export { default as OrganisationProfile } from "./OrganisationProfile";
+export { default as UserProfile } from "./UserProfile";

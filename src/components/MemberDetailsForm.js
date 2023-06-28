@@ -13,7 +13,6 @@ function MemberDetailsForm({
   setMembers,
 }) {
   // useState(() => {
-  //   console.log("triggered");
   //   if (organisationData?.MemberInfo?.newMembers?.length > 0) {
   //     setMembers([...organisationData?.MemberInfo?.newMembers]);
   //     setMemberNo([...organisationData?.MemberInfo?.newMembers]);
