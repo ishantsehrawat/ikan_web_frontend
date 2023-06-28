@@ -13,7 +13,7 @@ function BasicInfoForm({
 }) {
   const [countryid, setcountryid] = useState("101");
   const [stateid, setstateid] = useState("10");
-  const scaleTemp = organisationData.BasicInfo.scale
+  const scaleTemp = organisationData?.BasicInfo?.scale
     ? organisationData?.BasicInfo?.scale
     : "small";
   const [scale, setScale] = useState(scaleTemp);
@@ -25,7 +25,7 @@ function BasicInfoForm({
     setScale(organisationData?.BasicInfo?.scale);
     var newOrganisation = { ...organisationData };
     newOrganisation.BasicInfo = {
-      ...organisationData.BasicInfo,
+      ...organisationData?.BasicInfo,
       type: "NGO",
       Country: "India",
       State: "Delhi",

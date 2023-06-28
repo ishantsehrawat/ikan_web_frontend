@@ -250,7 +250,7 @@ const OrganisationJoin = () => {
           {userData?.type === "organisation"
             ? "You can update your organisation details here"
             : userData?.type === "volunteer"
-            ? "You're one step closer to setting up your organisation with us!</p>"
+            ? "You're one step closer to setting up your organisation with us!"
             : "Please complete this form to register your organisation with us"}
         </div>
 
