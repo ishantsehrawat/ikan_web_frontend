@@ -75,7 +75,9 @@ function App() {
         {/* <Route path="*" element={<NotFound />} /> */}
         <Route
           path="*"
-          element={userData?.emailVerified ? <NotFound /> : <VerifyEmail />}
+          element={
+            user && !userData?.emailVerified ? <VerifyEmail /> : <NotFound />
+          }
         />
       </Routes>
     </div>
