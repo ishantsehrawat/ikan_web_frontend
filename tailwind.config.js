@@ -12,6 +12,9 @@ module.exports = {
         lightsaffron: "#FED7B5",
         textblue: "#111C85",
       },
+      fontSize: {
+        "2xs": "0.6rem",
+      },
       backgroundImage: {
         notfound: "url('images/notfound.png')",
         aboutHeader: "url('images/about us.jpg')",

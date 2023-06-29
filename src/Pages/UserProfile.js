@@ -23,12 +23,13 @@ import {
   Share,
   Mail,
   Verified,
+  BusinessCenter,
+  Person,
 } from "@mui/icons-material";
 import { signOut } from "firebase/auth";
 
 import { EventTileProfile, Footer, Navbar } from "../components";
 import { auth, db } from "../firebase-config";
-import { organisationPlaceholder } from "../images";
 
 const AntTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -115,20 +116,22 @@ function generateRandomHexCode() {
 }
 
 function UserProfile() {
+  const { uid } = useParams();
+
   const [orgData, setOrgData] = useState({});
   const [userData, setUserData] = useState({});
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const navigate = useNavigate();
-  const { uid } = useParams();
   const [randomBG, setRandomBG] = useState();
 
+  const open = Boolean(anchorEl);
+  const date = new Date();
+  const navigate = useNavigate();
   const user = auth.currentUser;
 
   useEffect(() => {
     setRandomBG(generateRandomHexCode);
-  }, [generateRandomHexCode]);
+  }, []);
 
   useEffect(() => {
     const orgRef = doc(db, "organisations", uid);
@@ -184,7 +187,7 @@ function UserProfile() {
         <div className="w-[370px] md:w-[1100px] h-full bg-cgrey -mt-32 rounded-lg">
           {/* top box */}
           <div className="w-full hidden md:block">
-            <div className=" w-full h-60 flex flex-col md:flex-row justify-between py-10 px-20 gap-20">
+            <div className=" w-full h-[300px] flex flex-col md:flex-row justify-between py-10 px-20 gap-20">
               {!userData?.photo ? (
                 <Avatar
                   className="!w-40 !h-40 !rounded-full !text-6xl md:!text-8xl !font-bold"
@@ -206,7 +209,21 @@ function UserProfile() {
               <div className="w-full h-full flex flex-col justify-between">
                 {/* 1st row */}
                 <div className="flex w-full justify-between">
-                  <h1 className="text-2xl font-bold">{userData?.name}</h1>
+                  <div className="">
+                    <h1 className="text-2xl font-bold">{userData?.name}</h1>
+                    <div className="flex gap-5 text-gray-500 text-sm">
+                      <p className="">
+                        <Person sx={{ fontSize: 16 }} /> {userData?.pronouns}
+                      </p>
+                      <p>
+                        <BusinessCenter
+                          sx={{ fontSize: 15 }}
+                          className="-mt-0.5"
+                        />{" "}
+                        {userData?.profession}
+                      </p>
+                    </div>
+                  </div>
 
                   <div className="flex gap-3">
                     <a
@@ -242,12 +259,33 @@ function UserProfile() {
                     </p>
                     <p>Liked</p>
                   </div>
+                  <div className="flex flex-row gap-2">
+                    <p className="font-bold">
+                      {userData?.dob
+                        ? date.getFullYear() -
+                          Number(userData?.dob?.split("-")[0])
+                        : null}
+                    </p>
+                    <p>years</p>
+                  </div>
                 </div>
 
                 {/* 4th row */}
-                <p>{userData?.about}</p>
+                <p className="">{userData?.about}</p>
 
                 {/* 5th row */}
+                <div className="flex gap-1 items-center">
+                  {userData?.interests?.map((interest, id) => (
+                    <p
+                      className="bg-[#474A57] text-white px-4 py-1 text-xs h-max rounded-lg"
+                      key={id}
+                    >
+                      {interest.label}
+                    </p>
+                  ))}
+                </div>
+
+                {/* 6th row */}
                 <div className="flex justify-between gap-16">
                   <a
                     href={`/organisation-profile/${orgData?.POC?.email}`}
@@ -360,6 +398,15 @@ function UserProfile() {
                     </MenuItem>
                   </Menu>
                 </div>
+                <div className="flex gap-5 text-gray-500 text-xs -mt-2">
+                  <p className="">
+                    <Person sx={{ fontSize: 16 }} /> {userData?.pronouns}
+                  </p>
+                  <p>
+                    <BusinessCenter sx={{ fontSize: 15 }} className="-mt-0.5" />{" "}
+                    {userData?.profession}
+                  </p>
+                </div>
                 <div className="flex gap-1">
                   {userData?.email === user?.email ? (
                     <a
@@ -382,22 +429,34 @@ function UserProfile() {
                     </button>
                   ) : null}
                 </div>
-
-                <p className="text-xs">{userData?.about}</p>
               </div>
             </div>
 
             {/* 2nd row */}
             <div className="flex flex-col pt-2 gap1">
+              <p className="text-sm">{userData?.about}</p>
+              <div className="flex flex-wrap gap-1 items-center py-2">
+                {userData?.interests?.map((interest, id) => (
+                  <p
+                    className="bg-[#474A57] text-white px-4 py-1 text-2xs h-max rounded-md"
+                    key={id}
+                  >
+                    {interest.label}
+                  </p>
+                ))}
+              </div>
               <a
                 href={`/organisation-profile/${orgData?.POC?.email}`}
                 className="text-sm text-saffron font-bold"
               >
-                {orgData?.BasicInfo?.name}
-                {orgData?.isVerified === true ? <Verified /> : null}
+                {orgData?.BasicInfo?.name}{" "}
+                {orgData?.isVerified === true ? (
+                  <Verified className="-mt-0.5" sx={{ fontSize: 17 }} />
+                ) : null}
               </a>
             </div>
           </div>
+
           {/* 3rd row */}
           <div className="block md:hidden">
             <hr className="" />
@@ -414,7 +473,14 @@ function UserProfile() {
                 </p>
                 <p className="text-gray-600 -mt-2 font-semibold">Liked</p>
               </div>
-              <div className="w-[30%] flex flex-col justify-center items-center h-16"></div>
+              <div className="w-[30%] flex flex-col justify-center items-center h-16">
+                <p className="font-bold">
+                  {userData?.dob
+                    ? date.getFullYear() - Number(userData?.dob?.split("-")[0])
+                    : null}
+                </p>
+                <p className="text-gray-600 -mt-2 font-semibold">Years</p>
+              </div>
             </div>
           </div>
 

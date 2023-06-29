@@ -131,6 +131,7 @@ function Profile() {
   async function editUser() {
     await updateDoc(doc(db, "users", user?.email), userData).then(() => {
       window.alert("User Updated Successfully");
+      navigate(`../profile/${user?.email}`);
     });
   }
   return (
@@ -348,7 +349,7 @@ function Profile() {
               id="interests"
               value={interests}
               onChange={handleChange}
-              placeholder="Select your interests"
+              placeholder="Select upto 3 interests"
               isMulti
               value={selectedOptions}
               className="rounded-lg w-full md:w-[600px]"
@@ -404,12 +405,20 @@ function Profile() {
             />
           </label>
         </form>
-        <button
-          onClick={() => editUser()}
-          className="h-12 mt-2 md:mt-5 md:mr-12 w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
-        >
-          Edit
-        </button>
+        <div className="flex gap-1 w-full md:ml-32 px-10 justify-center">
+          <button
+            onClick={() => editUser()}
+            className="h-12 mt-2 md:mt-5 w-full md:w-36 bg-black text-white rounded-md flex justify-center items-center border-2 border-black"
+          >
+            Save
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="h-12 mt-2 md:mt-5 w-full md:w-36 bg-[#B00020] text-white rounded-md flex justify-center items-center border-2 border-[#B00020]"
+          >
+            Discard
+          </button>
+        </div>
       </div>
       <Footer />
     </div>
